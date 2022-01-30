@@ -29,8 +29,10 @@ var CONFIG = {
   sourcePath: {"js":"js","css":"css","images":"images"},
 };
 
-window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">LonelyTaker's Blog</div><div class="header-banner-info__subtitle">走好自己的路，迈好自己的步</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content content-home" id="content"><section class="postlist"><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2022/01/29/ES6%E6%A8%A1%E5%9D%97%E4%B8%8ECommonJS%E6%A8%A1%E5%9D%97%E7%9A%84%E5%8C%BA%E5%88%AB/">ES6模块与CommonJS模块的区别</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-01-29</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2022-01-29</span></span></div></header><div class="post-body"><div class="post-excerpt"><p><strong>1.写法不同</strong></p>
-<p>最直观的，两者对于模块的导入导出写法不同</p>
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">LonelyTaker's Blog</div><div class="header-banner-info__subtitle">走好自己的路，迈好自己的步</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content content-home" id="content"><section class="postlist"><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2022/01/29/ES6%E6%A8%A1%E5%9D%97%E4%B8%8ECommonJS%E6%A8%A1%E5%9D%97%E7%9A%84%E5%8C%BA%E5%88%AB/">ES6模块与CommonJS模块的区别</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-01-29</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2022-01-30</span></span></div></header><div class="post-body"><div class="post-excerpt">
+        <h1 id="1-写法不同"   >
+          <a href="#1-写法不同" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-写法不同" class="headerlink" title="1.写法不同"></a>1.写法不同</h1>
+      <p>最直观的，两者对于模块的导入导出写法不同</p>
 <ul>
 <li>ES6</li>
 </ul>
@@ -45,13 +47,17 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <p>注意：上述CommonJS导出写法会改变原本指向的内存，使其与exports指向不同内存空间，语法非本篇重点，可看这篇博客</p>
 <p><span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/fightjianxian/p/12151010.html" >https://www.cnblogs.com/fightjianxian/p/12151010.html</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
 </blockquote>
-<p><strong>2.加载阶段不同</strong></p>
-<ul>
+
+        <h1 id="2-加载阶段不同"   >
+          <a href="#2-加载阶段不同" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-加载阶段不同" class="headerlink" title="2.加载阶段不同"></a>2.加载阶段不同</h1>
+      <ul>
 <li>CommonJS模块加载的是对象（即<code>module.exports</code>属性），它只有在脚本运行完才会生成，所以是<code>运行时加载</code></li>
 <li>而ES6模块不是对象，它的对外接口是一种静态定义，在代码静态解析阶段就会生成，所以是<code>编译时输出接口</code></li>
 </ul>
-<p><strong>3.输出内容不同</strong></p>
-<ul>
+
+        <h1 id="3-输出内容不同"   >
+          <a href="#3-输出内容不同" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-输出内容不同" class="headerlink" title="3.输出内容不同"></a>3.输出内容不同</h1>
+      <ul>
 <li>刚刚说了CommonJS模块输出的是一个对象，所以是一个值的拷贝（浅拷贝）</li>
 </ul>
 <p>请看下面这个例子，模块内有一个变量a和一个自增函数</p>
@@ -74,8 +80,10 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <figure class="highlight javascript"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 模块test.js */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  a++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* 需要引入模块的文件main.js */</span></span><br><span class="line"><span class="keyword">import</span> &#123; a, add &#125; <span class="keyword">from</span> <span class="string">&#x27;./test.js&#x27;</span>;</span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// 3</span></span><br><span class="line">add();</span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// 4</span></span><br></pre></td></tr></table></div></figure>
 
 <p>上述代码说明ES6模块输出的变量<code>a</code>完全反应其在所在模块内部的变化</p>
-<p><strong>4.加载方式不同</strong></p>
-<ul>
+
+        <h1 id="4-加载方式不同"   >
+          <a href="#4-加载方式不同" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-加载方式不同" class="headerlink" title="4.加载方式不同"></a>4.加载方式不同</h1>
+      <ul>
 <li>CommonJS 模块的<code>require()</code>是同步加载模块</li>
 <li>ES6 模块的<code>import</code>命令是异步加载，有一个独立的模块依赖的解析阶段</li>
 </ul>
