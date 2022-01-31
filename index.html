@@ -29,7 +29,134 @@ var CONFIG = {
   sourcePath: {"js":"js","css":"css","images":"images"},
 };
 
-window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">LonelyTaker's Blog</div><div class="header-banner-info__subtitle">走好自己的路，迈好自己的步</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content content-home" id="content"><section class="postlist"><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2022/01/29/ES6%E6%A8%A1%E5%9D%97%E4%B8%8ECommonJS%E6%A8%A1%E5%9D%97%E7%9A%84%E5%8C%BA%E5%88%AB/">ES6模块与CommonJS模块的区别</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-01-29</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2022-01-30</span></span></div></header><div class="post-body"><div class="post-excerpt">
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">LonelyTaker's Blog</div><div class="header-banner-info__subtitle">走好自己的路，迈好自己的步</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content content-home" id="content"><section class="postlist"><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2022/01/31/git/">git</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-01-31</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2022-01-31</span></span></div></header><div class="post-body"><div class="post-excerpt">
+        <h1 id="1-本地库初始化"   >
+          <a href="#1-本地库初始化" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-本地库初始化" class="headerlink" title="1.本地库初始化"></a>1.本地库初始化</h1>
+      <ul>
+<li><strong>命令：</strong></li>
+</ul>
+<figure class="highlight shell"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></div></figure>
+
+<ul>
+<li><strong>注意：</strong>.git目录中存放的是本地库相关的子目录和文件</li>
+</ul>
+
+        <h1 id="2-设置签名"   >
+          <a href="#2-设置签名" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-设置签名" class="headerlink" title="2.设置签名"></a>2.设置签名</h1>
+      <ul>
+<li><p><strong>形式：</strong></p>
+<p>用户名：xxx</p>
+<p>Email地址：<span class="exturl"><a class="exturl__link"   href="mailto:&#120;&#x78;&#120;&#x40;&#120;&#x78;&#46;&#x78;&#x78;&#120;" >&#120;&#x78;&#120;&#x40;&#120;&#x78;&#46;&#x78;&#x78;&#120;</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+</li>
+<li><p><strong>作用：</strong>区分不同开发人员的身份</p>
+</li>
+<li><p><strong>辨析：</strong>这里设置的签名和登录远程库（代码托管中心）的账号、密码没有任何关系</p>
+</li>
+<li><p><strong>命令：</strong></p>
+</li>
+</ul>
+<figure class="highlight shell"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 项目级别/仓库级别：仅在当前本地库范围内有效</span></span><br><span class="line">git config user.name xxx</span><br><span class="line">git config user.email xxx@xx.xxx</span><br><span class="line"><span class="meta">#</span><span class="bash"> 用户级别：登录当前操作系统的用户范围</span></span><br><span class="line">git config --global user.name xxx</span><br><span class="line">git config --global user.email xxx@xx.xxx</span><br><span class="line"><span class="meta">#</span><span class="bash"> 优先级：就近原则（项目级别 &gt; 用户级别）</span></span><br></pre></td></tr></table></div></figure>
+
+
+        <h1 id="3-添加提交以及查看状态"   >
+          <a href="#3-添加提交以及查看状态" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-添加提交以及查看状态" class="headerlink" title="3.添加提交以及查看状态"></a>3.添加提交以及查看状态</h1>
+      <ul>
+<li><strong>命令：</strong></li>
+</ul>
+<figure class="highlight shell"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看状态</span></span><br><span class="line">git status</span><br><span class="line"><span class="meta">#</span><span class="bash"> 将工作区的新建/修改 添加至 暂存区</span></span><br><span class="line">git add [file name]</span><br><span class="line"><span class="meta">#</span><span class="bash"> 从暂存区撤回</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> git rm --cached [file name]</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 将暂存区内容 提交至 本地库</span></span><br><span class="line">git commit -m &quot;commit message&quot; [file name]</span><br><span class="line"><span class="meta">#</span><span class="bash"> 对于已追踪的文件，可以直接添加至本地库</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> git commit -a</span></span><br></pre></td></tr></table></div></figure>
+
+
+        <h1 id="4-版本前进-后退"   >
+          <a href="#4-版本前进-后退" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-版本前进-后退" class="headerlink" title="4.版本前进/后退"></a>4.版本前进/后退</h1>
+      <ul>
+<li><strong>命令：</strong></li>
+</ul>
+<figure class="highlight shell"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看版本记录</span></span><br><span class="line">git log</span><br><span class="line"><span class="meta">#</span><span class="bash"> 简要显示版本记录</span></span><br><span class="line">git log --pretty=oneline</span><br><span class="line">git log --oneline</span><br><span class="line">git reflog</span><br><span class="line"><span class="meta">#</span><span class="bash"> 前进/后退 基于索引值操作（推荐）</span></span><br><span class="line">git reset --hard [hash]</span><br><span class="line"><span class="meta">#</span><span class="bash"> 后退 使用^/~符号</span></span><br><span class="line">git reset --hard HEAD^	# 后退1步，n个^后退n个版本</span><br><span class="line">git reset --hard HEAD~n # 后退n步</span><br></pre></td></tr></table></div></figure>
+
+<ul>
+<li><p><strong>reset命令的三个参数对比：</strong></p>
+<p><code>--soft</code>：</p>
+<p>​    仅仅在本地库移动HEAD指针</p>
+<p><code>--mixed</code>：</p>
+<p>​    在本地库移动HEAD指针并且重置暂存区</p>
+<p><code>--hard</code>：</p>
+<p>​    在本地库移动HEAD指针、重置暂存区并且重置工作区</p>
+</li>
+</ul>
+
+        <h1 id="5-文件差异"   >
+          <a href="#5-文件差异" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-文件差异" class="headerlink" title="5.文件差异"></a>5.文件差异</h1>
+      <ul>
+<li><strong>命令：</strong></li>
+</ul>
+<figure class="highlight shell"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git diff [file name] # 默认将工作区文件和暂存区进行比较</span><br><span class="line">git diff [版本记录] [file name] # 将工作区文件和本地库历史记录进行比较</span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果不带文件名可以比较多个文件</span></span><br></pre></td></tr></table></div></figure>
+
+
+        <h1 id="6-分支"   >
+          <a href="#6-分支" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-分支" class="headerlink" title="6.分支"></a>6.分支</h1>
+      <ul>
+<li><strong>作用：</strong><ol>
+<li>同时并行推进多个功能开发，提高开发效率</li>
+<li>各个分支在开发过程中，如果某一个分支开发失败，不会对其他分支有任何影响</li>
+</ol>
+</li>
+<li><strong>命令：</strong></li>
+</ul>
+<figure class="highlight shell"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看所有分支</span></span><br><span class="line">git branch -v</span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建分支</span></span><br><span class="line">git branch [branch name]</span><br><span class="line"><span class="meta">#</span><span class="bash"> 切换分支</span></span><br><span class="line">git checkout [branch name]</span><br><span class="line"><span class="meta">#</span><span class="bash"> 合并分支</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 先切换到接受修改的分支，再执行merge操作</span></span><br><span class="line">git checkout [接受修改的分支名]</span><br><span class="line">git merge [需要合并的分支名]</span><br></pre></td></tr></table></div></figure>
+
+<ul>
+<li><strong>冲突：</strong></li>
+</ul>
+<p><strong>表现：</strong></p>
+<figure class="highlight javascript"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="line"><span class="comment">// 当前分支内容</span></span><br><span class="line">=======</span><br><span class="line"><span class="comment">// 另一个分支内容</span></span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><br></pre></td></tr></table></div></figure>
+
+<p><strong>解决：</strong></p>
+<ol>
+<li>编辑文件，删除特殊符号</li>
+<li>修改文件至需要的地步</li>
+<li>git add [文件名]</li>
+<li>git commit -m “日志信息”</li>
+</ol>
+<p>​        注意：此时commit不能带具体文件名</p>
+
+        <h1 id="7-推送到远程库"   >
+          <a href="#7-推送到远程库" class="heading-link"><i class="fas fa-link"></i></a><a href="#7-推送到远程库" class="headerlink" title="7.推送到远程库"></a>7.推送到远程库</h1>
+      <ul>
+<li><strong>命令：</strong></li>
+</ul>
+<figure class="highlight shell"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 本地创建远程库别名</span></span><br><span class="line">git remote add [远程主机名] [远程库地址]</span><br><span class="line"><span class="meta">#</span><span class="bash"> 推送到远程库</span></span><br><span class="line">git push [远程主机名] [本地分支]:[远程分支]</span><br></pre></td></tr></table></div></figure>
+
+
+        <h1 id="8-克隆"   >
+          <a href="#8-克隆" class="heading-link"><i class="fas fa-link"></i></a><a href="#8-克隆" class="headerlink" title="8.克隆"></a>8.克隆</h1>
+      <ul>
+<li><strong>命令：</strong></li>
+</ul>
+<figure class="highlight shell"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone [远程库地址]</span><br></pre></td></tr></table></div></figure>
+
+<ul>
+<li><strong>效果：</strong><ol>
+<li>完整地把远程库下载到本地</li>
+<li>创建origin远程地址别名</li>
+<li>初始化本地库</li>
+</ol>
+</li>
+</ul>
+
+        <h1 id="9-拉取"   >
+          <a href="#9-拉取" class="heading-link"><i class="fas fa-link"></i></a><a href="#9-拉取" class="headerlink" title="9.拉取"></a>9.拉取</h1>
+      <ul>
+<li><strong>命令：</strong></li>
+</ul>
+<figure class="highlight shell"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 抓取远程更新</span></span><br><span class="line">git fetch [远程主机名] [远程分支]</span><br><span class="line"><span class="meta">#</span><span class="bash"> 合并分支</span></span><br><span class="line">git merge [远程主机名/远程分支]</span><br><span class="line"><span class="meta">#</span><span class="bash"> 上面两步等同于</span></span><br><span class="line">git pull [远程主机名] [远程分支]:[本地分支]</span><br></pre></td></tr></table></div></figure>
+
+<ul>
+<li><strong>注意：</strong>抓取更新并不会修改本地工作区内容</li>
+</ul>
+<blockquote>
+<p><span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://www.runoob.com/git/git-basic-operations.html" >https://www.runoob.com/git/git-basic-operations.html</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+</blockquote>
+</div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2022/01/29/ES6%E6%A8%A1%E5%9D%97%E4%B8%8ECommonJS%E6%A8%A1%E5%9D%97%E7%9A%84%E5%8C%BA%E5%88%AB/">ES6模块与CommonJS模块的区别</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-01-29</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2022-01-30</span></span></div></header><div class="post-body"><div class="post-excerpt">
         <h1 id="1-写法不同"   >
           <a href="#1-写法不同" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-写法不同" class="headerlink" title="1.写法不同"></a>1.写法不同</h1>
       <p>最直观的，两者对于模块的导入导出写法不同</p>
@@ -480,4 +607,4 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 </ul>
 <figure class="highlight css"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 以16/9为例 */</span></span><br><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">	<span class="attribute">width</span>: <span class="number">100vw</span>;</span><br><span class="line">	<span class="attribute">height</span>: <span class="number">56.25vw</span>;</span><br><span class="line">	<span class="attribute">max-height</span>: <span class="number">100vh</span>;</span><br><span class="line">	<span class="attribute">max-width</span>: <span class="number">177.78vh</span>;</span><br><span class="line">    </span><br><span class="line">	<span class="attribute">position</span>: absolute;</span><br><span class="line">	<span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">	<span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">	<span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">	<span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">margin</span>: auto;</span><br><span class="line">    <span class="attribute">background</span>: pink;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
 
-</div></div></article></section><nav class="paginator"><div class="paginator-inner"><span class="page-number current">1</span></div></nav></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><section class="sidebar-toc hide"></section><!-- ov = overview--><section class="sidebar-ov"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/image/site/head.png" alt="avatar"></div><p class="sidebar-ov-author__text">hello world</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/LonelyTaker" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a><a class="sidebar-ov-social-item" href="Ym1104340863" target="_blank" rel="noopener" data-popover="微信" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-weixin"></i></span></a><a class="sidebar-ov-social-item" href="1104340863" target="_blank" rel="noopener" data-popover="QQ" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-qq"></i></span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">4</div><div class="sidebar-ov-state-item__name">归档</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2022</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>LonelyTaker</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v6.0.0</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script></body></html>
+</div></div></article></section><nav class="paginator"><div class="paginator-inner"><span class="page-number current">1</span></div></nav></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><section class="sidebar-toc hide"></section><!-- ov = overview--><section class="sidebar-ov"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/image/site/head.png" alt="avatar"></div><p class="sidebar-ov-author__text">hello world</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/LonelyTaker" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a><a class="sidebar-ov-social-item" href="Ym1104340863" target="_blank" rel="noopener" data-popover="微信" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-weixin"></i></span></a><a class="sidebar-ov-social-item" href="1104340863" target="_blank" rel="noopener" data-popover="QQ" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-qq"></i></span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">5</div><div class="sidebar-ov-state-item__name">归档</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2022</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>LonelyTaker</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v6.0.0</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script></body></html>
