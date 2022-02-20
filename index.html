@@ -116,7 +116,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <figure class="highlight javascript"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">100</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	1.产生window对象</span></span><br><span class="line"><span class="comment">	2.查找变量声明：a，作为GO的属性名，初始化为undefined</span></span><br><span class="line"><span class="comment">	3.查找函数声明：b，作为GO的方法名，初始化为function(实际上是创建了一个函数对象，并让b引用)</span></span><br><span class="line"><span class="comment">	GO：&#123;</span></span><br><span class="line"><span class="comment">		a:undefined,</span></span><br><span class="line"><span class="comment">		b:function</span></span><br><span class="line"><span class="comment">	&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></div></figure>
 
 <p>用图像来表示：</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E5%85%A8%E5%B1%80%E9%A2%84%E7%BC%96%E8%AF%91.png" alt="全局预编译"></p>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E5%85%A8%E5%B1%80%E9%A2%84%E7%BC%96%E8%AF%91.png" class>
+
 <blockquote>
 <p>黄色虚线表示逻辑关系，红色实线表示真实的内存地址引用，下文同</p>
 </blockquote>
@@ -138,9 +139,11 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <figure class="highlight javascript"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params">x</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> i = <span class="number">0</span>;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	b();</span><br><span class="line">&#125;</span><br><span class="line">a(<span class="number">1</span>);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	创建全局执行上下文，并压入栈</span></span><br><span class="line"><span class="comment">	1.产生window对象</span></span><br><span class="line"><span class="comment">	2.查找变量声明：无</span></span><br><span class="line"><span class="comment">	3.查找函数声明:a，作为GO的方法名，初始化为function</span></span><br><span class="line"><span class="comment">	GO：&#123;</span></span><br><span class="line"><span class="comment">		a:function</span></span><br><span class="line"><span class="comment">	&#125;</span></span><br><span class="line"><span class="comment">	到此为止全局执行上下文的创建阶段结束</span></span><br><span class="line"><span class="comment">	</span></span><br><span class="line"><span class="comment">	开始执行代码(这部分是执行上下文的执行阶段，但由于函数执行上下文只有在被调用时才会创建，所以需要执行，我们将在下文再接着讲执行阶段)</span></span><br><span class="line"><span class="comment">	运行到a(1)</span></span><br><span class="line"><span class="comment">	</span></span><br><span class="line"><span class="comment">	创建函数执行上下文，并压入栈</span></span><br><span class="line"><span class="comment">	1.产生函数AO对象</span></span><br><span class="line"><span class="comment">	2.查找函数内变量声明和形参：x、i，作为AO的属性名，初始化为undefined</span></span><br><span class="line"><span class="comment">	3.将实参1赋值给形参x，x:1</span></span><br><span class="line"><span class="comment">	4.查找函数内函数声明：b，作为AO的方法名，初始化为function</span></span><br><span class="line"><span class="comment">	AO:&#123;</span></span><br><span class="line"><span class="comment">		x:1,</span></span><br><span class="line"><span class="comment">		i:undefined,</span></span><br><span class="line"><span class="comment">		b:function</span></span><br><span class="line"><span class="comment">	&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></div></figure>
 
 <p>同样用图像来表示：</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E5%87%BD%E6%95%B0%E9%A2%84%E7%BC%96%E8%AF%91.png" alt="函数预编译"></p>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E5%87%BD%E6%95%B0%E9%A2%84%E7%BC%96%E8%AF%91.png" class>
+
 <p>通过浏览器的调试工具查看：</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E5%87%BD%E6%95%B0%E9%A2%84%E7%BC%96%E8%AF%91-%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7.png" alt="函数预编译-调试工具"></p>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E5%87%BD%E6%95%B0%E9%A2%84%E7%BC%96%E8%AF%91-%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7.png" class>
+
 <p>到此为止，函数执行上下文的创建阶段结束。</p>
 <p>了解完这部分后，我们会发现之前所谓的<code>变量提升</code>和<code>函数提升</code>就是指查找变量声明和函数声明。</p>
 <hr>
@@ -175,7 +178,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
         <h2 id="5-总结">
           <a href="#5-总结" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-总结" class="headerlink" title="5.总结"></a>5.总结</h2>
       <p>至此，执行上下文的所有内容都介绍完毕</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87-%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE.png" alt="执行上下文-思维导图"></p>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87-%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE.png" class>
+
 <p>练习：</p>
 <figure class="highlight javascript"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一题</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;foo1&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;foo2&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二题</span></span><br><span class="line">foo();</span><br><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;foo1&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;foo2&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br></pre></td></tr></table></div></figure>
 
@@ -194,7 +198,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <li>块级作用域</li>
 </ul>
 <p>早期ES标准中并没有块级作用域的概念，我将在下文ES5标准中介绍块级作用域，这里我们只考虑<code>全局作用域</code>和<code>局部作用域</code>。从代码编写的角度可以这样理解：</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F.jpg" alt="作用域"></p>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F.jpg" class>
+
 <p>上面红色框表示的就是局部作用域，黄色框表示全局作用域。结合我们上面执行上下文中所学的内容，<code>JS引擎对变量的访问实际上就是从GO或者AO对象上查找属性</code>，那么也就是说：</p>
 <ul>
 <li>全局作用域本质上就是GO对象</li>
@@ -211,18 +216,17 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <p>其实，在函数声明的时候，创建的函数对象中包含了一个<code>隐藏属性[[scope]]</code>，这个属性记录了当前的执行环境。上面的代码用图像表示：</p>
 <ol>
 <li><p>首先创建全局执行上下文并压入栈；产生GO对象；查找变量声明：i，初始化undefined；查找函数声明：a，初始化function，即创建一个函数对象，并被a引用。这个时候函数对象中的[[scope]]属性就记录了当前的执行环境，它是一个数组，而当前正处于全局执行上下文，那么这个数组的第1位就是GO对象：a.[[scope]] = [GO]</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-1.png" alt="作用域链-1"></p>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-1.png" class>
+
 <blockquote>
 <p>图上这么画其实不准确，数组也是一个对象，所以[[scope]]属性应该要引用这个对象的地址，而这个对象要引用GO对象，但为了避免线条过多造成的视觉影响，所以采用图上的画法。</p>
 <p>另外提醒一点，[[scope]]属性只有JS引擎能够访问，下文所有与[[scope]]相关的代码都是伪代码，比如：a.[[scope]]其实是不能运行的。</p>
 </blockquote>
 </li>
 <li><p>全局执行上下文的创建结束，开始执行代码var a = 0。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-2.png" alt="作用域链-2"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-2.png" class></li>
 <li><p>继续执行a()，此时函数被调用，创建函数执行上下文，并压入执行栈；产生a函数的AO对象；没有形参、变量声明和函数声明，AO对象为空对象。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-3.png" alt="作用域链-3"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-3.png" class></li>
 <li><p>还记得执行上下文创建阶段中有一个创建作用域链吗？当<strong>函数执行上下文创建</strong>时，除了创建变量对象，JS引擎还会根据函数的[[scope]]属性去<strong>创建作用域链</strong>，将当前产生的<code>AO对象</code>添加到作用域链的<strong>最前端</strong>，也就是说当前执行上下文的作用域链为<code>[aAO,GO]</code>，即JS引擎访问变量的顺序就是<code>aAO-&gt;GO</code>。</p>
 <p><strong>注意：</strong></p>
 <ol>
@@ -230,14 +234,11 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <li>作用域链 = AO + [[scope]]，AO会添加在作用域链的最前面：作用域链 = [AO].concat([[scope]])</li>
 <li>全局执行上下文的作用域链就是[GO]</li>
 </ol>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-4.png" alt="作用域链-4"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-4.png" class></li>
 <li><p>此时函数执行上下文创建完毕，开始执行代码 i++，顺着作用域链查找并执行赋值语句。然后继续执行 console.log(i)，输出打印1。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-5.png" alt="作用域链-5"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-5.png" class></li>
 <li><p>函数执行完毕，a函数执行上下文弹出并销毁，aAO被释放。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-6.png" alt="作用域链-6"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-6.png" class></li>
 <li><p>继续执行全局代码，直至页面关闭，全局执行上下文弹出并销毁。</p>
 </li>
 </ol>
@@ -245,7 +246,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <figure class="highlight javascript"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">c</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(i);</span><br><span class="line">        &#125;</span><br><span class="line">        c();</span><br><span class="line">    &#125;</span><br><span class="line">    b();</span><br><span class="line">&#125;</span><br><span class="line">a();</span><br></pre></td></tr></table></div></figure>
 
 <p>当c函数执行上下文创建时的图应该是这个样子：</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-7.png" alt="作用域链-7"></p>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-7.png" class>
+
 <blockquote>
 <p>b函数是在a函数中声明的，b函数创建时[[scope]]属性的赋值，其实和a函数执行上下文创建作用域链的步骤是一样的，都是复制a函数的[[scope]]属性中的对象，将a函数执行上下文产生的AO对象添加到数组的第一位，也就是说b函数的[[scope]]属性和a函数执行上下文的作用域链内容是一样的，但是表示的含义不同。</p>
 <p>[[scope]]所谓的保存当前执行环境，其实就是保存了变量对象到其中。</p>
@@ -262,37 +264,33 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <p>如果用图像表示：</p>
 <ol>
 <li><p>创建全局执行上下文并压入栈；产生GO对象；查找变量声明：a，并初始化为undefined；查找函数声明：foo、bar，并初始化为function。foo、bar函数的[[scope]]值为[GO]，另外全局执行上下文的作用域链就是[GO]。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-8.png" alt="作用域链-8"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-8.png" class></li>
 <li><p>全局执行上下文创建完毕，开始执行代码 var a = 2。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-9.png" alt="作用域链-9"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-9.png" class></li>
 <li><p>继续执行bar()。</p>
 </li>
 <li><p>函数被调用，创建bar函数执行上下文；产生AO对象（图中的bAO）；有一个变量声明a，初始化为undefined，没有形参，也没有函数声明。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-10.png" alt="作用域链-10"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-10.png" class></li>
 <li><p>接着创建bar函数执行上下文的作用域链，bar函数的[[scope]]为[GO]，所以bar函数执行上下文的作用域链为[bAO, GO]。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-11.png" alt="作用域链-11"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-11.png" class></li>
 <li><p>bar函数执行上下文创建完毕，开始执行代码 var a = 3。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-12.png" alt="作用域链-12"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-12.png" class></li>
 <li><p>继续执行foo()。因为bAO中并没有foo属性，JS引擎将顺着作用域链查找，在GO中查找到foo并调用。</p>
 </li>
 <li><p>创建foo函数执行上下文；产生AO对象（图中的fAO）；没有形参、变量声明、函数声明。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-13.png" alt="作用域链-13"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-13.png" class></li>
 <li><p>接着创建foo函数执行上下文的作用域链，foo函数的[[scope]]为[GO]，所以foo函数执行上下文的作用域链为[fAO, GO]。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-14.png" alt="作用域链-14"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE-14.png" class></li>
 <li><p>foo函数执行上下文创建完毕，开始执行代码 console.log(a)。由于fAO中并没有a属性，所以沿着作用域链查找，找到GO中有a属性，输出打印2。</p>
 </li>
 <li><p>…（销毁阶段省略）</p>
 </li>
 </ol>
 <p>从上面的图可以看出来，JS引擎并非按照执行上下文的调用顺序形成作用域链（如果是按照调用顺序决定作用域链，那foo函数执行上下文的作用域链应该是fAO-&gt;bAO-&gt;GO，显然并不是），而是根据函数创建时的执行环境形成作用域链。最直观的，我们可以直接通过函数的书写位置来判断作用域链。因此JS的作用域被称为<code>词法作用域</code>。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E8%AF%8D%E6%B3%95%E4%BD%9C%E7%94%A8%E5%9F%9F.jpg" alt="词法作用域"></p>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E8%AF%8D%E6%B3%95%E4%BD%9C%E7%94%A8%E5%9F%9F.jpg" class>
+
+
+
 
         <h2 id="3-总结">
           <a href="#3-总结" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-总结" class="headerlink" title="3.总结"></a>3.总结</h2>
@@ -318,19 +316,19 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <li><p>…（全局执行上下文的创建阶段和执行阶段省略）</p>
 </li>
 <li><p>…（test函数执行上下文的创建阶段和执行阶段省略）</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-1.png" alt="闭包-1"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-1.png" class></li>
 <li><p>当函数执行完时，test函数执行上下文从栈中弹出并销毁，对应的AO对象会被释放（图中蓝色框部分），那么我们将不再能够访问到变量i</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-2.png" alt="闭包-2"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-2.png" class></li>
 </ol>
 <p>那么我们想一想，有没有办法将这个AO对象保存下来呢？</p>
 <p>答案肯定是有的。如果我们在<strong>函数内部</strong>再去声明一个函数，那么这个函数对象的<code>[[scope]]</code>是不是就<strong>保留了当前的执行环境</strong>，也就是说它的体内<strong>存在对当前AO对象的引用</strong>。</p>
 <figure class="highlight javascript"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">inner</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">test()</span><br></pre></td></tr></table></div></figure>
 
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-3.png" alt="闭包-3"></p>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-3.png" class>
+
 <p>但是这样还不够，当test函数执行上下文弹出并销毁时，图中的蓝色框部分一样会被释放掉，因为没有存在外部引用，这一部分<strong>不可被访问到</strong>。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-4.png" alt="闭包-4"></p>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-4.png" class>
+
 <blockquote>
 <p>关于垃圾回收机制，可以参考这篇博客：</p>
 <p><span class="exturl"><a class="exturl__link" target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000018605776">https://segmentfault.com/a/1190000018605776</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
@@ -340,30 +338,26 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 
 <ol>
 <li><p>创建全局执行上下文，并压入栈；产生GO对象；查找变量声明：a，初始化为undefined；查找函数声明：test，初始化为funticon，test.[[scope]] = [GO]；创建作用域链：[GO]</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-5.png" alt="闭包-5"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-5.png" class></li>
 <li><p>全局执行上下文创建完毕，开始执行代码 var a = test()</p>
 </li>
 <li><p>test函数被调用，创建test函数执行上下文，并压入栈；产生AO对象：tAO；查找形参：无；查找变量声明：i，初始化为undefined；查找函数声明：inner，初始化为function，inner.[[scope]] = [tAO，GO]；创建作用域链：[tAO，GO]</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-6.png" alt="闭包-6"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-6.png" class></li>
 <li><p>test函数执行上下文创建完毕，开始执行代码 var i = 0，<strong>return inner</strong></p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-7.png" alt="闭包-7"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-7.png" class></li>
 <li><p>test函数执行完毕，函数上下文从执行栈中弹出并销毁，注意全局执行上下文中var a = test()还未执行完，需要将test函数的返回值赋值给变量a，a保存对inner函数对象的引用</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-8.png" alt="闭包-8"></p>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-8.png" class>
+
 <p>这时候由于tAO仍能被访问，所以它不会被释放</p>
 </li>
 <li><p>继续执行全局代码a()，也就是调用inner函数</p>
 </li>
 <li><p>创建inner函数执行上下文，并压入栈；产生AO对象：iAO；查找形参：无；查找变量声明：无；查找函数声明：无；<strong>创建作用域链：</strong>因为inner函数[[scope]]为[tAO，GO]，所以作用域链为[iAO，tAO，GO]</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-9.png" alt="闭包-9"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-9.png" class></li>
 <li><p>inner函数执行上下文创建完毕，开始执行代码console.log(i)。JS引擎会顺着作用域链查找变量，在tAO中找到，输出打印0</p>
 </li>
 <li><p>inner函数执行完毕，从执行栈中弹出并销毁，对应的iAO被释放</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-10.png" alt="闭包-10"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-10.png" class></li>
 </ol>
 <p>这就是<code>闭包</code>。百度百科上的解释是：<code>闭包就是能够读取其他函数内部变量的函数</code>。按照这样的解释，我们上面代码中的inner函数就是闭包。由于在javascript中，只有函数内部的子函数才能读取局部变量，所以说，闭包可以简单理解成“定义在一个函数内部的函数”。所以在本质上，<code>闭包是将函数内部和函数外部连接起来的桥梁</code>。</p>
 
@@ -430,7 +424,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <figure class="highlight javascript"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LexicalEnvironment: &#123;		<span class="comment">// 词法环境</span></span><br><span class="line">    <span class="attr">EnvironmentRecord</span>: &#123;&#125;,	<span class="comment">// 环境记录器</span></span><br><span class="line">    <span class="attr">outer</span>: &lt;<span class="literal">null</span>&gt;			<span class="comment">// 外部环境的引用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
 
 <p>这么一看，词法环境中的环境记录器像不像我们ES3中的变量对象，因为它们的作用是一样的。如果用图像表示，大概就像这样：</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E8%AF%8D%E6%B3%95%E7%8E%AF%E5%A2%83.png" alt="ES5-词法环境"></p>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E8%AF%8D%E6%B3%95%E7%8E%AF%E5%A2%83.png" class>
+
 <p>另外，我们会发现在ES5规范的执行上下文的创建阶段，没有了ES3时候的创建作用域链，这其实是将作用域链的概念转移到了outer中。</p>
 
         <h3 id="2-变量环境">
@@ -442,7 +437,10 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <blockquote>
 <p>在ES5中，还没有let、const声明，以及待会要讲到的块级作用域，在ES6中它们才出现。但是这些概念已经提出来了，ES5中执行上下文的很多内容其实是在为ES6服务。</p>
 </blockquote>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%8F%98%E9%87%8F%E7%8E%AF%E5%A2%83.png" alt="ES5-变量环境"></p>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%8F%98%E9%87%8F%E7%8E%AF%E5%A2%83.png" class>
+
+
+
 
         <h3 id="3-环境记录器">
           <a href="#3-环境记录器" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-环境记录器" class="headerlink" title="(3) 环境记录器"></a>(3) 环境记录器</h3>
@@ -525,7 +523,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
         <h3 id="1-概念-2">
           <a href="#1-概念-2" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-概念-2" class="headerlink" title="(1) 概念"></a>(1) 概念</h3>
       <p>从ES6开始，加入了块级作用域。从代码编写的角度来看，块级作用域可以这么理解：</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F.jpg" alt="ES5-块级作用域"></p>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F.jpg" class>
+
 <p>蓝色框表示的就是块级作用域。用<code>&#123;&#125;</code>包裹起来的代码称之为<code>代码块</code>，每个代码块都有一个块级作用域。</p>
 
         <h3 id="2-let、const变量">
@@ -534,7 +533,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <figure class="highlight javascript"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">&#x27;global a&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> b = <span class="string">&#x27;global b&#x27;</span>;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> b = <span class="string">&#x27;block b&#x27;</span>;</span><br><span class="line">    <span class="keyword">var</span> c = <span class="string">&#x27;block c&#x27;</span>;</span><br><span class="line">    <span class="keyword">let</span> d = <span class="string">&#x27;block d&#x27;</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(a);</span><br><span class="line">    <span class="built_in">console</span>.log(b);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(b);</span><br><span class="line"><span class="built_in">console</span>.log(c);</span><br><span class="line"><span class="built_in">console</span>.log(d);</span><br></pre></td></tr></table></div></figure>
 
 <p>为了方便理解和观看，我将不再细分环境记录器和外部环境的引用，直接将词法环境当做整体来使用。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-1.png" alt="ES5-块级作用域-1"></p>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-1.png" class>
+
 <p>同样用画图来表示上面的代码：</p>
 <ol>
 <li><p>创建全局执行上下文，并压入栈。</p>
@@ -542,18 +542,15 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <li><p>创建词法环境，查找<strong>顶级</strong>const、let变量声明。</p>
 <p>所谓顶级的const、let变量声明，指的是<code>不在代码块中且不在函数中</code>的const、let变量声明。</p>
 <p>找到变量b，加入词法环境，但<strong>不初始化</strong>。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-2.png" alt="ES5-块级作用域-2"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-2.png" class></li>
 <li><p>创建变量环境，查找<strong>非函数</strong>内的var变量声明。</p>
 <p>因为var变量没有块级作用域的概念，所以无论是否在代码块中声明，都需要找出来。</p>
 <p>找到变量a、c，加入变量环境，初始化为undefined。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-3.png" alt="ES5-块级作用域-3"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-3.png" class></li>
 <li><p>没有函数声明。全局执行上下文创建完毕，开始执行代码。</p>
 </li>
 <li><p>执行<code>var a = &quot;global a&quot;</code>和<code>let b = &quot;global b&quot;</code>。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-4.png" alt="ES5-块级作用域-4"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-4.png" class></li>
 <li><p>继续执行代码，这时遇到了代码块。</p>
 <p><strong>注意：</strong></p>
 <ul>
@@ -566,12 +563,10 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <li><p>块级作用域也是一个词法环境。</p>
 </li>
 </ul>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-5.png" alt="ES5-块级作用域-5"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-5.png" class></li>
 <li><p>查找代码块中的let、const变量声明。</p>
 <p>找到变量b、d，加入到块级作用域，但不初始化。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-6.png" alt="ES5-块级作用域-6"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-6.png" class></li>
 <li><p>没有函数声明。继续执行代码。</p>
 </li>
 <li><p>执行完<code>let b = &quot;block b&quot;</code>，执行<code>var c = &quot;block c&quot;</code>。</p>
@@ -583,19 +578,15 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <li>当代码块执行完毕，当前执行上下文将不再访问该块级作用域。</li>
 </ul>
 <p>在变量环境中找到变量c并赋值。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-7.png" alt="ES5-块级作用域-7"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-7.png" class></li>
 <li><p>继续执行<code>let d = &quot;block d&quot;</code>。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-8.png" alt="ES5-块级作用域-8"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-8.png" class></li>
 <li><p>然后开始输出打印，按照上面所说的访问顺序查找变量a、b，输出打印<code>global a</code>和<code>block b</code>。</p>
 </li>
 <li><p>代码块执行完毕，由于不存在外部引用，块级作用域被释放。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-9.png" alt="ES5-块级作用域-9"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-9.png" class></li>
 <li><p>继续执行<code>console.log(b)</code>，输出打印<code>global b</code>。执行<code>console.log(c)</code>，输出打印<code>block c</code>。执行<code>console.log(d)</code>，由于找不到d，所以这一步会报错。最终结果：</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-10.png" alt="ES5-块级作用域-10"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-10.png" class></li>
 </ol>
 
         <h3 id="3-块级作用域中的函数声明">
@@ -622,28 +613,23 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <li><p>创建词法环境，查找顶级let、const声明的变量：无。</p>
 </li>
 <li><p>创建变量环境，查找非函数体内var声明的变量：无。查找函数声明：找到块中的test函数，由于处于代码块当中，所以将函数名添加到变量环境中，并初始化为undefined。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-11.png" alt="ES5-块级作用域-11"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-11.png" class></li>
 <li><p>全局执行上下文创建完毕，开始执行代码。</p>
 </li>
 <li><p>执行到代码块，生成块作用域。查找代码块中的let、const声明：i，但不初始化；查找函数声明，找到test函数，初始化为function。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-12.png" alt="ES5-块级作用域-12"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-12.png" class></li>
 <li><p>继续执行代码<code>let i = 0</code>。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-13.png" alt="ES5-块级作用域-13"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-13.png" class></li>
 <li><p>代码块执行完毕，查找变量环境中是否存在test变量，存在则让其引用test函数对象。</p>
 <p>注意：由于函数创建时会保存当时的执行环境，所以test函数体内存在对if块作用域的引用，而变量环境中的test又引用了test函数对象，所以即使这个代码块执行完，if块作用域也不会被释放。这就和我们上面讲闭包时一样。</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-14.png" alt="ES5-块级作用域-14"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-14.png" class></li>
 <li><p>继续执行代码，调用test函数。</p>
 <p>注意：代码块执行完后，全局上下文就不能访问块级作用域了，所以这个test函数是变量环境中的test函数，而不是if块作用域中的test函数。</p>
 </li>
 <li><p>创建test函数执行上下文，并压入栈。</p>
 </li>
 <li><p>…（test函数执行上下文创建过程省略）</p>
-<p><img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-15.png" alt="ES5-块级作用域-15"></p>
-</li>
+<img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-15.png" class></li>
 <li><p>开始执行代码<code>console.log(i)</code>，在if块作用域中找到变量i，输出打印<code>0</code>。</p>
 </li>
 <li><p>…（test函数执行上下文销毁阶段省略）</p>
@@ -702,7 +688,7 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
       <ul>
 <li><p><strong>形式：</strong></p>
 <p>用户名：xxx</p>
-<p>Email地址：<span class="exturl"><a class="exturl__link" href="mailto:&#120;&#x78;&#x78;&#x40;&#x78;&#120;&#46;&#120;&#120;&#x78;">&#120;&#x78;&#x78;&#x40;&#x78;&#120;&#46;&#120;&#120;&#x78;</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+<p>Email地址：<span class="exturl"><a class="exturl__link" href="mailto:&#x78;&#x78;&#120;&#64;&#x78;&#x78;&#46;&#120;&#120;&#x78;">&#x78;&#x78;&#120;&#64;&#x78;&#x78;&#46;&#120;&#120;&#x78;</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
 </li>
 <li><p><strong>作用：</strong>区分不同开发人员的身份</p>
 </li>
