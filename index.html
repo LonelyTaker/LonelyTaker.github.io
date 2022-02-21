@@ -29,7 +29,1016 @@ var CONFIG = {
   sourcePath: {"js":"js","css":"css","images":"images"},
 };
 
-window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">LonelyTaker's Blog</div><div class="header-banner-info__subtitle">走好自己的路，迈好自己的步</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content content-home" id="content"><section class="postlist"><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/">执行上下文、作用域、作用域链和闭包</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-02-20</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2022-02-20</span></span></div></header><div class="post-body"><div class="post-excerpt"><p>执行上下文、作用域、作用域链、闭包这四个概念联系非常紧密，所以放到同一篇博客中记录。现在网上的很多文章和视频都很难把这几个概念讲清楚，我看了之后，结合自己的理解记录这篇博客。如有错误，欢迎指正。</p>
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">LonelyTaker's Blog</div><div class="header-banner-info__subtitle">走好自己的路，迈好自己的步</div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content content-home" id="content"><section class="postlist"><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2022/02/21/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/">杂七杂八</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-02-21</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2022-02-21</span></span></div></header><div class="post-body"><div class="post-excerpt"><p><strong>伪类和伪元素</strong></p>
+<p>伪类用 <strong>”:“</strong> 标识，表示一些状态，比如:hover，:focus</p>
+<p>伪元素用 <strong>”::“</strong> 标识，表示某元素的子元素，该元素仅逻辑上存在，但不存在DOM树中，比如::before</p>
+<hr>
+<p><strong>表单验证</strong></p>
+<ul>
+<li>表单的一些新特性：</li>
+</ul>
+<ol>
+<li><p>HTML5表单中新增类型：</p>
+<p>email、url、number、range、date、color、list等</p>
+</li>
+<li><p>文本框中输入一次，下一次输入会自动提示的特性：autocomplete</p>
+</li>
+<li><p>初始化页面后，input自动获得焦点：autofocus</p>
+</li>
+<li><p>表单元素必填：required</p>
+</li>
+<li><p>表单验证使用正则：pattern</p>
+</li>
+<li><p>表单中设置了必填，但是提交的时候不验证：novalidate或者formnovalidate，前者在form标签上应用，后者在提交按钮上应用</p>
+</li>
+</ol>
+<ul>
+<li><p>约束验证API</p>
+<ol>
+<li>willValidate属性</li>
+<li>validity属性</li>
+<li>validationMessage属性</li>
+<li>checkValidity()方法</li>
+<li>setCustomValidity()方法</li>
+</ol>
+</li>
+<li><p>美化验证</p>
+<p>几种常用的伪类：</p>
+<ol>
+<li>:required和:optional</li>
+<li>:in-range和:out-of-range</li>
+<li>:valid和:invalid</li>
+<li>:read-only和:read-write</li>
+</ol>
+</li>
+</ul>
+</div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2022/02/21/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">浏览器工作原理</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-02-21</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2022-02-21</span></span></div></header><div class="post-body"><div class="post-excerpt"><p><strong>进程是资源分配的最小单位，线程是CPU调度的最小单位</strong></p>
+<p>早期浏览器是单进程的，单进程导致了许多问题</p>
+<ol>
+<li><p>不稳定</p>
+<p>一个页面卡死会导致整个浏览器不能正常使用</p>
+</li>
+<li><p>不安全</p>
+<p>浏览器之间共享数据</p>
+</li>
+<li><p>不流畅</p>
+<p>一个进程负责太多的事情，效率低</p>
+</li>
+</ol>
+<p>故现在的浏览器采用了<strong>多进程</strong>结构：</p>
+<ul>
+<li><p>Browser进程（控制进程）</p>
+<p>控制浏览器除标签页外的用户界面，包括地址栏、书签、后退和前进按钮，以及负责和浏览器的其他进程协调工作</p>
+</li>
+<li><p>GPU进程</p>
+<p>负责整个浏览器界面的渲染</p>
+</li>
+<li><p>插件进程</p>
+<p>控制网站所使用的所有插件，如Flash</p>
+</li>
+<li><p>Render进程（渲染器进程）</p>
+<p>控制显示tab标签页内的所有内容，浏览器在默认情况下会为每个标签页创建一个进程（<strong>可能</strong>，取决于浏览器选择的进程模型）</p>
+<p><strong>渲染器进程是多线程</strong>的：</p>
+<ul>
+<li>JS引擎线程</li>
+<li>GUI渲染线程</li>
+<li>事件触发线程</li>
+<li>定时触发器线程</li>
+<li>异步http请求线程</li>
+<li>…</li>
+</ul>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+<hr>
+<p>当你在地址输入框输入网址后，会发生什么事情？（以谷歌浏览器为例）</p>
+<ol>
+<li><p><strong>浏览器进程</strong>的<strong>UI线程</strong>会捕捉输入内容</p>
+<p>如果访问的是网址，则UI线程会启动一个<strong>网络线程</strong>请求DNS进行域名解析，接着开始连接服务器获取数据</p>
+<p>如果输入的不是网址而是关键词，就会使用默认配置的搜索引擎来查询</p>
+</li>
+<li><p>当网络线程获取到数据后，会通过<strong>SafeBrowsing</strong>检查站点是否是恶意站点（SafeBrowsing是谷歌内部的一套站点安全系统，通过检测该站点的数据来判断是否安全）</p>
+</li>
+<li><p>当<strong>网络线程</strong>获取到的数据准备完毕，并通过安全校验时，<strong>UI线程</strong>会启动一个<strong>渲染器进程</strong></p>
+</li>
+<li><p>浏览器进程通过<strong>IPC管道</strong>将数据（html）传递给<strong>渲染器进程</strong>，正式进入渲染流程</p>
+</li>
+<li><p>渲染器进程的核心任务就是把html、css、js、image等资源渲染成用户能交互的web页面</p>
+</li>
+<li><p><strong>渲染器的主线程</strong>将html进行解析，<strong>构造DOM数据结构</strong>，html首先通过<strong>Tokeniser标记化</strong>，通过语法分析将html内容解析成多个标记，根据识别后的标记进行<strong>DOM树构造</strong>，DOM树构造过程中会创建<strong>document对象</strong>，然后以document为<strong>根节点</strong>的DOM树不断进行修改，向其中添加各种元素</p>
+<p>html中引入的其他资源，如图片、css、js脚本等，图片和CSS等需要通过<strong>网络下载或者从缓存中</strong>直接加载，这些资源不会阻塞html的解析，因为它们不会影响DOM的生成，但如果解析过程中遇到script标签，就会暂停解析，<strong>先去加载解析并执行js脚本</strong>，因为js中可能会改变当前页面html结构</p>
+</li>
+<li><p>DOM树创建完成后，主线程需要解析CSS并确定每个DOM节点的<strong>计算样式</strong>（即使你没有自定义样式，浏览器也会有自己默认的样式表），然后进行<strong>Layout布局</strong>，主线程通过遍历dom和计算好的样式来生成<strong>Layout树</strong></p>
+<p>注意：DOM树和Layout树并不是一一对应的，如设置了display:none的元素不会出现在Layout树中，而在before伪类中添加了content值的元素，content中的内容会出现在Layout树中，不会出现在DOM树中。这是因为DOM树是根据解析html所得，并不关心样式。而Layout树是根据DOM和计算好的样式来生成，和最终展示在页面上的节点是对应的</p>
+</li>
+<li><p>为了在页面上正确显示层级，主线程遍历Layout树，创建一个<strong>绘制记录表</strong>，该表记录绘制的顺序，这个阶段称为<strong>绘制(Paint)</strong></p>
+</li>
+<li><p>主线程遍历Layout树，生成<strong>Layer(图层)树</strong></p>
+</li>
+<li><p>当Layer树生成完毕和绘制顺序确认后，主线程将这些信息传递给<strong>合成器线程</strong>，合成器线程将每个图层<strong>栅格化(光栅化)<strong>，由于一层可能像页面的整个长度一样大，因此合成器线程将他们切分为许多图块(tiles)，然后将每个图块发送给</strong>栅格线程</strong>，栅格线程栅格化每个图块，并将它们存储在GPU内存中，当栅格化完成后，合成器线程将收集称为<strong>Draw Quads</strong>的图块信息，并根据图块信息生成<strong>合成器帧</strong></p>
+<p>早期的栅格化方案：只栅格化页面显示的内容，当页面滚动时，再栅格化更多的内容来填充缺失的部分，这种方式会导致展示延迟</p>
+<p>现在的Chrome采用更为复杂的栅格化方案，称为<strong>合成</strong>：将页面内的各个部分分成多个图层，分别对其进行栅格化，并在合成器线程中单独合成页面。上述操作即采用该方案</p>
+</li>
+<li><p>合成器帧通过IPC传送给<strong>浏览器进程</strong>，接着浏览器进程将合成器帧传送到<strong>GPU</strong>，最终渲染展示到屏幕上</p>
+<p>当页面发生变化，如滚动，则会生成一个新的合成器帧，再重复上述操作</p>
+<p>当改变一个元素的尺寸位置属性时，会重新进行样式计算、布局(Layout)、绘制(Paint)以及后面的所有流程，这个行为称为<strong>重排</strong></p>
+<p>当改变某个元素的颜色属性时，不会重新触发布局(Layout)，但还是会触发样式计算和绘制，这个称为<strong>重绘</strong></p>
+<p>注意：重绘和重排都会占用主线程，同时js也在主线程运行，那么就会出现抢占执行时间的问题</p>
+</li>
+</ol>
+<blockquote>
+<p>参考资料：</p>
+<p><span class="exturl"><a class="exturl__link" target="_blank" rel="noopener" href="https://blog.csdn.net/BonJean/article/details/78453547">https://blog.csdn.net/BonJean/article/details/78453547</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+<p><span class="exturl"><a class="exturl__link" target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1x54y1B7RE">https://www.bilibili.com/video/BV1x54y1B7RE</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+<p><span class="exturl"><a class="exturl__link" target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/47407398">https://zhuanlan.zhihu.com/p/47407398</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+</blockquote>
+</div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2022/02/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-02-21</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2022-02-21</span></span></div></header><div class="post-body"><div class="post-excerpt">
+        <h1 id="一-计算机网络概述">
+          <a href="#一-计算机网络概述" class="heading-link"><i class="fas fa-link"></i></a><a href="#一-计算机网络概述" class="headerlink" title="一.计算机网络概述"></a>一.计算机网络概述</h1>
+      
+        <h2 id="1-计算机网络基本概念">
+          <a href="#1-计算机网络基本概念" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-计算机网络基本概念" class="headerlink" title="1.计算机网络基本概念"></a>1.计算机网络基本概念</h2>
+      <p>计算机网络是<strong>互连</strong>的、<strong>自治</strong>的计算机的集合</p>
+<ul>
+<li><p><strong>协议</strong></p>
+<p>协议是网络通信实体之间在数据交换过程中需要遵循的规则或约定，包括三个基本要素：</p>
+<p>语法、语义、时序</p>
+</li>
+<li><p><strong>功能</strong></p>
+<ul>
+<li>硬件资源共享</li>
+<li>软件资源共享</li>
+<li>信息资源共享</li>
+</ul>
+</li>
+<li><p><strong>分类</strong></p>
+<ul>
+<li><p>按照覆盖范围：个域网、局域网、城域网、广域网</p>
+</li>
+<li><p>按照拓扑结构：星形、总线型、环形、网状、树形、混合拓扑结构</p>
+</li>
+<li><p>按照交换方式：电路交换网络、报文交换网络、分组交换网络</p>
+</li>
+<li><p>按照网络用户属性：公用网、私有网</p>
+</li>
+</ul>
+</li>
+</ul>
+
+        <h2 id="2-计算机网络结构">
+          <a href="#2-计算机网络结构" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-计算机网络结构" class="headerlink" title="2.计算机网络结构"></a>2.计算机网络结构</h2>
+      <ul>
+<li><p><strong>网络边缘</strong></p>
+</li>
+<li><p><strong>接入网络</strong></p>
+<ul>
+<li>电话拨号</li>
+<li>非对称用户数字线ADSL</li>
+<li>混合光纤同轴电缆HFC</li>
+<li>局域网</li>
+<li>移动接入网络</li>
+</ul>
+</li>
+<li><p><strong>网络核心</strong></p>
+<p>网络核心是由通信链路互连的分组交换设备构成的网络。作用是实现网络边缘中主机之间的数据中继和转发</p>
+</li>
+</ul>
+
+        <h2 id="3-数据交换技术">
+          <a href="#3-数据交换技术" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-数据交换技术" class="headerlink" title="3.数据交换技术"></a>3.数据交换技术</h2>
+      <ul>
+<li><p><strong>电路交换</strong></p>
+<p>首先需要通过中间交换结点为两台主机之间建立一条专用的通信线路，称为电路，然后再利用该电路进行通信，通信结束后再拆除电路。</p>
+<ul>
+<li><p>优点：</p>
+<p><strong>实时性高</strong>，时延和时延抖动都较少</p>
+</li>
+<li><p>缺点：</p>
+<p>对于突发性数据传输，<strong>信道利用率低</strong>，传输速率单一</p>
+</li>
+</ul>
+</li>
+<li><p><strong>报文交换</strong></p>
+<p>以报文为单位在交换网络各结点之间以<strong>存储-转发</strong>的方式传送</p>
+<ul>
+<li><p>优点：</p>
+<p><strong>不需要建立连接</strong>；只有当报文被转发时才占用相应的信道</p>
+</li>
+<li><p>缺点：</p>
+<p>报文都需要缓冲存储，报文需要排队，<strong>增加了延时</strong></p>
+</li>
+</ul>
+</li>
+<li><p><strong>分组交换</strong></p>
+<p>分组交换将一个完整报文拆分成若干个分组，分组传输过程通常也需要采用<strong>存储-转发</strong>交换方式</p>
+<ul>
+<li><p>优点：</p>
+<p>交换设备<strong>存储容量要求低</strong></p>
+<p>交换<strong>速度快</strong></p>
+<p>可靠传输<strong>效率高</strong></p>
+<p>更加<strong>公平</strong></p>
+</li>
+<li><p>分组长度确定：</p>
+<p>分组长度与<strong>延迟时间</strong></p>
+<p>分组长度与<strong>误码率</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+
+        <h2 id="4-网络性能">
+          <a href="#4-网络性能" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-网络性能" class="headerlink" title="4.网络性能"></a>4.网络性能</h2>
+      <ul>
+<li><p><strong>速率和带宽</strong></p>
+<p><strong>速率</strong>：指网络单位时间内传送的数据量，也称为数据传输速率或数据速率。基本单位是bit/s（位每秒）</p>
+<p><strong>带宽</strong>：原本是指信号具有的频带宽度，即信号成分的最高频率和最低频率之差，单位是Hz（赫兹）</p>
+</li>
+<li><p><strong>时延</strong></p>
+<p>时延是指数据从网络的一个结点(主机或交换设备等)到达另一结点所需要的时间</p>
+<p>分组的每跳传输过程主要产生4类时间延迟：</p>
+<ul>
+<li>节点处处理时延</li>
+<li>排队时延</li>
+<li>传输时延</li>
+<li>传播时延</li>
+</ul>
+</li>
+<li><p><strong>时延带宽积</strong></p>
+<p>一段物理链路的传播时延与链路带宽的乘积</p>
+<p>表示一段链路可以容纳的数据位数，也称为以位为单位的链路长度</p>
+</li>
+<li><p><strong>丢包率</strong></p>
+<p>丢包率常被用于评价和衡量网络性能的指标，在很大程度上可以反应网络的<strong>拥塞程度</strong></p>
+<p>丢包率 = 丢失分组总数 / 发送分组总数</p>
+</li>
+<li><p><strong>吞吐量</strong></p>
+<p>单位时间内源主机通过网络向目的主机实际送达的数据量</p>
+</li>
+</ul>
+
+        <h2 id="5-计算机网络体系结构">
+          <a href="#5-计算机网络体系结构" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-计算机网络体系结构" class="headerlink" title="5.计算机网络体系结构"></a>5.计算机网络体系结构</h2>
+      <p><strong>分层思想</strong></p>
+<ul>
+<li><p><strong>OSI参考模型</strong></p>
+<p>物理层、数据链路层、网络层、传输层、会话层、展示层、应用层（从下而上）</p>
+</li>
+<li><p><strong>TCP/IP参考模型</strong></p>
+<p>网络接口层、网际层、运输层、应用层</p>
+</li>
+<li><p><strong>五层参考模型</strong></p>
+<p>物理层、链路层、网络层、传输层、应用层</p>
+</li>
+</ul>
+<p><strong>单位</strong></p>
+<p>比特流（物理层）</p>
+<p>帧（链路层）</p>
+<p>数据报（网络层）</p>
+<p>段（传输层）</p>
+<p>报文（应用层）</p>
+
+        <h1 id="二-网络应用">
+          <a href="#二-网络应用" class="heading-link"><i class="fas fa-link"></i></a><a href="#二-网络应用" class="headerlink" title="二.网络应用"></a>二.网络应用</h1>
+      
+        <h2 id="1-计算机网络应用体系结构">
+          <a href="#1-计算机网络应用体系结构" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-计算机网络应用体系结构" class="headerlink" title="1.计算机网络应用体系结构"></a>1.计算机网络应用体系结构</h2>
+      <ul>
+<li><p><strong>客户/服务器（C/S）结构</strong></p>
+<p>最主要的特征是通信只在客户与服务器之间进行，客户与客户之间不进行直接通信。</p>
+</li>
+<li><p><strong>P2P（Peer to Peer）结构</strong></p>
+<p>每个对等端都同时具备C/S应用的客户与服务器的特征，是一个服务器和客户的结合体，对等端之间可以直接通信。</p>
+</li>
+<li><p><strong>混合结构</strong></p>
+<p>既有中心服务器的存在，又有对等端（客户）间的直接通信。</p>
+</li>
+</ul>
+
+        <h2 id="2-网络应用通信基本原理">
+          <a href="#2-网络应用通信基本原理" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-网络应用通信基本原理" class="headerlink" title="2.网络应用通信基本原理"></a>2.网络应用通信基本原理</h2>
+      <p><strong>C/S通信基本原理</strong></p>
+<p>​    服务端运行的是服务器进程，被动地等待客户请求服务。</p>
+<p>​    客户端运行的是客户进程，主动发起通信，请求服务器进程提供服务。</p>
+<p>​    应用进程间遵循<strong>应用层协议</strong>交换应用层报文</p>
+
+        <h2 id="3-域名系统（DNS）">
+          <a href="#3-域名系统（DNS）" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-域名系统（DNS）" class="headerlink" title="3.域名系统（DNS）"></a>3.域名系统（DNS）</h2>
+      <p><strong>（1）层次化域名空间</strong></p>
+<p>层次树状结构的命名方法：</p>
+<ol>
+<li>国家顶级域名nTLD</li>
+<li>通用顶级域名gTLD</li>
+<li>接触结构域名</li>
+</ol>
+<p><strong>（2）域名服务器</strong></p>
+<p><strong>域名解析：</strong>将域名映射为IP地址的过程</p>
+<p><strong>域名服务器：</strong>为了实现域名解析，需要建立分布式数据库，存储网络中域名与IP地址的映射关系数据，这些数据库存储在域名服务器上，域名服务器根据用户的请求提供域名解析服务</p>
+<p><strong>（3）域名服务器分类</strong></p>
+<ul>
+<li>根域名服务器</li>
+<li>顶级域名服务器</li>
+<li>权限域名服务器</li>
+<li>本地域名服务器</li>
+</ul>
+<p><strong>（4）域名解析过程</strong></p>
+<ul>
+<li><p><strong>递归查询</strong></p>
+<p>代替查询主机或者其他域名服务器，进行进一步的域名查询，并将最终解析结果发送给查询主机或服务器</p>
+</li>
+<li><p><strong>迭代查询</strong></p>
+<p>只是将下一步要查询的服务器告知给主机或服务器</p>
+</li>
+</ul>
+
+        <h2 id="4-万维网应用">
+          <a href="#4-万维网应用" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-万维网应用" class="headerlink" title="4.万维网应用"></a>4.万维网应用</h2>
+      <p><strong>（1）应用结构</strong></p>
+<p>​        Web服务器、浏览器、超文本传输协议（HTTP）</p>
+<p><strong>（2）HTTP</strong></p>
+<ul>
+<li>概念：超文本传输协议，定义浏览器如何向Web服务器发送请求以及Web服务器如何向浏览器进行响应</li>
+<li>版本：HTTP/1.0 和 HTTP/1.1</li>
+<li>连接：非持久连接，持久连接</li>
+</ul>
+<p>​        <strong>非持久连接：</strong></p>
+<p>​            两种方式：</p>
+<p>​                串行方式请求每个对象，且每次都要新建立TCP连接</p>
+<p>​                并行方式请求每个对象，每个请求建立一个TCP连接</p>
+<p>​        <strong>持久连接：</strong>建立一个TCP连接，传输多个对象</p>
+<p>​            两种方式：</p>
+<p>​                非流水方式</p>
+<p>​                流水方式</p>
+<ul>
+<li><p>HTTP报文：</p>
+<p>请求报文——客户向服务器发送请求报文</p>
+<figure class="highlight javascript"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">请求行	  [方法][ ][URL][ ][版本][CRLF]</span><br><span class="line">		[首部行字段名][:][ ][值][CRLF]</span><br><span class="line">		...</span><br><span class="line">        [首部行字段名][:][ ][值][CRLF]</span><br><span class="line">		[CRLF]</span><br><span class="line">		[实体主体]</span><br></pre></td></tr></table></div></figure>
+
+<p>响应报文——从服务器到客户的回答</p>
+<figure class="highlight javascript"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">状态行	  [版本][ ][状态码][ ][短语][CRLF]</span><br><span class="line">		[首部行字段名][:][ ][值][CRLF]</span><br><span class="line">		...</span><br><span class="line">		[首部行字段名][:][ ][值][CRLF]</span><br><span class="line">		[CRLF]</span><br><span class="line">		[实体主体]</span><br></pre></td></tr></table></div></figure>
+
+<p>HTTP状态码分类</p>
+<div class="table-container"><table>
+<thead>
+<tr>
+<th align="left">状态码</th>
+<th>作用</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1XX</td>
+<td>信息提示</td>
+<td>通告信息，可能还需要进一步交互</td>
+</tr>
+<tr>
+<td align="left">2XX</td>
+<td>成功</td>
+<td>成功完成客户请求的操作，并进行响应</td>
+</tr>
+<tr>
+<td align="left">3XX</td>
+<td>重定向</td>
+<td>表示资源已移走，需要向新URL发请求</td>
+</tr>
+<tr>
+<td align="left">4XX</td>
+<td>客户端错误</td>
+<td>由于客户端请求错误，无法成功响应</td>
+</tr>
+<tr>
+<td align="left">5XX</td>
+<td>服务器端错误</td>
+<td>由于服务器端错误，无法成功响应</td>
+</tr>
+</tbody></table></div>
+</li>
+</ul>
+<p><strong>（3）Cookie</strong></p>
+<p>​        小型文本文件，指某些网站为了辨别用户身份、进行会话跟踪而存储在用户本地终端上的数据</p>
+<p>​        弥补了HTTP协议无状态性的不足，有利于进行用户跟踪并提供针对性的服务，但也会带来一些安全问题</p>
+
+        <h2 id="5-电子邮件">
+          <a href="#5-电子邮件" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-电子邮件" class="headerlink" title="5.电子邮件"></a>5.电子邮件</h2>
+      <p>电子邮件系统主要包括：</p>
+<ul>
+<li>邮件服务器</li>
+<li>简单邮件传输协议（SMTP）</li>
+<li>用户代理</li>
+<li>邮件读取协议</li>
+</ul>
+
+        <h2 id="6-FTP">
+          <a href="#6-FTP" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-FTP" class="headerlink" title="6.FTP"></a>6.FTP</h2>
+      <p>文件传送协议（FTP）：在互联网的两个主机间实现文件互传的应用层协议</p>
+<p>C/S模式，采用<strong>控制连接</strong>（21端口）传输控制命令，<strong>数据连接</strong>（20端口）传输文件内容</p>
+
+        <h2 id="7-P2P应用">
+          <a href="#7-P2P应用" class="heading-link"><i class="fas fa-link"></i></a><a href="#7-P2P应用" class="headerlink" title="7.P2P应用"></a>7.P2P应用</h2>
+      <p>优势：充分聚集利用了端系统（对等方主机）的计算能力以及网络传输宽带，对服务器的依赖很小</p>
+
+        <h1 id="三-传输层">
+          <a href="#三-传输层" class="heading-link"><i class="fas fa-link"></i></a><a href="#三-传输层" class="headerlink" title="三.传输层"></a>三.传输层</h1>
+      
+        <h2 id="1-传输层的基本服务">
+          <a href="#1-传输层的基本服务" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-传输层的基本服务" class="headerlink" title="1.传输层的基本服务"></a>1.传输层的基本服务</h2>
+      <p>核心任务是为应用进程之间提供<strong>端到端</strong>的逻辑通信服务</p>
+<ul>
+<li><p><strong>功能：</strong></p>
+<ul>
+<li>传输层寻址</li>
+<li>应用层报文的分段和重组</li>
+<li>报文的差错检测</li>
+<li>进程间的端到端可靠数据传输控制</li>
+<li>面向应用层实现复用与分解</li>
+<li>端到端的流量控制</li>
+<li>拥塞控制</li>
+</ul>
+<p>传输层协议提供逻辑通信服务</p>
+<p>传输层协议只需在<strong>端系统</strong>中实现</p>
+<p>通信的真正端点并不是主机，而是主机中运行的<strong>应用进程</strong></p>
+</li>
+<li><p><strong>寻址与端口</strong></p>
+<ul>
+<li><p>用统一的寻址方式对应用进程进行标识——端口号</p>
+</li>
+<li><p>在全网范围内利用<strong>IP地址+端口号</strong>唯一标识一个通信端点（应用进程）</p>
+</li>
+<li><p>传输层端口号为16位整数，包含三类端口：</p>
+<ul>
+<li>熟知端口号，数值0~1023</li>
+<li>登记端口号，数值1023~49151，为没有熟知端口号的应用程序使用。使用这个范围的端口号必须在IANA登记，防止重复</li>
+<li>客户端口号或短暂端口号，数值49152~65535，留给用户进程选择短暂时使用</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>无连接服务与面向连接服务</strong></p>
+<ul>
+<li><p>无连接服务——数据传输之前无需与对端进行任何信息交换（握手），直接构造传输层报文段并向接收端发送</p>
+<p>——<strong>UDP</strong></p>
+</li>
+<li><p>面向连接服务</p>
+<p>在数据传输之前，需要双方交换一些控制信息，<strong>建立逻辑连接</strong>，然后再<strong>传输数据</strong>，数据传输结束后还需要再<strong>拆除连接</strong></p>
+<p>——<strong>TCP</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+
+        <h2 id="2-传输层的复用与分解">
+          <a href="#2-传输层的复用与分解" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-传输层的复用与分解" class="headerlink" title="2.传输层的复用与分解"></a>2.传输层的复用与分解</h2>
+      <p>是传输层的一项基本功能，支持众多应用进程共用同一个传输层协议，并且能够将接收到的数据准确交付给不同的应用进程。</p>
+<ul>
+<li><p>无连接的多路复用与多路分解</p>
+<p>UDP套接字：&lt;目的IP地址，目的端口号&gt;</p>
+</li>
+<li><p>面向连接的多路复用与多路分解</p>
+<p>TCP套接字（标识一条TCP连接）：&lt;源IP地址，源端口号，目的IP地址，目的端口号&gt;</p>
+</li>
+</ul>
+
+        <h2 id="3-停-等协议与滑动窗口协议">
+          <a href="#3-停-等协议与滑动窗口协议" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-停-等协议与滑动窗口协议" class="headerlink" title="3.停-等协议与滑动窗口协议"></a>3.停-等协议与滑动窗口协议</h2>
+      <p><strong>实现可靠数据传输的措施：</strong></p>
+<ol>
+<li><p>差错检测：利用差错编码实现数据包传输过程中的比特差错检测</p>
+</li>
+<li><p>确认：接收方向发送方反馈接收状态</p>
+</li>
+<li><p>重传：发送方重新发送接收方没有正确接收的数据</p>
+</li>
+<li><p>序号：确保数据按序提交</p>
+</li>
+<li><p>计时器：解决数据丢失问题</p>
+</li>
+</ol>
+<p><strong>（1）停-等协议</strong></p>
+<ul>
+<li><p>特点：每发送一个报文后就停下来等接收方的确认</p>
+</li>
+<li><p>基本工作过程：</p>
+<ol>
+<li>发送并等待确认</li>
+<li>接收并确认/否认</li>
+<li>继续发送/重发</li>
+</ol>
+</li>
+<li><p>问题：降低了信道利用率</p>
+</li>
+<li><p>解决方法：<strong>流水线协议</strong>或<strong>管道协议</strong>——允许发送方在没有收到确认前连续发送多个分组</p>
+</li>
+<li><p>流水线协议的改进：</p>
+<p>增加分组序号范围</p>
+<p>发送方和(或)接收方必须缓存多个分组</p>
+</li>
+<li><p>典型的流水线协议：滑动窗口协议</p>
+</li>
+</ul>
+<p><strong>（2）滑动窗口协议</strong></p>
+<p>两种最有代表性的滑动窗口协议：</p>
+<ul>
+<li>回退N步（GBN）协议</li>
+<li>选择重传（SR）协议</li>
+</ul>
+
+        <h2 id="4-用户数据报协议（UDP）">
+          <a href="#4-用户数据报协议（UDP）" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-用户数据报协议（UDP）" class="headerlink" title="4.用户数据报协议（UDP）"></a>4.用户数据报协议（UDP）</h2>
+      <p>用户数据报协议UDP提供无连接、不可靠、数据报尽力传输服务</p>
+<p><strong>（1）数据结构：</strong></p>
+<img src="/2022/02/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/UDP.jpg" class>
+
+<p><strong>（2）计算校验和：</strong></p>
+<pre><code>      1. 对所有参与运算的内容（包括UDP报文段）按16位 求和
+      2. 求和过程中遇到的进位都被回卷（即进位与和的最低位再加）
+      3. 最后得到的和取反码
+</code></pre>
+
+        <h2 id="5-传输控制协议（TCP）">
+          <a href="#5-传输控制协议（TCP）" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-传输控制协议（TCP）" class="headerlink" title="5.传输控制协议（TCP）"></a>5.传输控制协议（TCP）</h2>
+      <p><strong>（1）数据结构：</strong></p>
+<img src="/2022/02/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/TCP.jpg" class>
+
+<p><strong>（2）连接管理：</strong></p>
+<ul>
+<li>连接建立——<strong>三次握手</strong><ol>
+<li>SYN连接请求(客户端)</li>
+<li>SYNACK确认(服务端)</li>
+<li>ACK确认(客户端)</li>
+</ol>
+</li>
+<li>断开连接——<strong>四次挥手</strong><ol>
+<li>FIN请求(客户端)</li>
+<li>ACK确认(服务端)</li>
+<li>FINACK确认(服务端)</li>
+<li>ACK确认(客户端)</li>
+</ol>
+</li>
+</ul>
+<p><strong>（3）可靠数据传输</strong></p>
+<ol>
+<li><p>TCP的可靠数据传输实现机制包括<strong>差错编码、确认、序号、重传、计时器</strong>等</p>
+</li>
+<li><p>基于<strong>滑动窗口协议</strong>，但是发送窗口大小动态变化</p>
+<p>总结：</p>
+<ol>
+<li>封装TCP报文段</li>
+<li>发出一个报文段后启动一个计时器</li>
+<li>通过校验和发现数据差错</li>
+<li>通过序号重新排序，丢弃重复的报文段</li>
+<li>流量控制</li>
+</ol>
+</li>
+</ol>
+<p><strong>（4）流量控制</strong></p>
+<ol>
+<li><p>TCP协议利用窗口机制实现流量控制，但不是简单的滑动窗口协议</p>
+</li>
+<li><p>TCP连接建立时，双方都为之分配固定大小的缓冲空间；TCP的接收端只允许另一端发送其缓冲区所能接纳的数据</p>
+<ol>
+<li><p>接收端在给发送端发送确认段时，通告接收窗口大小</p>
+</li>
+<li><p>发送端在接下来发送数据段时，确保未确认段的应用层数据总量不超过接收端通告的接收窗口大小，从而确保接收端不会发生缓存溢出</p>
+</li>
+</ol>
+</li>
+</ol>
+<p><strong>（5）拥塞控制</strong></p>
+<ol>
+<li><p>窗口机制</p>
+<p>通过调节窗口的大小实现对发送数据速率的调整</p>
+</li>
+<li><p>窗口调整的基本策略</p>
+<p><strong>AIMD（加性增加，乘性减小）</strong></p>
+<p>网络未发生拥塞时，逐渐“加性”增大窗口大小，当网络拥塞时“乘性”快速减少窗口大小</p>
+</li>
+<li><p>TCP的拥塞控制算法</p>
+<p>包括了慢启动、拥塞避免、快速重传和快速恢复4部分</p>
+</li>
+</ol>
+
+        <h1 id="四-网络层">
+          <a href="#四-网络层" class="heading-link"><i class="fas fa-link"></i></a><a href="#四-网络层" class="headerlink" title="四.网络层"></a>四.网络层</h1>
+      
+        <h2 id="1-网络层服务">
+          <a href="#1-网络层服务" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-网络层服务" class="headerlink" title="1.网络层服务"></a>1.网络层服务</h2>
+      <p>主要作用是将网络层数据报从<strong>源主机</strong>送达<strong>目的主机</strong></p>
+<p>主要功能包括：</p>
+<ol>
+<li>转发：分组从输入接口转移到输出接口</li>
+<li>路由选择：决定分组经过的路由或路径</li>
+</ol>
+
+        <h2 id="2-数据报网络与虚电路网络">
+          <a href="#2-数据报网络与虚电路网络" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-数据报网络与虚电路网络" class="headerlink" title="2.数据报网络与虚电路网络"></a>2.数据报网络与虚电路网络</h2>
+      <ul>
+<li><p>数据报网络：按照目的主机地址进行路由选择的网络</p>
+<p>特点：</p>
+<ol>
+<li>无连接</li>
+<li>每个分组作为独立的数据报进行传送，路径也可能不同</li>
+<li>分组可能出现乱序和丢失</li>
+</ol>
+</li>
+<li><p>虚电路网络：在网络层提供面向连接的分组交换服务</p>
+<p>特点：</p>
+<ol>
+<li>建立一条网络层逻辑连接</li>
+<li>不需要为每条虚电路分配独享资源（区别于电路交换）</li>
+<li>根据虚电路号沿虚电路路径按序发送分组</li>
+</ol>
+</li>
+</ul>
+
+        <h2 id="3-网络互连与网络互连设备">
+          <a href="#3-网络互连与网络互连设备" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-网络互连与网络互连设备" class="headerlink" title="3.网络互连与网络互连设备"></a>3.网络互连与网络互连设备</h2>
+      <p><strong>（1）异构网络互连</strong></p>
+<p>异构网络：两个网络的通信技术和运行的协议不同</p>
+<p>异构网络互连的基本策略：</p>
+<ol>
+<li>协议转换</li>
+<li>构建虚拟互联网络</li>
+</ol>
+<p><strong>（2）路由器</strong></p>
+<ul>
+<li><p>输入端口</p>
+<p>接收-&gt;物理层处理-&gt;数据链路层处理-&gt;网络层处理、分组排队、查表和转发-&gt;交换结构</p>
+</li>
+<li><p>输出端口</p>
+<p>交换结构-&gt;网络层处理、分组排队、缓存管理-&gt;数据链路层处理-&gt;物理层处理-&gt;输出</p>
+</li>
+<li><p>交换结构</p>
+<ol>
+<li>基于内存交换</li>
+<li>基于总线交换</li>
+<li>基于网络交换</li>
+</ol>
+</li>
+</ul>
+
+        <h2 id="4-网络层拥塞控制">
+          <a href="#4-网络层拥塞控制" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-网络层拥塞控制" class="headerlink" title="4.网络层拥塞控制"></a>4.网络层拥塞控制</h2>
+      <ul>
+<li><p>拥塞：一种持续过载的网络状态，此时用户对网络资源（包括链路带宽、存储空间和处理器处理能力等）的总需求超过了网络固有的容量</p>
+</li>
+<li><p>原因：</p>
+</li>
+</ul>
+<ol>
+<li>缓冲区容量有限</li>
+<li>传输线路的带宽有限</li>
+<li>网络结点的处理能力有限</li>
+<li>网络中某些部分发生了故障</li>
+</ol>
+<ul>
+<li><p>解决方式：</p>
+<ul>
+<li><p>流量感知路由</p>
+<p>根据网络负载动态调整，将网络流量引导到不同的链路上，均衡网络负载，从而延缓或避免拥塞发生</p>
+<p>解决网络负载的震荡现象：</p>
+<ol>
+<li><p>多路径路由</p>
+</li>
+<li><p>缓慢转移流量至另一链路</p>
+</li>
+</ol>
+</li>
+<li><p>准入控制</p>
+<p>是一种广泛应用于虚电路网络的拥塞预防技术</p>
+</li>
+<li><p>流量调节</p>
+<ol>
+<li>感知拥塞</li>
+<li>处理拥塞：将拥塞信息通知到其上游结点</li>
+</ol>
+<p>处理方法：</p>
+<ol>
+<li>抑制分组：给拥塞数据报<strong>源主机</strong>返回一个抑制分组</li>
+<li>背压：让抑制分组再从拥塞结点到源结点的路径上的<strong>每一跳</strong>，都发挥抑制作用</li>
+</ol>
+</li>
+<li><p>负载脱落</p>
+<p>路由器主动丢弃某些数据报</p>
+<ol>
+<li>丢弃新分组：如GBN</li>
+<li>丢弃新分组：如实时视频流</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+
+        <h2 id="5-Internet网络层">
+          <a href="#5-Internet网络层" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-Internet网络层" class="headerlink" title="5.Internet网络层"></a>5.Internet网络层</h2>
+      <ul>
+<li><p>IPv4协议</p>
+<ul>
+<li><p>IP数据报格式：首部固定部分20字节</p>
+<img src="/2022/02/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IPv4.jpg" class></li>
+<li><p>IP数据报分片</p>
+</li>
+</ul>
+<p><strong>标识</strong>：判断这些分片是否属于同一个IP数据报</p>
+<p><strong>标志</strong>：判读那是否为最后一个分片</p>
+<p><strong>片偏移</strong>：判断各分片的先后顺序</p>
+<ul>
+<li><p>IPv4地址长度：<strong>32位二进制</strong></p>
+<p>点分十进制标价法：11000000 10101000 00000001 01100101 -&gt; 192.168.1.101</p>
+</li>
+<li><p>地址分类：A、B、C、D、E五类</p>
+<img src="/2022/02/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IPv4%E7%BC%96%E5%9D%80.jpg" class>
+
+<p><strong>同一个网络中所有主机要有同一个网络号</strong></p>
+</li>
+<li><p>子网划分</p>
+</li>
+<li><p>路由聚合：将相同路由的连续子网合并</p>
+</li>
+</ul>
+</li>
+</ul>
+
+        <h2 id="6-路由算法与路由协议">
+          <a href="#6-路由算法与路由协议" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-路由算法与路由协议" class="headerlink" title="6.路由算法与路由协议"></a>6.路由算法与路由协议</h2>
+      <ul>
+<li><p>路由算法</p>
+<ul>
+<li><p>链路状态路由选择算法</p>
+<p>一种<strong>全局式</strong>路由选择算法。每个路由器通过从其他路由器获得的链路状态信息构造出整个网络拓扑图</p>
+</li>
+<li><p>距离向量路由选择算法</p>
+<p>每个结点基于其与邻居结点间的直接链路距离，以及邻居交换过来的距离向量，计算并更新其到达每个目的结点的最短距离，然后将新的距离向量再通告给其所有邻居，知道距离向量不再改变</p>
+</li>
+<li><p><strong>层次化路由选择</strong></p>
+<p>实现大规模网络路由选择最有效的、可行的解决方案</p>
+<p>划分自治系统：</p>
+<ul>
+<li>网关路由器</li>
+<li>自治系统间路由协议</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>路由协议</p>
+<ul>
+<li>内部网关协议：RIP、OSPF</li>
+<li>外部网关协议：BGP</li>
+</ul>
+</li>
+</ul>
+
+        <h1 id="五-数据链路层与局域网">
+          <a href="#五-数据链路层与局域网" class="heading-link"><i class="fas fa-link"></i></a><a href="#五-数据链路层与局域网" class="headerlink" title="五.数据链路层与局域网"></a>五.数据链路层与局域网</h1>
+      
+        <h2 id="1-数据链路层服务">
+          <a href="#1-数据链路层服务" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-数据链路层服务" class="headerlink" title="1.数据链路层服务"></a>1.数据链路层服务</h2>
+      <p>链路：通信链路连接的<strong>相邻结点</strong>的通信信道</p>
+<p>链路层数据单元：帧</p>
+<p>主要功能包括：</p>
+<ul>
+<li>组帧</li>
+<li>链路接入：点对点链路、广播链路</li>
+<li>可靠交付（可靠传输方法多用于高出错率链路）</li>
+<li>差错控制</li>
+</ul>
+
+        <h2 id="2-差错控制">
+          <a href="#2-差错控制" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-差错控制" class="headerlink" title="2.差错控制"></a>2.差错控制</h2>
+      <ul>
+<li><p>基本方式：</p>
+<ol>
+<li>检错重发</li>
+<li>前向纠错：接收端进行差错纠正</li>
+<li>反馈校验：接收端将收到的数据原封不动发回发送方</li>
+<li>检错丢弃</li>
+</ol>
+</li>
+<li><p>差错编码的基本原理</p>
+<p>香农信道编码定理：理论上可以通过编码使得数据传输过程不发生错误，或者将错误概率控制在很小的数值之下</p>
+</li>
+<li><p>差错编码的检错与纠错能力</p>
+<p>汉明距离：两个等长码字之间，对应位不同的位数</p>
+<p>编码集的汉明距离：该编码集中任意两个码字之间汉明距离的<strong>最小值</strong></p>
+<ul>
+<li>检错编码：如果编码集的汉明距离d=r+1，则该差错编码可以检测r位的差错</li>
+<li>纠错编码：如果编码集的汉明距离d=2r+1，则该差错编码可以纠正r位的差错</li>
+</ul>
+</li>
+<li><p>典型的差错编码</p>
+<ul>
+<li>奇偶校验码</li>
+<li>汉明码</li>
+<li>循环冗余码</li>
+</ul>
+</li>
+</ul>
+
+        <h2 id="3-多路访问控制协议">
+          <a href="#3-多路访问控制协议" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-多路访问控制协议" class="headerlink" title="3.多路访问控制协议"></a>3.多路访问控制协议</h2>
+      <ul>
+<li><p>信道划分MAC协议</p>
+<p>多路访问控制MAC：广播信道上用于协调各个结点的数据发送</p>
+<p>信道划分MAC协议：</p>
+<ol>
+<li>频分多路复用</li>
+<li>时分多路复用</li>
+<li>波分多路复用</li>
+<li>码分多路复用</li>
+</ol>
+</li>
+<li><p>随机访问MAC协议</p>
+<ol>
+<li><p>ALOHA协议</p>
+<p>纯ALOHA：直接发送-&gt;信道监听-&gt;冲突重发</p>
+<p>时隙ALOHA：时隙开始时发送-&gt;信道侦听-&gt;冲突则下一时隙以概率P重发</p>
+</li>
+<li><p>载波监听多路访问协议CSMA</p>
+<p>发送前监听信道是否空闲</p>
+<p>（1）非坚持CSMA：忙则等待随机时间后再侦听</p>
+<p>（2）1-坚持CSMA：忙则持续监听</p>
+<p>（3）P-坚持CSMA：闲则概率P在最近时隙发送</p>
+</li>
+<li><p>带冲突检测的载波监听多路访问协议CSMA/CD</p>
+<p>监听空闲后发送，<strong>发送时检测碰撞</strong>，碰撞后等待重发</p>
+</li>
+</ol>
+</li>
+<li><p>受控接入MAC协议</p>
+<ol>
+<li><p>集中式控制</p>
+<p>由一个主机负责调度其他通信站接入信道，从而避免冲突</p>
+<p>主要方法：轮询技术，又分为轮叫轮询和传递轮询</p>
+</li>
+<li><p>分散式控制</p>
+<p>典型方法：令牌技术，如令牌环网</p>
+</li>
+</ol>
+</li>
+</ul>
+
+        <h2 id="4-局域网">
+          <a href="#4-局域网" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-局域网" class="headerlink" title="4.局域网"></a>4.局域网</h2>
+      <ul>
+<li><p>数据链路层寻址与ARP</p>
+<ul>
+<li><p>MAC地址</p>
+<p>每个接口对应一个MAC地址，且全球唯一</p>
+<p>长度48位</p>
+</li>
+<li><p>地址解析协议</p>
+<p>根据本网内目的主机或默认网关的IP地址获取其MAC地址</p>
+</li>
+</ul>
+</li>
+<li><p>以太网</p>
+<ul>
+<li>IEEE802.3标准</li>
+<li>采用CSMA/CD访问控制方法</li>
+<li>以太网技术<ul>
+<li>10Base-5，10Base-T</li>
+<li>快速以太网100Base-TX，100Base-T4,100Base-FX</li>
+<li>千兆以太网</li>
+<li>万兆以太网</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>交换机</p>
+<ul>
+<li><p>转发与过滤</p>
+<p>可以依靠接收到的链路层帧的目的MAC地址，选择性地转发到相应的端口</p>
+<p>以目标MAC地址为主键，查找交换表</p>
+</li>
+<li><p>自学习</p>
+<p>交换机通过自学习构建交换表</p>
+</li>
+<li><p>优点</p>
+<ol>
+<li>消除冲突，提高性能</li>
+<li>支持异质链路</li>
+<li>易于进行网络管理</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>虚拟局域网（VLAN）</p>
+<ol>
+<li>一种基于交换机的逻辑分割广播域的局域网应用形式</li>
+<li>不受物理位置的限制，以软件的方式划分和管理局域网中的工作组</li>
+<li>能够抑制广播风暴</li>
+<li>划分方法：<ul>
+<li>基于交换机端口</li>
+<li>基于MAC地址</li>
+<li>基于上层协议类型或地址</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+
+        <h2 id="5-点对点链路协议">
+          <a href="#5-点对点链路协议" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-点对点链路协议" class="headerlink" title="5.点对点链路协议"></a>5.点对点链路协议</h2>
+      <ul>
+<li><p>点对点协议——PPP</p>
+<p>能够处理差错检测、支持多种上层协议、允许连接时协商IP地址、允许身份认证</p>
+<p>典型应用：拨号上网</p>
+<p>功能：</p>
+<ol>
+<li>成帧</li>
+<li>链路控制协议LCP</li>
+<li>网络控制协议NCP</li>
+</ol>
+</li>
+<li><p>HDLC协议</p>
+<p>高级数据链路控制——HDLC协议：</p>
+<p>可应用于点对点链路和点对多点链路</p>
+<p>帧定界：帧的定界符是01111110</p>
+<p>位填充：</p>
+<p>​    发送端：只要发现数据字段5个连续的1，就立刻插入一个0，保证数据字段不会出现连续的6个1</p>
+<p>​    接收端：发现数据流中5个连续的1，就删除其后的0，还原成原来的信息</p>
+</li>
+</ul>
+
+        <h1 id="六-物理层">
+          <a href="#六-物理层" class="heading-link"><i class="fas fa-link"></i></a><a href="#六-物理层" class="headerlink" title="六.物理层"></a>六.物理层</h1>
+      
+        <h2 id="1-数据通信基础">
+          <a href="#1-数据通信基础" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-数据通信基础" class="headerlink" title="1.数据通信基础"></a>1.数据通信基础</h2>
+      <ul>
+<li><p>基本概念</p>
+<ol>
+<li>消息：人类能够感知的描述</li>
+<li>信息：信息是对事物状态或存在方式的不确定性表述，<strong>信息是可以度量的</strong></li>
+<li>通信：本质就是在一点精确或近似地再生另一点的信息</li>
+<li>通信系统：能够实现通信功能的各种技术、设备和方法的总体</li>
+<li>信号：通信系统中，在传输通道中传播的信息的载体</li>
+<li>数据：对客观事物的性质状态以及相互关系等进行记载的<strong>符号</strong>及其组合</li>
+<li>信道：信道是以传输介质为基础的信号通道</li>
+</ol>
+</li>
+<li><p>数据通信系统模型</p>
+<ol>
+<li><p>构成</p>
+<p>信源、发送设备、信道、接收设备、新宿和噪声源等部分</p>
+</li>
+<li><p>模拟通信</p>
+<p>模拟信号：信号的因变量是连续的</p>
+</li>
+<li><p>数字通信</p>
+<p>数字信号：因变量是离散的</p>
+</li>
+<li><p>数据通信方式</p>
+<ol>
+<li>单向通信、双向交替通信和双向同时通信</li>
+<li>并行通信和串行通信</li>
+<li>异步通信和同步通信</li>
+</ol>
+</li>
+<li><p>通信系统的功能</p>
+<ol>
+<li>信道利用</li>
+<li>接口及信号产生</li>
+<li>同步</li>
+<li>差错检测与纠正</li>
+<li>寻址与路由</li>
+<li>网络管理</li>
+<li>安全保证</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+
+        <h2 id="2-物理介质">
+          <a href="#2-物理介质" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-物理介质" class="headerlink" title="2.物理介质"></a>2.物理介质</h2>
+      <ul>
+<li>导引型传输介质<ol>
+<li>架空明线</li>
+<li>双绞线</li>
+<li>同轴电缆</li>
+<li>光纤</li>
+</ol>
+</li>
+<li>非导引型传输介质<ol>
+<li>地波传播</li>
+<li>天波传播</li>
+<li>视线传播</li>
+</ol>
+</li>
+</ul>
+
+        <h2 id="3-通信与信道容量">
+          <a href="#3-通信与信道容量" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-通信与信道容量" class="headerlink" title="3.通信与信道容量"></a>3.通信与信道容量</h2>
+      
+        <h2 id="4-基带传输">
+          <a href="#4-基带传输" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-基带传输" class="headerlink" title="4.基带传输"></a>4.基带传输</h2>
+      
+        <h2 id="5-频带传输">
+          <a href="#5-频带传输" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-频带传输" class="headerlink" title="5.频带传输"></a>5.频带传输</h2>
+      
+        <h2 id="6-物理层接口规程">
+          <a href="#6-物理层接口规程" class="heading-link"><i class="fas fa-link"></i></a><a href="#6-物理层接口规程" class="headerlink" title="6.物理层接口规程"></a>6.物理层接口规程</h2>
+      </div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/">执行上下文、作用域、作用域链和闭包</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-02-20</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2022-02-20</span></span></div></header><div class="post-body"><div class="post-excerpt"><p>执行上下文、作用域、作用域链、闭包这四个概念联系非常紧密，所以放到同一篇博客中记录。现在网上的很多文章和视频都很难把这几个概念讲清楚，我看了之后，结合自己的理解记录这篇博客。如有错误，欢迎指正。</p>
 
         <h1 id="一-执行上下文">
           <a href="#一-执行上下文" class="heading-link"><i class="fas fa-link"></i></a><a href="#一-执行上下文" class="headerlink" title="一.执行上下文"></a>一.执行上下文</h1>
@@ -1336,4 +2345,4 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 </ul>
 <figure class="highlight css"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 以16/9为例 */</span></span><br><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">	<span class="attribute">width</span>: <span class="number">100vw</span>;</span><br><span class="line">	<span class="attribute">height</span>: <span class="number">56.25vw</span>;</span><br><span class="line">	<span class="attribute">max-height</span>: <span class="number">100vh</span>;</span><br><span class="line">	<span class="attribute">max-width</span>: <span class="number">177.78vh</span>;</span><br><span class="line">    </span><br><span class="line">	<span class="attribute">position</span>: absolute;</span><br><span class="line">	<span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">	<span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">	<span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">	<span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">margin</span>: auto;</span><br><span class="line">    <span class="attribute">background</span>: pink;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
 
-</div></div></article></section><nav class="paginator"><div class="paginator-inner"><span class="page-number current">1</span></div></nav></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><section class="sidebar-toc hide"></section><!-- ov = overview--><section class="sidebar-ov"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/image/site/head.png" alt="avatar"></div><p class="sidebar-ov-author__text">hello world</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/LonelyTaker" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a><a class="sidebar-ov-social-item" href="Ym1104340863" target="_blank" rel="noopener" data-popover="微信" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-weixin"></i></span></a><a class="sidebar-ov-social-item" href="1104340863" target="_blank" rel="noopener" data-popover="QQ" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-qq"></i></span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">6</div><div class="sidebar-ov-state-item__name">归档</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2022</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>LonelyTaker</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v6.0.0</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script></body></html>
+</div></div></article></section><nav class="paginator"><div class="paginator-inner"><span class="page-number current">1</span></div></nav></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><section class="sidebar-toc hide"></section><!-- ov = overview--><section class="sidebar-ov"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/image/site/head.png" alt="avatar"></div><p class="sidebar-ov-author__text">hello world</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/LonelyTaker" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a><a class="sidebar-ov-social-item" href="Ym1104340863" target="_blank" rel="noopener" data-popover="微信" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-weixin"></i></span></a><a class="sidebar-ov-social-item" href="1104340863" target="_blank" rel="noopener" data-popover="QQ" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-qq"></i></span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">9</div><div class="sidebar-ov-state-item__name">归档</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2022</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>LonelyTaker</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v6.0.0</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script></body></html>
