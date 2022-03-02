@@ -101,7 +101,7 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <p>负责处理Javascript脚本程序。</p>
 </li>
 <li><p>GUI渲染线程</p>
-<p>负责解析HTML、CSS，构建DOM树，布局和绘制等。</p>
+<p>负责渲染标签页内容，解析HTML、CSS，构建DOM树，布局和绘制等。</p>
 </li>
 <li><p>事件触发线程</p>
 <p>主要负责将准备好的事件交给 JS 引擎线程执行，比如 setTimeout 定时器计数结束，ajax 等异步请求成功并触发回调函数，或者用户触发点击事件时，该线程会将整装待发的事件依次加入到任务队列的尾部，等待 JS 引擎线程的执行。</p>
