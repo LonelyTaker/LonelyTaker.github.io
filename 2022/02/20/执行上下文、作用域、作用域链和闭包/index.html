@@ -1,9 +1,9 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/image/site/favicon/favicon-16x16.png?v=2.6.2" type="image/png" sizes="16x16"><link rel="icon" href="/image/site/favicon/favicon-32x32.png?v=2.6.2" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="/image/site/favicon/favicon-180x180.png?v=2.6.2" sizes="180x180"><meta name="description" content="执行上下文、作用域、作用域链、闭包这四个概念联系非常紧密，所以放到同一篇博客中记录。现在网上的很多文章和视频都很难把这几个概念讲清楚，我看了之后，结合自己的理解记录这篇博客。如有错误，欢迎指正。                     一.执行上下文                           1.概念       执行上下文（execution context）：当前 JavaScrip">
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/image/site/favicon/favicon-16x16.png?v=2.6.2" type="image/png" sizes="16x16"><link rel="icon" href="/image/site/favicon/favicon-32x32.png?v=2.6.2" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="/image/site/favicon/favicon-180x180.png?v=2.6.2" sizes="180x180"><meta name="description" content="执行上下文、作用域、作用域链、闭包这四个概念联系非常紧密，所以放到同一篇博客中记录。现在网上的很多文章和视频都很难把这几个概念讲清楚，我看了之后，结合自己的理解记录这篇博客。如有错误，欢迎指正。                       一.执行上下文                           1.概念       执行上下文（execution context）：当前 JavaScr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="执行上下文、作用域、作用域链和闭包">
 <meta property="og:url" content="https://lonelytaker.cn/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/index.html">
 <meta property="og:site_name" content="LonelyTaker&#39;s Blog">
-<meta property="og:description" content="执行上下文、作用域、作用域链、闭包这四个概念联系非常紧密，所以放到同一篇博客中记录。现在网上的很多文章和视频都很难把这几个概念讲清楚，我看了之后，结合自己的理解记录这篇博客。如有错误，欢迎指正。                     一.执行上下文                           1.概念       执行上下文（execution context）：当前 JavaScrip">
+<meta property="og:description" content="执行上下文、作用域、作用域链、闭包这四个概念联系非常紧密，所以放到同一篇博客中记录。现在网上的很多文章和视频都很难把这几个概念讲清楚，我看了之后，结合自己的理解记录这篇博客。如有错误，欢迎指正。                       一.执行上下文                           1.概念       执行上下文（execution context）：当前 JavaScr">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lonelytaker.cn/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E5%85%A8%E5%B1%80%E9%A2%84%E7%BC%96%E8%AF%91.png">
 <meta property="og:image" content="https://lonelytaker.cn/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E5%87%BD%E6%95%B0%E9%A2%84%E7%BC%96%E8%AF%91.png">
@@ -54,7 +54,7 @@
 <meta property="og:image" content="https://lonelytaker.cn/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-14.png">
 <meta property="og:image" content="https://lonelytaker.cn/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-15.png">
 <meta property="article:published_time" content="2022-02-20T13:59:05.000Z">
-<meta property="article:modified_time" content="2022-03-02T15:14:33.562Z">
+<meta property="article:modified_time" content="2022-03-03T05:11:53.929Z">
 <meta property="article:author" content="LonelyTaker">
 <meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary">
@@ -82,7 +82,9 @@ var CONFIG = {
   sourcePath: {"js":"js","css":"css","images":"images"},
 };
 
-window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner header-inner--height header-inner--bgcolor"><nav class="header-nav header-nav--sticky"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">执行上下文、作用域、作用域链和闭包</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-02-20</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2022-03-02</span></span></div></header><div class="post-body"><p>执行上下文、作用域、作用域链、闭包这四个概念联系非常紧密，所以放到同一篇博客中记录。现在网上的很多文章和视频都很难把这几个概念讲清楚，我看了之后，结合自己的理解记录这篇博客。如有错误，欢迎指正。</p>
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner header-inner--height header-inner--bgcolor"><nav class="header-nav header-nav--sticky"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">执行上下文、作用域、作用域链和闭包</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-02-20</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2022-03-03</span></span></div></header><div class="post-body"><p>执行上下文、作用域、作用域链、闭包这四个概念联系非常紧密，所以放到同一篇博客中记录。现在网上的很多文章和视频都很难把这几个概念讲清楚，我看了之后，结合自己的理解记录这篇博客。如有错误，欢迎指正。</p>
+<br>
+
 
         <h1 id="一-执行上下文">
           <a href="#一-执行上下文" class="heading-link"><i class="fas fa-link"></i></a><a href="#一-执行上下文" class="headerlink" title="一.执行上下文"></a>一.执行上下文</h1>
@@ -90,6 +92,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
         <h2 id="1-概念">
           <a href="#1-概念" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-概念" class="headerlink" title="1.概念"></a>1.概念</h2>
       <p>执行上下文（execution context）：当前 JavaScript 代码<strong>被解析</strong>和<strong>执行</strong>时存在的环境。它是为了方便理解提出来的一种抽象概念，并非真实存在。</p>
+<br>
+
 
         <h2 id="2-类型">
           <a href="#2-类型" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-类型" class="headerlink" title="2.类型"></a>2.类型</h2>
@@ -101,6 +105,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <li>进入 module 代码（module 执行上下文）</li>
 </ul>
 <p>我们重点关注前两种执行上下文：<code>全局执行上下文</code>和<code>函数执行上下文</code></p>
+<br>
+
 
         <h2 id="3-执行上下文栈">
           <a href="#3-执行上下文栈" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-执行上下文栈" class="headerlink" title="3.执行上下文栈"></a>3.执行上下文栈</h2>
@@ -110,11 +116,15 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <figure class="highlight javascript"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  f2();</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  f3();</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">2</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f3</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">3</span>);</span><br><span class="line">&#125;</span><br><span class="line">f1(); <span class="comment">//3 2 1</span></span><br></pre></td></tr></table></div></figure>
 
 <p>那么执行上下文究竟做了哪些事情呢？接下来我们重点讲一下。</p>
+<br>
+
 
         <h2 id="4-执行上下文的生命周期">
           <a href="#4-执行上下文的生命周期" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-执行上下文的生命周期" class="headerlink" title="4.执行上下文的生命周期"></a>4.执行上下文的生命周期</h2>
       <p>执行上下文的生命周期分为三个阶段：<strong>创建阶段</strong>、<strong>执行阶段</strong>、<strong>销毁阶段</strong>。</p>
 <p>由于标准的不断更新，对于执行上下文的内容也有了很大出入，首先将以 ES3 标准介绍执行上下文，比较容易理解，之后再讲解 ES5 标准。</p>
+<br>
+
 
         <h3 id="1-创建阶段">
           <a href="#1-创建阶段" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-创建阶段" class="headerlink" title="(1) 创建阶段"></a>(1) 创建阶段</h3>
@@ -211,6 +221,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
       <p>如果是全局执行上下文，this 其实就是全局对象，即 window 对象，如果是函数执行上下文，那就要确认<code>当前可执行代码块的调用者</code>， 并将调用者信息<code>this value</code>存入当前执行上下文，否则默认为全局对象调用。有关 this 的问题，可另行查看，本文不过多介绍，并且不再提及。</p>
 <hr>
 <p>综上，在执行上下文的创建阶段，变量对象是最主要的内容。</p>
+<br>
+
 
         <h3 id="2-执行阶段">
           <a href="#2-执行阶段" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-执行阶段" class="headerlink" title="(2) 执行阶段"></a>(2) 执行阶段</h3>
@@ -220,6 +232,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <figure class="highlight javascript"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(i); <span class="comment">// undefined</span></span><br><span class="line">  <span class="keyword">var</span> i = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(i); <span class="comment">// 0</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  b();</span><br><span class="line">&#125;</span><br><span class="line">a(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">	创建全局执行上下文，并压入栈</span></span><br><span class="line"><span class="comment">	1.产生window对象</span></span><br><span class="line"><span class="comment">	2.查找变量声明：无</span></span><br><span class="line"><span class="comment">	3.查找函数声明：a，初始化为function</span></span><br><span class="line"><span class="comment">	GO:&#123;</span></span><br><span class="line"><span class="comment">		a:function</span></span><br><span class="line"><span class="comment">	&#125;</span></span><br><span class="line"><span class="comment">	全局执行上下文创建阶段结束，开始执行代码</span></span><br><span class="line"><span class="comment">	执行到a(1)</span></span><br><span class="line"><span class="comment">	</span></span><br><span class="line"><span class="comment">	创建a函数执行上下文，并压入栈</span></span><br><span class="line"><span class="comment">	1.产生AO对象</span></span><br><span class="line"><span class="comment">	2.查找形参和变量声明：x、i，并初始化为undefined</span></span><br><span class="line"><span class="comment">	3.将实参1赋值给形参x，x:1</span></span><br><span class="line"><span class="comment">	4.查找函数声明：b，并初始化为function</span></span><br><span class="line"><span class="comment">	AO:&#123;</span></span><br><span class="line"><span class="comment">		x:1,</span></span><br><span class="line"><span class="comment">		i:undefined,</span></span><br><span class="line"><span class="comment">		b:function</span></span><br><span class="line"><span class="comment">	&#125;</span></span><br><span class="line"><span class="comment">	函数执行上下文创建阶段结束，开始执行代码</span></span><br><span class="line"><span class="comment">	console.log(i)</span></span><br><span class="line"><span class="comment">	此时还没有执行赋值语句，所以i还是undefined</span></span><br><span class="line"><span class="comment">	继续执行 var i = 0</span></span><br><span class="line"><span class="comment">	此时AO:&#123; x:1, i:0, b:function &#125;</span></span><br><span class="line"><span class="comment">	再继续执行 console.log(i)</span></span><br><span class="line"><span class="comment">	输出的自然是0</span></span><br><span class="line"><span class="comment">	跳过函数声明，继续执行b()</span></span><br><span class="line"><span class="comment">	</span></span><br><span class="line"><span class="comment">	创建b函数执行上下文，并压入栈</span></span><br><span class="line"><span class="comment">	1.产生新的AO对象</span></span><br><span class="line"><span class="comment">	2.查找形参和变量声明：无</span></span><br><span class="line"><span class="comment">	3.查找函数声明：无</span></span><br><span class="line"><span class="comment">	AO:&#123;&#125;</span></span><br><span class="line"><span class="comment">	函数执行上下文创建阶段结束，开始执行代码</span></span><br><span class="line"><span class="comment">	console.log(1)</span></span><br><span class="line"><span class="comment">	输出打印1</span></span><br><span class="line"><span class="comment">	b函数执行完毕，接着就是执行上下文的销毁阶段</span></span><br><span class="line"><span class="comment">	b函数执行上下文将从执行栈中弹出并销毁，对应的AO对象也被释放</span></span><br><span class="line"><span class="comment">	然后继续执行a函数代码，a函数执行完毕，a函数执行上下文将从执行栈中弹出并销毁，对应的AO对象被释放</span></span><br><span class="line"><span class="comment">	继续执行全局代码</span></span><br><span class="line"><span class="comment">	注意：即使代码全部执行完毕，全局执行上下文也不会从执行栈中弹出，直到关闭该页面</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></div></figure>
 
 <p>以上代码请结合画图理解</p>
+<br>
+
 
         <h3 id="3-销毁阶段">
           <a href="#3-销毁阶段" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-销毁阶段" class="headerlink" title="(3) 销毁阶段"></a>(3) 销毁阶段</h3>
@@ -227,6 +241,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <blockquote>
 <p>这是一般情况，但如果产生了闭包，会有所不同。闭包将在下面的篇章中介绍。</p>
 </blockquote>
+<br>
+
 
         <h2 id="5-总结">
           <a href="#5-总结" class="heading-link"><i class="fas fa-link"></i></a><a href="#5-总结" class="headerlink" title="5.总结"></a>5.总结</h2>
@@ -237,6 +253,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <figure class="highlight javascript"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一题</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;foo1&quot;</span>);</span><br><span class="line">&#125;;</span><br><span class="line">foo();</span><br><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;foo2&quot;</span>);</span><br><span class="line">&#125;;</span><br><span class="line">foo();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二题</span></span><br><span class="line">foo();</span><br><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;foo1&quot;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;foo2&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br></pre></td></tr></table></div></figure>
 
 <p>接下去我们讲解一下作用域与作用域链。</p>
+<br>
+
 
         <h1 id="二-作用域与作用域链">
           <a href="#二-作用域与作用域链" class="heading-link"><i class="fas fa-link"></i></a><a href="#二-作用域与作用域链" class="headerlink" title="二.作用域与作用域链"></a>二.作用域与作用域链</h1>
@@ -258,6 +276,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <li>全局作用域本质上就是 GO 对象</li>
 <li>局部作用域本质上就是 AO 对象</li>
 </ul>
+<br>
+
 
         <h2 id="2-作用域链">
           <a href="#2-作用域链" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-作用域链" class="headerlink" title="2.作用域链"></a>2.作用域链</h2>
@@ -342,7 +362,7 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <p>从上面的图可以看出来，JS 引擎并非按照执行上下文的调用顺序形成作用域链（如果是按照调用顺序决定作用域链，那 foo 函数执行上下文的作用域链应该是 fAO-&gt;bAO-&gt;GO，显然并不是），而是根据函数创建时的执行环境形成作用域链。最直观的，我们可以直接通过函数的书写位置来判断作用域链。因此 JS 的作用域被称为<code>词法作用域</code>。</p>
 <img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E8%AF%8D%E6%B3%95%E4%BD%9C%E7%94%A8%E5%9F%9F.jpg" class>
 
-
+<br>
 
 
         <h2 id="3-总结">
@@ -352,7 +372,7 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <p>练习：</p>
 <figure class="highlight javascript"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一题</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="number">1</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(foo);</span><br><span class="line">  <span class="keyword">var</span> foo = <span class="number">10</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(foo);</span><br><span class="line">&#125;</span><br><span class="line">bar();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二题</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="number">1</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(foo);</span><br><span class="line">  foo = <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line">bar();</span><br><span class="line"><span class="built_in">console</span>.log(foo);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第三题</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="number">1</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params">foo</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(foo);</span><br><span class="line">  foo = <span class="number">234</span>;</span><br><span class="line">&#125;</span><br><span class="line">bar(<span class="number">123</span>);</span><br><span class="line"><span class="built_in">console</span>.log(foo);</span><br></pre></td></tr></table></div></figure>
 
-
+<br>
 
 
         <h1 id="三-闭包">
@@ -413,6 +433,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/%E9%97%AD%E5%8C%85-10.png" class></li>
 </ol>
 <p>这就是<code>闭包</code>。百度百科上的解释是：<code>闭包就是能够读取其他函数内部变量的函数</code>。按照这样的解释，我们上面代码中的 inner 函数就是闭包。由于在 javascript 中，只有函数内部的子函数才能读取局部变量，所以说，闭包可以简单理解成“定义在一个函数内部的函数”。所以在本质上，<code>闭包是将函数内部和函数外部连接起来的桥梁</code>。</p>
+<br>
+
 
         <h2 id="2-作用">
           <a href="#2-作用" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-作用" class="headerlink" title="2.作用"></a>2.作用</h2>
@@ -425,11 +447,15 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <p>刚刚的例子中，变量 i 始终没有被释放。</p>
 </li>
 </ol>
+<br>
+
 
         <h2 id="3-问题">
           <a href="#3-问题" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-问题" class="headerlink" title="3.问题"></a>3.问题</h2>
       <p>凡事都有两面性，闭包带来好处的同时，必然会带来一些问题。其实我们刚刚讲到的闭包作用之一：延迟局部变量的生命周期。这就容易导致<strong>内存泄漏</strong>，将不必要的局部变量保存在内存当中。</p>
 <p>解决方案：在不使用局部变量后将其释放。如果是刚刚的例子，可以在代码最后加上<code>a = null</code>释放掉。</p>
+<br>
+
 
         <h2 id="4-总结">
           <a href="#4-总结" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-总结" class="headerlink" title="4.总结"></a>4.总结</h2>
@@ -448,7 +474,7 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <p>练习：</p>
 <figure class="highlight javascript"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一题</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> bar = foo();</span><br><span class="line">bar();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二题</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a++);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> bar = foo();</span><br><span class="line">bar();</span><br><span class="line">bar();</span><br><span class="line">bar();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第三题</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(i++);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">var</span> c = b();</span><br><span class="line">  c();</span><br><span class="line">&#125;</span><br><span class="line">a();</span><br></pre></td></tr></table></div></figure>
 
-
+<br>
 
 
         <h1 id="四-ES5-标准下的执行上下文">
@@ -461,6 +487,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <li>绑定 this</li>
 </ul>
 <p>接下来我们聊一聊这些新名词。</p>
+<br>
+
 
         <h2 id="1-词法环境-变量环境">
           <a href="#1-词法环境-变量环境" class="heading-link"><i class="fas fa-link"></i></a><a href="#1-词法环境-变量环境" class="headerlink" title="1.词法环境/变量环境"></a>1.词法环境/变量环境</h2>
@@ -480,6 +508,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E8%AF%8D%E6%B3%95%E7%8E%AF%E5%A2%83.png" class>
 
 <p>另外，我们会发现在 ES5 规范的执行上下文的创建阶段，没有了 ES3 时候的创建作用域链，这其实是将作用域链的概念转移到了 outer 中。</p>
+<br>
+
 
         <h3 id="2-变量环境">
           <a href="#2-变量环境" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-变量环境" class="headerlink" title="(2) 变量环境"></a>(2) 变量环境</h3>
@@ -492,7 +522,7 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 </blockquote>
 <img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%8F%98%E9%87%8F%E7%8E%AF%E5%A2%83.png" class>
 
-
+<br>
 
 
         <h3 id="3-环境记录器">
@@ -504,6 +534,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <li>声明式环境记录器（在函数环境中）</li>
 </ul>
 <p>声明式环境记录器相比对象环境记录器，还包含一个传递给函数的<code>arguments</code>对象和传递给函数的<code>参数的length</code>。</p>
+<br>
+
 
         <h3 id="4-外部环境的引用">
           <a href="#4-外部环境的引用" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-外部环境的引用" class="headerlink" title="(4) 外部环境的引用"></a>(4) 外部环境的引用</h3>
@@ -512,6 +544,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <li>在全局执行上下文中，该值为 null</li>
 <li>在函数执行上下文中，该值为全局对象，或者为父级词法环境（作用域）</li>
 </ul>
+<br>
+
 
         <h2 id="2-执行上下文的生命周期">
           <a href="#2-执行上下文的生命周期" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-执行上下文的生命周期" class="headerlink" title="2.执行上下文的生命周期"></a>2.执行上下文的生命周期</h2>
@@ -569,6 +603,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <li><p>在执行上下文的创建阶段过程中，我非常强调<code>顶级、非函数内、代码块、函数内非块中</code>等词语，这是因为 let、const 声明的变量存在<strong>块级作用域</strong>的概念，而 var 声明的变量并没有，而对代码块中的函数声明和非代码块中的函数声明，JS 引擎又有不同的处理方式。这些内容我将在下一小节中讲解。</p>
 </li>
 </ol>
+<br>
+
 
         <h2 id="3-块级作用域">
           <a href="#3-块级作用域" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-块级作用域" class="headerlink" title="3.块级作用域"></a>3.块级作用域</h2>
@@ -579,6 +615,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F.jpg" class>
 
 <p>蓝色框表示的就是块级作用域。用<code>&#123;&#125;</code>包裹起来的代码称之为<code>代码块</code>，每个代码块都有一个块级作用域。</p>
+<br>
+
 
         <h3 id="2-let、const-变量">
           <a href="#2-let、const-变量" class="heading-link"><i class="fas fa-link"></i></a><a href="#2-let、const-变量" class="headerlink" title="(2) let、const 变量"></a>(2) let、const 变量</h3>
@@ -641,6 +679,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <li><p>继续执行<code>console.log(b)</code>，输出打印<code>global b</code>。执行<code>console.log(c)</code>，输出打印<code>block c</code>。执行<code>console.log(d)</code>，由于找不到 d，所以这一步会报错。最终结果：</p>
 <img src="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/ES5-%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F-10.png" class></li>
 </ol>
+<br>
+
 
         <h3 id="3-块级作用域中的函数声明">
           <a href="#3-块级作用域中的函数声明" class="heading-link"><i class="fas fa-link"></i></a><a href="#3-块级作用域中的函数声明" class="headerlink" title="(3) 块级作用域中的函数声明"></a>(3) 块级作用域中的函数声明</h3>
@@ -691,13 +731,15 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <p>有兴趣的可以同样用画图的方式，理解一下以下代码：</p>
 <figure class="highlight javascript"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 示例1</span></span><br><span class="line"><span class="built_in">console</span>.log(test); <span class="comment">// 输出的是undefined</span></span><br><span class="line"><span class="keyword">var</span> test = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(test); <span class="comment">// 输出的是function</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 示例2</span></span><br><span class="line"><span class="keyword">let</span> test = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(test); <span class="comment">// 输出的是0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 示例3</span></span><br><span class="line"><span class="built_in">console</span>.log(test); <span class="comment">// 输出的是代码块外面的函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">2</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(test); <span class="comment">// 输出的是代码块内部的函数</span></span><br></pre></td></tr></table></div></figure>
 
-
+<br>
 
 
         <h2 id="4-总结-1">
           <a href="#4-总结-1" class="heading-link"><i class="fas fa-link"></i></a><a href="#4-总结-1" class="headerlink" title="4.总结"></a>4.总结</h2>
       <p>我们会发现，ES5 标准的执行上下文与 ES3 标准并无太多区别，只是用词法环境/变量环境去替代了变量对象，多了一个针对 let、const 声明的变量的处理，以及块级作用域的处理。在 ES5 标准中，可以将作用域理解成词法环境。</p>
 <p>随着 ES 标准的不断更新，执行上下文的内容也在发生变化，比如：在最新的 ES6 标准中，词法环境用于存储<strong>函数声明</strong>和 const、let 声明的变量，而变量环境只存储 var 声明的变量；而 ES9 中的执行上下文又与上文有所区别。感兴趣的可以自行了解。以上内容仅供理解，如有错误，欢迎指正。</p>
+<br>
+
 
         <h1 id="五-Q-amp-A">
           <a href="#五-Q-amp-A" class="heading-link"><i class="fas fa-link"></i></a><a href="#五-Q-amp-A" class="headerlink" title="五.Q&amp;A"></a>五.Q&amp;A</h1>
@@ -712,6 +754,8 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <p>答：我认为，函数没有作用域链的概念，作用域链是执行上下文中的内容。而函数只有一个[[scope]]属性，它在函数创建的时候就保存了当时的执行环境。当函数被调用时，函数执行上下文会根据[[scope]]创建作用域链。这个问题中的作用域链，应该指的是函数[[scope]]属性，它是在函数创建的时候建立的。</p>
 </li>
 </ol>
+<br>
+
 <blockquote>
 <p>参考视频：</p>
 <p>ES3 标准：<span class="exturl"><a class="exturl__link" target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1C54y1r7VS">https://www.bilibili.com/video/BV1C54y1r7VS</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
