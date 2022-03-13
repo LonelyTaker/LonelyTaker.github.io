@@ -1004,8 +1004,7 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 </blockquote>
 <p>由于重排重绘会占用主线程、同时 JS 也会抢占主线程，这就会导致页面出现卡顿情况。同时，大量的重排重绘会造成额外的计算消耗。所以要尽量减少重排重绘。那么该如何减少重排重绘呢？</p>
 <ul>
-<li>最小化重排重绘，比如样式集中改变，使用添加新样式类名<code>.class</code>或<code>cssText</code></li>
-<li>批量操作 DOM，比如读取某元素 <code>offsetWidth</code> 属性存到一个临时变量，再去使用，而不是频繁使用这个计算属性；又比如利用 <code>document.createDocumentFragment()</code> 来添加要被添加的节点，处理完之后再插入到实际 DOM 中。</li>
+<li>最少化重排重绘，比如样式集中改变，使用添加新样式类名<code>.class</code>或<code>cssText</code>。</li>
 <li>使用 <code>absolute</code> 或 <code>fixed</code>使元素脱离文档流，这在制作复杂的动画时对性能的影响比较明显。</li>
 <li>开启 GPU 加速，利用 css 属性 <code>transform</code> 、<code>will-change</code> 等，因为它们不会触发重排重绘。</li>
 </ul>
@@ -1055,10 +1054,9 @@ window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 6.0.0"></he
 <p><span class="exturl"><a class="exturl__link" target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/102149546">https://zhuanlan.zhihu.com/p/102149546</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
 <p><span class="exturl"><a class="exturl__link" target="_blank" rel="noopener" href="https://juejin.cn/post/6935232082482298911">https://juejin.cn/post/6935232082482298911</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
 <p><span class="exturl"><a class="exturl__link" target="_blank" rel="noopener" href="https://juejin.cn/post/6990344840181940261">https://juejin.cn/post/6990344840181940261</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+<p><span class="exturl"><a class="exturl__link" target="_blank" rel="noopener" href="https://juejin.cn/post/6998389354271866910">https://juejin.cn/post/6998389354271866910</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
 <p><span class="exturl"><a class="exturl__link" target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1x54y1B7RE">https://www.bilibili.com/video/BV1x54y1B7RE</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
-<p><span class="exturl"><a class="exturl__link" target="_blank" rel="noopener" href="https://juejin.cn/post/6844903779700047885">https://juejin.cn/post/6844903779700047885</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
 <p><span class="exturl"><a class="exturl__link" target="_blank" rel="noopener" href="https://www.imooc.com/wenda/detail/499811">https://www.imooc.com/wenda/detail/499811</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
-<p><span class="exturl"><a class="exturl__link" target="_blank" rel="noopener" href="https://juejin.cn/post/7061588533214969892">https://juejin.cn/post/7061588533214969892</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
 </blockquote>
 </div></div></article><article class="postlist-item post"><header class="post-header"><h1 class="post-title"><a class="post-title__link" href="/2022/02/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-02-21</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2022-03-03</span></span></div></header><div class="post-body"><div class="post-excerpt">
         <h1 id="一-计算机网络概述">
