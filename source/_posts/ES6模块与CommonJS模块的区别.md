@@ -1,8 +1,8 @@
 ---
 title: ES6模块与CommonJS模块的区别
 date: 2022-01-29 11:35:57
+categories: 前端
 tags: JavaScript
-categories: JavaScript
 ---
 
 

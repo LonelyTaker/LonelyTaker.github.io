@@ -1,7 +1,6 @@
 ---
 title: 同时配置github和gitlab
 date: 2022-11-22 11:35:57
-tags: 其他
 categories: 其他
 ---
 
