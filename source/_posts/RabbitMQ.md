@@ -42,8 +42,14 @@ tags: 消息队列
 
 解决方案：设置不公平分发
 
->预取值：https://www.bilibili.com/video/BV1cb4y1o7zz?p=31
+1. 设置预取值
+2. 开启手动应答
+
+>预取值：
 >
+>https://blog.csdn.net/qq_43856972/article/details/130835883
+>
+>https://zhuanlan.zhihu.com/p/582836002
 
 
 
@@ -162,7 +168,7 @@ RabbitMQ实现数据持久化包括三个方面：
 
 
 
-### 消费者确认
+### 手动应答
 
 为了确认消费者是否成功处理消息，RabbitMQ提供了消费者确认机制（Consumer Acknowledgement）。当消费者处理消息结束后，应该向RabbitMQ发送一个回执，告知RabbitMQ自己消息处理状态。回执有三种可选值：
 
