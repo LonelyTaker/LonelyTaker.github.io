@@ -46,3 +46,25 @@ services:
 ```
 
 <br />
+
+# redis
+
+```yaml
+services:
+  redis:
+    image: redis:7.4.0
+    container_name: redis
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - /data/container/redis/config:/etc/redis
+      - /data/container/redis/data:/data
+    ports:
+      - 6379:6379
+    restart: always
+    command: ["redis-server","/etc/redis/redis.conf"]
+```
+
+>需要提前创建配置文件，配置文件可从官网下载
+>
+>https://redis.io/docs/latest/operate/oss_and_stack/management/config/
