@@ -38,3 +38,8 @@ Redis命令工作线程是单线程的，但是，对整个Redis来说，是多�
 Redis性能影响的因素有CPU、内存、网络IO，对于Redis主要的性能瓶颈在内存或者网络带宽而非CPU，特别是网络IO。
 
 Redis在处理网络数据时，调用[epoll](https://zhida.zhihu.com/search?content_id=145457572&content_type=Article&match_order=7&q=epoll&zhida_source=entity)的过程是阻塞的，也就是说这个过程会阻塞线程，如果并发量很高，达到几万的QPS，此处可能会成为瓶颈。开启多线程除了可以减少由于网络I/O等待造成的影响，还可以充分利用CPU的多核优势。
+
+从Redis6开始，将网络数据读写、请求协议解析通过多个IO线程来处理，解决网络IO问题。这点可以是“Redis单线程为什么那么快？”问题的补充。
+
+![IO多路复用](IO多路复用.png)
+
