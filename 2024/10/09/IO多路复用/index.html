@@ -55,7 +55,7 @@ document.addEventListener("pjax:complete", reset);reset()})</script><meta name="
 
 <p>Redis服务采用Reactor的方式来实现文件事件处理器（每一个网络连接都对应一个文件描述符）。</p>
 <p>Reactor模式，是指通过一个或多个输入同时传递给服务处理器的服务请求的事件驱动处理模式。服务端程序处理传入多路请求，并将它们同步分派给请求对应的处理线程，Reator模式又叫Dispatcher模式。即IO多路复用统一监听事件，收到事件后分发，是编写高性能网络服务器的必备技术。</p>
-<p class='item-img' data-src='/Reactor%E6%A8%A1%E5%BC%8F.png'><img src="/Reactor%E6%A8%A1%E5%BC%8F.png" alt="Reactor模式"></p>
+<p class='item-img' data-src='/2024/10/09/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/Reactor%E6%A8%A1%E5%BC%8F.png'><img src="/2024/10/09/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/Reactor%E6%A8%A1%E5%BC%8F.png" alt="Reactor模式"></p>
 <p>Redis基于Reactor模式开发了网络事件处理器，这个处理器被称为<strong>文件事件处理器</strong>。它由四部分组成：多个套接字、IO多路复用程序、文件事件分派器、事件处理器。</p>
 <p>因为文件事件分派器队列的消费是单线程的，所以Redis才叫单线程模型。</p>
 <br/>
