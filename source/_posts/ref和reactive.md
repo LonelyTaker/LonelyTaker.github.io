@@ -48,14 +48,20 @@ function reactive(obj) {
 * 为什么对reactive响应式对象重新赋值会丢失响应式？
 
   ```js
-  let test = reactive({
-    a: 1,
-    b: 2
-  })
-  test = {x:1,y:2} // 会丢失响应式
+  let test = reactive({ a: 1, b: 2 })
+  test = { a:3, b:4 } // 会丢失响应式
   ```
 
   这是因为test实际上是个Proxy对象，重新赋值变成了一个普通对象。
+
+  那为什么重新赋值一个reactive对象也会丢失响应式呢？
+
+  ```js
+  let test = reactive({ a: 1, b: 2 })
+  test = reactive({ a:3, b:4 }) // 丢失响应
+  ```
+
+  这是因为上面的代码只是一个简单描述，实际上reactive函数中做的事情还有很多，重新赋值一个reactive对象，虽然实现了数据上的代理，但是丢失了与视图之间的依赖关系，所以视图无法更新，也就是所谓的失去了响应式。
 
 * 为什么reactive解构赋值会丢失响应式？
 
