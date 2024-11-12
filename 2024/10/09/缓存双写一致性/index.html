@@ -1,0 +1,167 @@
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>缓存双写一致性 | LonelyTaker's Blog</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="preload" as="font" crossorigin="anonymous" href="/font/Bender.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/BenderLight.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/JetBrainsMono-Regular.woff2"><link rel="stylesheet" href="/css/arknights.css"><style>@font-face {
+  font-family: Bender;
+  src: local('Bender'), url("/font/Bender.ttf"), url("/font/Bender.otf");
+}
+@font-face {
+  font-family: BenderLight;
+  src: local('BenderLight'), url("/font/BenderLight.ttf");
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}
+</style><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"Enter here","blurHolder":"Search","noResult":"Data \"$0\" not found"},"code":{"codeInfo":"$0 - $1 lines","copy":"copy"}}</script><link type="text/css" rel="stylesheet" href="/lib/encrypt/hbe.style.css"><script src="//unpkg.com/mermaid@10.5.0/dist/mermaid.min.js"></script><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lightgallery.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-zoom.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-thumbnail.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/css/all.min.css"><script>if (window.localStorage.getItem('theme-mode') === 'light')
+ document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark')
+ document.documentElement.setAttribute('theme-mode', 'dark')</script><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.woff2") format('woff2');
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><style>:root {
+ --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
+ --light-background: url('/img/bk.jpg');
+ --theme-encrypt-confirm: 'confirm'
+}</style><script defer src="/js/arknights.js"></script><script defer src="/js/search.js"></script><script defer type="module">import mermaid from '//unpkg.com/mermaid@10.5.0/dist/mermaid.esm.mjs';
+window.mermaid = mermaid;
+code.paintMermaid();
+</script><script async src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script async src="/lib/encrypt/hbe.js"></script><script async src="/js/pjax.js"></script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js','data-pjax','.busuanzi'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="loading" style="opacity: 0;"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><nav><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup" tabindex="0"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>缓存双写一致性</h1></div><hr><div id="post-content"><h1 id="查询流程"><a href="#查询流程" class="headerlink" title="查询流程"></a>查询流程</h1><p class='item-img' data-src='/2024/10/09/%E7%BC%93%E5%AD%98%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7/%E7%BC%93%E5%AD%98%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7-1.png'><img src="/2024/10/09/%E7%BC%93%E5%AD%98%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7/%E7%BC%93%E5%AD%98%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7-1.png" alt="缓存双写一致性-1"></p>
+<br />
+
+<h1 id="双写一致性概念"><a href="#双写一致性概念" class="headerlink" title="双写一致性概念"></a>双写一致性概念</h1><p>当修改了数据库的数据也要同时更新缓存的数据，缓存和数据库的数据要保持一致。</p>
+<ul>
+<li><p>如果Redis中有数据，需要和数据库中的值相同</p>
+</li>
+<li><p>如果Redis中无数据，数据库中的值要是最新值，且回写Redis</p>
+</li>
+</ul>
+<p>缓存按照操作来分，可以分为两种：</p>
+<ul>
+<li><p>只读缓存</p>
+</li>
+<li><p>读写缓存</p>
+<p>大部分都是读写缓存，其有两种回写同步策略：</p>
+<ul>
+<li><p>同步直写策略</p>
+<p>写数据库后也同步写Redis缓存，缓存和数据库中的数据一致；</p>
+<p>对于读写缓存来说，要想保证缓存和数据库中的数据一致，就要采用同步回写策略。</p>
+</li>
+<li><p>异步缓写策略</p>
+<p>正常业务运行中，数据库变动了，但是可以在业务上容许出现一定时间后才作用于Redis；</p>
+<p>当出现异常情况，不得不将失败的动作重新修补，可能需要借助消息中间件实现重试重写。</p>
+</li>
+</ul>
+</li>
+</ul>
+<br />
+
+<h1 id="双检加锁策略"><a href="#双检加锁策略" class="headerlink" title="双检加锁策略"></a>双检加锁策略</h1><p>当高并发查询时，如果Redis没有数据，大量请求会落入数据库中，同时大量的回写操作造成数据覆盖，会耗费不必要的资源。</p>
+<p>解决方案：采用双检加锁策略</p>
+<p>多个线程同时去查询数据库的这条数据，我们可以在第一个查询数据的请求上使用一个<strong>互斥锁</strong>。其他线程等第一个线程查询完回写缓存释放锁后，直接加载缓存数据。</p>
+<br />
+
+<h1 id="更新策略"><a href="#更新策略" class="headerlink" title="更新策略"></a>更新策略</h1><p>目的：保证最终一致性</p>
+<p>原则：以MySQL的数据为准</p>
+<p>下述共4种更新策略，四种策略无最优解，不保证适配所有情况，视实际情况选择。</p>
+<blockquote>
+<p>如果是停机更新，下面方法都可以使用，如果是无感更新，不同策略可能存在一些问题</p>
+</blockquote>
+<br />
+
+<h2 id="先更新数据库，再更新缓存"><a href="#先更新数据库，再更新缓存" class="headerlink" title="先更新数据库，再更新缓存"></a>先更新数据库，再更新缓存</h2><p>问题：</p>
+<ul>
+<li><p>如果更新数据库成功，但Redis更新失败了，两边数据不一致，读到Redis脏数据。</p>
+</li>
+<li><p>多线程环境下，线程有快有慢，可能存在如下情况：</p>
+<p>线程A、B同时更新</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 正常情况</span><br>A update mysql <span class="hljs-number">100</span><br>A update redis <span class="hljs-number">100</span><br>B update mysql <span class="hljs-number">80</span><br>B update redis <span class="hljs-number">80</span><br><span class="hljs-comment"># 异常情况</span><br>A update mysql <span class="hljs-number">100</span><br>B update mysql <span class="hljs-number">80</span><br>B update redis <span class="hljs-number">80</span><br>A update redis <span class="hljs-number">100</span><br></code></pre></td></tr></table></figure>
+
+<p>导致数据库和Redis数据不一致</p>
+</li>
+</ul>
+<br />
+
+<h2 id="先更新缓存，再更新数据库"><a href="#先更新缓存，再更新数据库" class="headerlink" title="先更新缓存，再更新数据库"></a>先更新缓存，再更新数据库</h2><p>问题：</p>
+<ul>
+<li><p>这种方式并不推荐，因为业务上一般把MySQL作为底单数据库，保证最后解释。</p>
+</li>
+<li><p>同第一种更新策略，多线程环境下，线程有快有慢，可能存在如下情况：</p>
+<p>线程A、B同时更新</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 正常情况</span><br>A update redis <span class="hljs-number">100</span><br>A update mysql <span class="hljs-number">100</span><br>B update redis <span class="hljs-number">80</span><br>B update mysql <span class="hljs-number">80</span><br><span class="hljs-comment"># 异常情况</span><br>A update redis <span class="hljs-number">100</span><br>B update redis <span class="hljs-number">80</span><br>B update mysql <span class="hljs-number">80</span><br>A update mysql <span class="hljs-number">100</span><br></code></pre></td></tr></table></figure>
+
+<p>导致数据库和Redis数据不一致</p>
+</li>
+</ul>
+<br />
+
+<h2 id="先删除缓存，再更新数据库"><a href="#先删除缓存，再更新数据库" class="headerlink" title="先删除缓存，再更新数据库"></a>先删除缓存，再更新数据库</h2><p>问题：</p>
+<ul>
+<li><p>缓存删除成功，但数据库更新失败，导致读取到旧值。</p>
+</li>
+<li><p>线程A已经删除缓存，数据库更新还在执行中（可能网络延迟，并没有真正到MySQL的update操作），另一个线程B此时进行查询操作。</p>
+<p>此处就会有两个问题：</p>
+<ul>
+<li>线程B从MySQL中获得了旧值</li>
+<li>线程B将旧值回写给Redis</li>
+</ul>
+<p>导致数据库和Redis数据不一致</p>
+</li>
+</ul>
+<p>解决方法：延时双删策略。在更新数据库前后都删除一次缓存。更新数据库后的删除需要一段延迟时间，这段时间是为了让线程B能够先从数据库读取数据，再把缺失的数据写入缓存，所以这个时间需要大于线程B读取数据再写入缓存的时间。</p>
+<br />
+
+<h2 id="先更新数据库，再删除缓存"><a href="#先更新数据库，再删除缓存" class="headerlink" title="先更新数据库，再删除缓存"></a>先更新数据库，再删除缓存</h2><p>较为推荐的做法。但也有一些问题：</p>
+<ul>
+<li>缓存删除失败或者来不及，会导致请求再次访问Redis时缓存命中，读取到的是缓存旧值。</li>
+</ul>
+<br />
+
+<h2 id="强一致性解决方案"><a href="#强一致性解决方案" class="headerlink" title="强一致性解决方案"></a>强一致性解决方案</h2><p>借助消息中间件</p>
+<p class='item-img' data-src='/2024/10/09/%E7%BC%93%E5%AD%98%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7/%E7%BC%93%E5%AD%98%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7-2.png'><img src="/2024/10/09/%E7%BC%93%E5%AD%98%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7/%E7%BC%93%E5%AD%98%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7-2.png" alt="缓存双写一致性-2"></p>
+<ul>
+<li>可以把要删除的缓存值或者是要更新的数据库值暂存到消息队列</li>
+<li>当程序没有成功删除缓存或者更新数据库时，可以从消息队列中重新读取这些值，再次尝试</li>
+<li>如果成功删除或更新，这些值就要从消息队列中去除，避免重复操作。此时，就可以保证数据库和缓存的数据一致性。否则还需要继续重试</li>
+<li>如果超过一定次数还未成功，需要业务层发送错误信息，通知运维人员。</li>
+</ul>
+<br />
+
+<h1 id="Canal"><a href="#Canal" class="headerlink" title="Canal"></a>Canal</h1><p>cancal主要用途是用于MySQL数据库增量日志数据的订阅、消费和解析，是阿里巴巴开发并开源的，采用Java语言开发。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/alibaba/canal">https://github.com/alibaba/canal</a></p>
+</blockquote>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/2024/10/09/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/">← Next 布隆过滤器</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/2024/10/08/MoreKey%E5%92%8CBigKey/">MoreKey和BigKey Prev →</a></div></div></div></div><div class="bottom-btn"><div><a class="i-top" id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧ </a><a class="i-index" id="to-index" href="#toc-div" title="To Catalog">≡</a><a class="i-color" id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">LonelyTaker</a></h1><div id="description"><p></p></div><div id="social-links"><a class="social" target="_blank" rel="noopener" href="https://github.com/LonelyTaker"><i class="fab fa-github" alt="GitHub"></i></a></div></div><div id="aside-block"><div id="toc-div"><h1>Catalog</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E6%B5%81%E7%A8%8B"><span class="toc-text">查询流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8C%E5%86%99%E4%B8%80%E8%87%B4%E6%80%A7%E6%A6%82%E5%BF%B5"><span class="toc-text">双写一致性概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8C%E6%A3%80%E5%8A%A0%E9%94%81%E7%AD%96%E7%95%A5"><span class="toc-text">双检加锁策略</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E7%AD%96%E7%95%A5"><span class="toc-text">更新策略</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E6%9B%B4%E6%96%B0%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%8C%E5%86%8D%E6%9B%B4%E6%96%B0%E7%BC%93%E5%AD%98"><span class="toc-text">先更新数据库，再更新缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E6%9B%B4%E6%96%B0%E7%BC%93%E5%AD%98%EF%BC%8C%E5%86%8D%E6%9B%B4%E6%96%B0%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">先更新缓存，再更新数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E5%88%A0%E9%99%A4%E7%BC%93%E5%AD%98%EF%BC%8C%E5%86%8D%E6%9B%B4%E6%96%B0%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">先删除缓存，再更新数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E6%9B%B4%E6%96%B0%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%8C%E5%86%8D%E5%88%A0%E9%99%A4%E7%BC%93%E5%AD%98"><span class="toc-text">先更新数据库，再删除缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%BA%E4%B8%80%E8%87%B4%E6%80%A7%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">强一致性解决方案</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Canal"><span class="toc-text">Canal</span></a></li></ol></div></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr> by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas></body></html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>ES6模块与CommonJS模块的区别 | LonelyTaker's Blog</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="preload" as="font" crossorigin="anonymous" href="/font/Bender.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/BenderLight.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/JetBrainsMono-Regular.woff2"><link rel="stylesheet" href="/css/arknights.css"><style>@font-face {
+  font-family: Bender;
+  src: local('Bender'), url("/font/Bender.ttf"), url("/font/Bender.otf");
+}
+@font-face {
+  font-family: BenderLight;
+  src: local('BenderLight'), url("/font/BenderLight.ttf");
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}
+</style><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"Enter here","blurHolder":"Search","noResult":"Data \"$0\" not found"},"code":{"codeInfo":"$0 - $1 lines","copy":"copy"}}</script><link type="text/css" rel="stylesheet" href="/lib/encrypt/hbe.style.css"><script src="//unpkg.com/mermaid@10.5.0/dist/mermaid.min.js"></script><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lightgallery.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-zoom.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-thumbnail.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/css/all.min.css"><script>if (window.localStorage.getItem('theme-mode') === 'light')
+ document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark')
+ document.documentElement.setAttribute('theme-mode', 'dark')</script><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.woff2") format('woff2');
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><style>:root {
+ --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
+ --light-background: url('/img/bk.jpg');
+ --theme-encrypt-confirm: 'confirm'
+}</style><script defer src="/js/arknights.js"></script><script defer src="/js/search.js"></script><script defer type="module">import mermaid from '//unpkg.com/mermaid@10.5.0/dist/mermaid.esm.mjs';
+window.mermaid = mermaid;
+code.paintMermaid();
+</script><script async src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script async src="/lib/encrypt/hbe.js"></script><script async src="/js/pjax.js"></script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js','data-pjax','.busuanzi'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="loading" style="opacity: 0;"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><nav><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup" tabindex="0"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>ES6模块与CommonJS模块的区别</h1></div><hr><div id="post-content"><h1 id="1-写法不同"><a href="#1-写法不同" class="headerlink" title="1.写法不同"></a>1.写法不同</h1><p>最直观的，两者对于模块的导入导出写法不同</p>
+<ul>
+<li>ES6</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">/* 导出 */</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">let</span> a = <span class="hljs-number">10</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">let</span> b = <span class="hljs-number">20</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;...&#125;<br><br><span class="hljs-comment">/* 导入 */</span><br><span class="hljs-keyword">import</span> &#123;a, b&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./test.js&#x27;</span><br><span class="hljs-keyword">import</span> c <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./test.js&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>CommonJS</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">/* 导出 */</span><br><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123; <span class="hljs-attr">a</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">b</span>: <span class="hljs-number">20</span> &#125;;<br><br><span class="hljs-comment">/* 导入 */</span><br><span class="hljs-keyword">let</span> test = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;./test.js&quot;</span>);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(test.<span class="hljs-property">a</span>, test.<span class="hljs-property">b</span>); <span class="hljs-comment">// 输出 10 20</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：上述 CommonJS 导出写法会改变原本指向的内存，使其与 exports 指向不同内存空间，语法非本篇重点，可看这篇博客</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fightjianxian/p/12151010.html">https://www.cnblogs.com/fightjianxian/p/12151010.html</a></p>
+</blockquote>
+<br />
+
+<h1 id="2-加载阶段不同"><a href="#2-加载阶段不同" class="headerlink" title="2.加载阶段不同"></a>2.加载阶段不同</h1><ul>
+<li>CommonJS 模块加载的是对象（即<code>module.exports</code>属性），它只有在脚本运行完才会生成，所以是<code>运行时加载</code></li>
+<li>而 ES6 模块不是对象，它的对外接口是一种静态定义，在代码静态解析阶段就会生成，所以是<code>编译时输出接口</code></li>
+</ul>
+<br />
+
+<h1 id="3-输出内容不同"><a href="#3-输出内容不同" class="headerlink" title="3.输出内容不同"></a>3.输出内容不同</h1><ul>
+<li>刚刚说了 CommonJS 模块输出的是一个对象，所以是一个值的拷贝（浅拷贝）</li>
+</ul>
+<p>请看下面这个例子，模块内有一个变量 a 和一个自增函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">/* 模块test.js */</span><br><span class="hljs-keyword">let</span> a = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">add</span>(<span class="hljs-params"></span>) &#123;<br>  a++;<br>&#125;<br><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;<br>  <span class="hljs-attr">a</span>: a,<br>  <span class="hljs-attr">add</span>: add,<br>&#125;;<br><span class="hljs-comment">/* 需要引入模块的文件main.js */</span><br><span class="hljs-keyword">let</span> mod = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;./test.js&quot;</span>);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(mod.<span class="hljs-property">a</span>); <span class="hljs-comment">// 1</span><br>mod.<span class="hljs-title function_">add</span>();<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(mod.<span class="hljs-property">a</span>); <span class="hljs-comment">// 1</span><br></code></pre></td></tr></table></figure>
+
+<p>上述代码说明，<code>test.js</code>模块加载以后，它内部的变化影响不到已经输出的<code>mod.a</code>了，因为 a 会被缓存（a 是一个简单数据类型，导出时直接拷贝值）。除非写成一个函数，才能获得内部变动后的值</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">/* 模块test.js */</span><br><span class="hljs-keyword">let</span> a = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">add</span>(<span class="hljs-params"></span>) &#123;<br>  a++;<br>&#125;<br><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;<br>  <span class="hljs-keyword">get</span> <span class="hljs-title function_">a</span>() &#123;<br>    <span class="hljs-keyword">return</span> a;<br>  &#125;,<br>  <span class="hljs-attr">add</span>: add,<br>&#125;;<br><span class="hljs-comment">/* 需要引入模块的文件main.js */</span><br><span class="hljs-keyword">let</span> mod = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;./test.js&quot;</span>);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(mod.<span class="hljs-property">a</span>); <span class="hljs-comment">// 1</span><br>mod.<span class="hljs-title function_">add</span>();<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(mod.<span class="hljs-property">a</span>); <span class="hljs-comment">// 2</span><br></code></pre></td></tr></table></figure>
+
+<p>上面代码中，输出的<code>a</code>实际上是一个取值器函数。如果想输出后的<code>a</code>发生改变，可以这样修改</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">/* 模块test.js */</span><br><span class="hljs-keyword">let</span> a = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">add</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-variable language_">this</span>.<span class="hljs-property">a</span>++;<br>&#125;<br><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;<br>  <span class="hljs-attr">a</span>: a,<br>  <span class="hljs-attr">add</span>: add,<br>&#125;;<br><span class="hljs-comment">/* 需要引入模块的文件main.js */</span><br><span class="hljs-keyword">let</span> mod = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;./test.js&quot;</span>);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(mod.<span class="hljs-property">a</span>); <span class="hljs-comment">// 1</span><br>mod.<span class="hljs-title function_">add</span>();<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(mod.<span class="hljs-property">a</span>); <span class="hljs-comment">// 2</span><br></code></pre></td></tr></table></figure>
+
+<p>这样改变的是输出的对象的<code>a</code>属性，模块内部并未受影响</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">/* 模块test.js */</span><br><span class="hljs-keyword">let</span> a = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">add</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-variable language_">this</span>.<span class="hljs-property">a</span>++;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(a); <span class="hljs-comment">// 1</span><br>&#125;<br><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;<br>  <span class="hljs-attr">a</span>: a,<br>  <span class="hljs-attr">add</span>: add,<br>&#125;;<br><span class="hljs-comment">/* 需要引入模块的文件main.js */</span><br><span class="hljs-keyword">let</span> mod = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;./test.js&quot;</span>);<br>mod.<span class="hljs-title function_">add</span>();<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(mod.<span class="hljs-property">a</span>); <span class="hljs-comment">// 2</span><br></code></pre></td></tr></table></figure>
+
+<p>这或许对你理解<code>CommonJS模块输出的是一个对象</code>有所帮助</p>
+<ul>
+<li>而 ES6 模块输出的是值的引用</li>
+</ul>
+<p>ES6 模块的运行机制与 CommonJS 不一样。JS 引擎对脚本静态分析的时候，遇到模块加载命令<code>import</code>，就会生成一个<code>只读引用</code>。等到脚本真正执行时，再根据这个只读引用，到被加载的那个模块里面去取值。同样的代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">/* 模块test.js */</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">let</span> a = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">add</span>(<span class="hljs-params"></span>) &#123;<br>  a++;<br>&#125;<br><span class="hljs-comment">/* 需要引入模块的文件main.js */</span><br><span class="hljs-keyword">import</span> &#123; a, add &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./test.js&quot;</span>;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(a); <span class="hljs-comment">// 3</span><br><span class="hljs-title function_">add</span>();<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(a); <span class="hljs-comment">// 4</span><br></code></pre></td></tr></table></figure>
+
+<p>上述代码说明 ES6 模块输出的变量<code>a</code>完全反应其在所在模块内部的变化</p>
+<br />
+
+<h1 id="4-加载方式不同"><a href="#4-加载方式不同" class="headerlink" title="4.加载方式不同"></a>4.加载方式不同</h1><ul>
+<li>CommonJS 模块的<code>require()</code>是同步加载模块</li>
+<li>ES6 模块的<code>import</code>命令是异步加载，有一个独立的模块依赖的解析阶段</li>
+</ul>
+<br />
+
+<blockquote>
+<p>参考自阮一峰老师的博客</p>
+<p><a target="_blank" rel="noopener" href="https://es6.ruanyifeng.com/#docs/module-loader#ES6-%E6%A8%A1%E5%9D%97%E4%B8%8E-CommonJS-%E6%A8%A1%E5%9D%97%E7%9A%84%E5%B7%AE%E5%BC%82">https://es6.ruanyifeng.com/#docs/module-loader#ES6-%E6%A8%A1%E5%9D%97%E4%B8%8E-CommonJS-%E6%A8%A1%E5%9D%97%E7%9A%84%E5%B7%AE%E5%BC%82</a></p>
+</blockquote>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages" style="justify-content: flex-start"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/2022/02/20/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE%E5%92%8C%E9%97%AD%E5%8C%85/">← Next 执行上下文、作用域、作用域链和闭包</a></div></div></div></div><div class="bottom-btn"><div><a class="i-top" id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧ </a><a class="i-index" id="to-index" href="#toc-div" title="To Catalog">≡</a><a class="i-color" id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">LonelyTaker</a></h1><div id="description"><p></p></div><div id="social-links"><a class="social" target="_blank" rel="noopener" href="https://github.com/LonelyTaker"><i class="fab fa-github" alt="GitHub"></i></a></div></div><div id="aside-block"><div id="toc-div"><h1>Catalog</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%86%99%E6%B3%95%E4%B8%8D%E5%90%8C"><span class="toc-text">1.写法不同</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%8A%A0%E8%BD%BD%E9%98%B6%E6%AE%B5%E4%B8%8D%E5%90%8C"><span class="toc-text">2.加载阶段不同</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E8%BE%93%E5%87%BA%E5%86%85%E5%AE%B9%E4%B8%8D%E5%90%8C"><span class="toc-text">3.输出内容不同</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E5%8A%A0%E8%BD%BD%E6%96%B9%E5%BC%8F%E4%B8%8D%E5%90%8C"><span class="toc-text">4.加载方式不同</span></a></li></ol></div></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr> by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas></body></html>

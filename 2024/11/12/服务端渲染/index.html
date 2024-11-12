@@ -1,0 +1,122 @@
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>服务端渲染 | LonelyTaker's Blog</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="preload" as="font" crossorigin="anonymous" href="/font/Bender.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/BenderLight.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/JetBrainsMono-Regular.woff2"><link rel="stylesheet" href="/css/arknights.css"><style>@font-face {
+  font-family: Bender;
+  src: local('Bender'), url("/font/Bender.ttf"), url("/font/Bender.otf");
+}
+@font-face {
+  font-family: BenderLight;
+  src: local('BenderLight'), url("/font/BenderLight.ttf");
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}
+</style><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"Enter here","blurHolder":"Search","noResult":"Data \"$0\" not found"},"code":{"codeInfo":"$0 - $1 lines","copy":"copy"}}</script><link type="text/css" rel="stylesheet" href="/lib/encrypt/hbe.style.css"><script src="//unpkg.com/mermaid@10.5.0/dist/mermaid.min.js"></script><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lightgallery.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-zoom.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-thumbnail.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/css/all.min.css"><script>if (window.localStorage.getItem('theme-mode') === 'light')
+ document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark')
+ document.documentElement.setAttribute('theme-mode', 'dark')</script><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.woff2") format('woff2');
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><style>:root {
+ --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
+ --light-background: url('/img/bk.jpg');
+ --theme-encrypt-confirm: 'confirm'
+}</style><script defer src="/js/arknights.js"></script><script defer src="/js/search.js"></script><script defer type="module">import mermaid from '//unpkg.com/mermaid@10.5.0/dist/mermaid.esm.mjs';
+window.mermaid = mermaid;
+code.paintMermaid();
+</script><script async src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script async src="/lib/encrypt/hbe.js"></script><script async src="/js/pjax.js"></script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js','data-pjax','.busuanzi'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="loading" style="opacity: 0;"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><nav><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup" tabindex="0"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>服务端渲染</h1></div><hr><div id="post-content"><h1 id="客户端渲染"><a href="#客户端渲染" class="headerlink" title="客户端渲染"></a>客户端渲染</h1><p>在了解服务端渲染之前，我们需要先了解客户端渲染。</p>
+<h2 id="什么是客户端渲染（CSR）？"><a href="#什么是客户端渲染（CSR）？" class="headerlink" title="什么是客户端渲染（CSR）？"></a>什么是客户端渲染（CSR）？</h2><p>客户端渲染是指在浏览器中使用JavaScript代码生成内容。浏览器首先加载一个包含HTML骨架的页面，并通过JavaScript获取数据（如JSON），然后在用户界面上填充内容。这一过程通常依赖于AJAX请求和框架（如React、Vue等）来实现动态更新。</p>
+<h2 id="CSR的工作流程"><a href="#CSR的工作流程" class="headerlink" title="CSR的工作流程"></a>CSR的工作流程</h2><ol>
+<li>用户请求服务器上的页面</li>
+<li>服务器返回一个最基本的HTML文件（通常包含JavaScript文件的引用）</li>
+<li>浏览器解析页面，加载JavaScript代码</li>
+<li>JavaScript代码在浏览器上执行，向服务器请求数据并生成动态内容</li>
+<li>用户在页面上与内容交互时，JavaScript可以通过AJAX等方式加载新数据并更新DOM</li>
+</ol>
+<h2 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h2><ul>
+<li><strong>服务器负担轻</strong>：页面渲染和大部分逻辑工作都在客户端完成，减少了服务端压力</li>
+<li><strong>高交互性</strong>：用户与页面的交互通常会更流畅，因为页面不需要完整刷新</li>
+<li><strong>丰富的用户体验</strong>：使用JavaScript库和框架（如React、Vue）可以创建高度动态的单页应用（SPA）</li>
+</ul>
+<h2 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h2><ul>
+<li><strong>首屏渲染慢</strong>：用户在请求页面时可能需要等待JavaScript加载，这可能导致较慢的首屏渲染时间</li>
+<li><strong>SEO问题</strong>：由于页面内容是由JavaScript生成的，搜索引擎可能无法有效抓取页面内容，影响SEO</li>
+<li><strong>对旧浏览器支持差</strong>：某些旧浏览器可能不支持现代JavaScript功能，从而影响应用的广泛可用性</li>
+</ul>
+<h1 id="服务端渲染"><a href="#服务端渲染" class="headerlink" title="服务端渲染"></a>服务端渲染</h1><p>服务端渲染其实不是一个新技术，过去前后端未分离的时候，由服务端返回HTML字符串（如最早学习Web时使用PHP输出HTML字符串），这就是早期的服务端渲染。</p>
+<h2 id="什么是服务端渲染（SSR）？"><a href="#什么是服务端渲染（SSR）？" class="headerlink" title="什么是服务端渲染（SSR）？"></a>什么是服务端渲染（SSR）？</h2><p>服务端渲染是指在服务器端生成完整的HTML页面并发送到客户端（浏览器），浏览器随即渲染这些HTML内容。这意味着所有的动态内容在用户请求页面时就已经在服务器上处理完成，得到完整的HTML返回。</p>
+<h2 id="SSR的工作流程"><a href="#SSR的工作流程" class="headerlink" title="SSR的工作流程"></a>SSR的工作流程</h2><ol>
+<li>用户请求一个页面（例如，输入URL或点击链接）</li>
+<li>服务器接收到请求并处理相关数据（如从数据库中提取数据）</li>
+<li>服务器将数据渲染成HTML，并将完整的HTML文档返回给客户端</li>
+<li>客户端接收到完整的HTML后进行渲染，用户可以立刻看到页面内容</li>
+</ol>
+<h2 id="优势-1"><a href="#优势-1" class="headerlink" title="优势"></a>优势</h2><ul>
+<li><strong>首屏渲染快速</strong>：用户可以更快地看到页面内容，因为在页面返回之前已经生成了HTML</li>
+<li><strong>SEO友好</strong>：由于页面内容在服务器端生成，搜索引擎可以更容易地抓取和索引页面内容</li>
+<li><strong>适合内容丰富的页面</strong>：对内容丰富的网页（如博客、新闻网站等）尤为有效，因为大部分内容是在页面加载时就呈现给用户</li>
+</ul>
+<h2 id="劣势-1"><a href="#劣势-1" class="headerlink" title="劣势"></a>劣势</h2><ul>
+<li><strong>服务器负担更重</strong>：服务器需要将所有页面的内容动态生成，这对服务器性能要求较高</li>
+<li><strong>流量和响应速度</strong>：对于用户的每个操作，可能需要更多地与服务器进行交互，增加了延迟</li>
+<li><strong>交互性降低</strong>：在用户与页面的交互过程中，每次请求可能需要重新加载页面，造成不必要的延迟</li>
+</ul>
+<p>在选择使用服务器端渲染或客户端渲染时，要考虑应用的特性和需求。有时可以结合这两种渲染方式，例如使用SSR初始加载后，使用CSR进行后续交互，这种方式被称为“混合渲染”（Hybrid Rendering），能够充分发挥两者的优势。</p>
+<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><p>一个非常简单的页面，只有一个列表：</p>
+<p class='item-img' data-src='/2024/11/12/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%B2%E6%9F%93-1.png'><img src="/2024/11/12/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%B2%E6%9F%93-1.png" alt="客户端渲染-1"></p>
+<p class='item-img' data-src='/2024/11/12/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%B2%E6%9F%93-2.png'><img src="/2024/11/12/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%B2%E6%9F%93-2.png" alt="客户端渲染-2"></p>
+<p>但是通过打包后的文件：</p>
+<p class='item-img' data-src='/2024/11/12/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%B2%E6%9F%93-3.png'><img src="/2024/11/12/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%B2%E6%9F%93-3.png" alt="客户端渲染-3"></p>
+<p>可以看到，这个列表并没有存在HTML文档中，而是引入了一个JS文件，在页面渲染时执行并更新页面。这就是客户端渲染。</p>
+<p>通过查看页面源代码我们也能看到它并不会显示列表内容：</p>
+<p class='item-img' data-src='/2024/11/12/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%B2%E6%9F%93-4.png'><img src="/2024/11/12/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%B2%E6%9F%93-4.png" alt="客户端渲染-4"></p>
+<p>所以一般的爬虫只能抓取这一部分数据，不能获取具体的页面信息，不利于SEO。</p>
+<p>相反，如果通过服务端渲染：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 简易服务端，仅作演示</span><br><span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;express&#x27;</span>);<br><span class="hljs-keyword">const</span> <span class="hljs-title class_">React</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;react&#x27;</span>);<br><span class="hljs-keyword">const</span> <span class="hljs-title class_">ReactDOMServer</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;react-dom/server&#x27;</span>);<br><br><span class="hljs-keyword">const</span> <span class="hljs-title function_">App</span> = (<span class="hljs-params"></span>) =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Hello, SSR!<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>;<br><br><span class="hljs-keyword">const</span> server = <span class="hljs-title function_">express</span>();<br><br>server.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;<br>  <span class="hljs-keyword">const</span> html = <span class="hljs-title class_">ReactDOMServer</span>.<span class="hljs-title function_">renderToString</span>(<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span></span>);<br>  res.<span class="hljs-title function_">send</span>(<span class="hljs-string">`&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;title&gt;My React SSR App&lt;/title&gt;&lt;/head&gt;&lt;body&gt;<span class="hljs-subst">$&#123;html&#125;</span>&lt;/body&gt;&lt;/html&gt;`</span>);<br>&#125;);<br><br>server.<span class="hljs-title function_">listen</span>(<span class="hljs-number">3000</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Server is running on http://localhost:3000&#x27;</span>);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>浏览器能够获取到完整的HTML文档：</p>
+<p class='item-img' data-src='/2024/11/12/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93-1.png'><img src="/2024/11/12/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93-1.png" alt="服务端渲染-1"></p>
+<p>既减少了浏览器执行JS的开销，首屏渲染快速，也更利于SEO：</p>
+<p class='item-img' data-src='/2024/11/12/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93-2.png'><img src="/2024/11/12/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93-2.png" alt="服务端渲染-2"></p>
+<p>所以简单理解：服务端渲染其实就是<strong>把JS的执行加载部分放在服务端上运行，输出完整的HTML文档返回给浏览器</strong>。</p>
+<blockquote>
+<p>那么这时候就引申出另一个问题，为什么不能在打包构建阶段（build）就创建出完整的HTML文档？</p>
+<p>最主要的原因是动态数据，以博客为例，通过服务端渲染获取最新的博客信息，并携带这些信息返回完整HTML文档，更利于SEO（如果是客户端通过接口请求获取数据并更新页面，这就又回到了客户端渲染）。</p>
+<p>实际上，现在很多框架是支持在打包构建阶段（build）生成部分HTML文档的，但仅适用于静态数据。这种模式称之为<strong>预渲染</strong>。</p>
+</blockquote>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages" style="justify-content: flex-end"><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/2024/10/18/ref%E5%92%8Creactive/">ref和reactive Prev →</a></div></div></div></div><div class="bottom-btn"><div><a class="i-top" id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧ </a><a class="i-index" id="to-index" href="#toc-div" title="To Catalog">≡</a><a class="i-color" id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">LonelyTaker</a></h1><div id="description"><p></p></div><div id="social-links"><a class="social" target="_blank" rel="noopener" href="https://github.com/LonelyTaker"><i class="fab fa-github" alt="GitHub"></i></a></div></div><div id="aside-block"><div id="toc-div"><h1>Catalog</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%B2%E6%9F%93"><span class="toc-text">客户端渲染</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88CSR%EF%BC%89%EF%BC%9F"><span class="toc-text">什么是客户端渲染（CSR）？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSR%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-text">CSR的工作流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8A%BF"><span class="toc-text">优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A3%E5%8A%BF"><span class="toc-text">劣势</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93"><span class="toc-text">服务端渲染</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B8%B2%E6%9F%93%EF%BC%88SSR%EF%BC%89%EF%BC%9F"><span class="toc-text">什么是服务端渲染（SSR）？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSR%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-text">SSR的工作流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8A%BF-1"><span class="toc-text">优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A3%E5%8A%BF-1"><span class="toc-text">劣势</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90"><span class="toc-text">例子</span></a></li></ol></div></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr> by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas></body></html>

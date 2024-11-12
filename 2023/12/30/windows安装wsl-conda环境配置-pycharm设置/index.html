@@ -1,0 +1,158 @@
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>windows安装wsl+conda环境配置+pycharm设置 | LonelyTaker's Blog</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="preload" as="font" crossorigin="anonymous" href="/font/Bender.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/BenderLight.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/JetBrainsMono-Regular.woff2"><link rel="stylesheet" href="/css/arknights.css"><style>@font-face {
+  font-family: Bender;
+  src: local('Bender'), url("/font/Bender.ttf"), url("/font/Bender.otf");
+}
+@font-face {
+  font-family: BenderLight;
+  src: local('BenderLight'), url("/font/BenderLight.ttf");
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}
+</style><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"Enter here","blurHolder":"Search","noResult":"Data \"$0\" not found"},"code":{"codeInfo":"$0 - $1 lines","copy":"copy"}}</script><link type="text/css" rel="stylesheet" href="/lib/encrypt/hbe.style.css"><script src="//unpkg.com/mermaid@10.5.0/dist/mermaid.min.js"></script><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lightgallery.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-zoom.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-thumbnail.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/css/all.min.css"><script>if (window.localStorage.getItem('theme-mode') === 'light')
+ document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark')
+ document.documentElement.setAttribute('theme-mode', 'dark')</script><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.woff2") format('woff2');
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><style>:root {
+ --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
+ --light-background: url('/img/bk.jpg');
+ --theme-encrypt-confirm: 'confirm'
+}</style><script defer src="/js/arknights.js"></script><script defer src="/js/search.js"></script><script defer type="module">import mermaid from '//unpkg.com/mermaid@10.5.0/dist/mermaid.esm.mjs';
+window.mermaid = mermaid;
+code.paintMermaid();
+</script><script async src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script async src="/lib/encrypt/hbe.js"></script><script async src="/js/pjax.js"></script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js','data-pjax','.busuanzi'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="loading" style="opacity: 0;"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><nav><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup" tabindex="0"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>windows安装wsl+conda环境配置+pycharm设置</h1></div><hr><div id="post-content"><h2 id="一-windows-安装-wsl"><a href="#一-windows-安装-wsl" class="headerlink" title="一. windows 安装 wsl"></a>一. windows 安装 wsl</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/wsl/install">https://learn.microsoft.com/zh-cn/windows/wsl/install</a></p>
+</blockquote>
+<ol>
+<li><p>以<strong>管理员</strong>身份运行 Windows PowerShell</p>
+<p>执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">wsl --install<br></code></pre></td></tr></table></figure>
+
+<p>出现以下提示表示安装成功：</p>
+<p class='item-img' data-src='/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/windows%E5%AE%89%E8%A3%85wsl-1.png'><img src="/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/windows%E5%AE%89%E8%A3%85wsl-1.png" alt="windows安装wsl-1"></p>
+</li>
+<li><p>重启电脑，自动弹出子系统启动界面</p>
+<p>默认为 ubuntu</p>
+<p class='item-img' data-src='/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/windows%E5%AE%89%E8%A3%85wsl-2.png'><img src="/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/windows%E5%AE%89%E8%A3%85wsl-2.png" alt="windows安装wsl-2"></p>
+</li>
+<li><p>设置用户名密码</p>
+<p class='item-img' data-src='/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/windows%E5%AE%89%E8%A3%85wsl-3.png'><img src="/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/windows%E5%AE%89%E8%A3%85wsl-3.png" alt="windows安装wsl-3"></p>
+<p>完毕</p>
+<blockquote>
+<p>默认安装在 C 盘，如果想移动到其他盘，参考：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yihuajack/article/details/119915303">https://blog.csdn.net/yihuajack/article/details/119915303</a></p>
+</blockquote>
+</li>
+</ol>
+<br />
+
+<h2 id="二-conda-环境设置"><a href="#二-conda-环境设置" class="headerlink" title="二. conda 环境设置"></a>二. conda 环境设置</h2><ol>
+<li><p>apt-get 替换国内镜像源</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_21095573/article/details/99736630">https://blog.csdn.net/qq_21095573/article/details/99736630</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/mirror/ubuntu?spm=a2c6h.13651102.0.0.3e221b11fHrGAW">https://developer.aliyun.com/mirror/ubuntu?spm=a2c6h.13651102.0.0.3e221b11fHrGAW</a></p>
+</blockquote>
+<p>进入目录<code>/etc/apt/</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd /etc/apt/<br></code></pre></td></tr></table></figure>
+
+<p>备份当前<code>sources.list</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo cp sources.list sources.list.copy<br></code></pre></td></tr></table></figure>
+
+<p>按照国内镜像源配置说明更改<code>sources.list</code>内容：</p>
+<p class='item-img' data-src='/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/conda%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE-1.png'><img src="/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/conda%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE-1.png" alt="conda环境设置-1"></p>
+<p>更换完后，执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo apt-get update<br></code></pre></td></tr></table></figure>
+
+<p>如果没有出现异常则表示更换完毕</p>
+</li>
+<li><p>安装 gcc 环境</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo apt install gcc build-essential<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>安装 conda</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44159487/article/details/105620256">https://blog.csdn.net/weixin_44159487/article/details/105620256</a></p>
+</blockquote>
+<p>推荐安装 miniconda</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">返回用户目录</span><br>cd ~<br><span class="hljs-meta prompt_"># </span><span class="language-bash">安装miniconda包</span><br>wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-latest-Linux-x86_64.sh<br><span class="hljs-meta prompt_"># </span><span class="language-bash">执行sh文件</span><br>bash Miniconda3-latest-Linux-x86_64.sh<br></code></pre></td></tr></table></figure>
+
+<p>按照提示安装即可</p>
+<p>安装完毕后重启终端，如果能看到（base）</p>
+<p class='item-img' data-src='/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/conda%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE-2.png'><img src="/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/conda%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE-2.png" alt="conda环境设置-2"></p>
+<p>表示安装成功</p>
+</li>
+<li><p>更换 conda 的 pip 安装源</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/137point5/p/15000954.html">https://www.cnblogs.com/137point5/p/15000954.html</a></p>
+</blockquote>
+<p>永久更换清华源</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple<br></code></pre></td></tr></table></figure>
+
+<p class='item-img' data-src='/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/conda%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE-3.png'><img src="/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/conda%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE-3.png" alt="conda环境设置-2"></p>
+<p>但是个人更喜欢配置多个源，根据上图可以看到 pip 的配置文件存放在<code>/home/当前用户/.config/pip/pip.conf</code>中</p>
+<p>修改该文件：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[global]</span><br><span class="hljs-attr">index-url</span>=https://pypi.tuna.tsinghua.edu.cn/simple/<br><span class="hljs-attr">extra-index-url</span>=http://mirrors.aliyun.com/pypi/simple/<br><br><span class="hljs-section">[install]</span><br><span class="hljs-attr">trusted-host</span>=pypi.tuna.tsinghua.edu.cn<br>	mirrors.aliyun.com<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里注意不要配置官方源，否则默认会从官方源下载，导致下载速度还是很慢</p>
+</blockquote>
+</li>
+<li><p>测试一下</p>
+<p>创建虚拟环境</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">conda create -n test python=3.10<br></code></pre></td></tr></table></figure>
+
+<p>切换到<code>test</code>环境</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">conda activate test<br></code></pre></td></tr></table></figure>
+
+<p>尝试安装一些包</p>
+<p class='item-img' data-src='/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/conda%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE-4.png'><img src="/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/conda%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE-4.png" alt="conda环境设置-4"></p>
+<p>完毕</p>
+</li>
+</ol>
+<br />
+
+<h2 id="三-pycharm-设置"><a href="#三-pycharm-设置" class="headerlink" title="三. pycharm 设置"></a>三. pycharm 设置</h2><p>前提！前提！前提！需要 pycharm 专业版！！！如果不是专业版无法连接到 wsl 中的 conda 环境</p>
+<p class='item-img' data-src='/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/pycharm-1.png'><img src="/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/pycharm-1.png" alt="pycharm-1"></p>
+<p>解释器设置选择 WSL</p>
+<p class='item-img' data-src='/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/pycharm-2.png'><img src="/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/pycharm-2.png" alt="pycharm-2"></p>
+<p>后续操作同主系统直接使用 conda</p>
+<p class='item-img' data-src='/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/pycharm-3.png'><img src="/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/pycharm-3.png" alt="pycharm-3"></p>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/2024/01/02/docker-compose/">← Next docker-compose</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/2022/11/22/%E5%90%8C%E6%97%B6%E9%85%8D%E7%BD%AEgithub%E5%92%8Cgitlab/">同时配置github和gitlab Prev →</a></div></div></div></div><div class="bottom-btn"><div><a class="i-top" id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧ </a><a class="i-index" id="to-index" href="#toc-div" title="To Catalog">≡</a><a class="i-color" id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">LonelyTaker</a></h1><div id="description"><p></p></div><div id="social-links"><a class="social" target="_blank" rel="noopener" href="https://github.com/LonelyTaker"><i class="fab fa-github" alt="GitHub"></i></a></div></div><div id="aside-block"><div id="toc-div"><h1>Catalog</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-windows-%E5%AE%89%E8%A3%85-wsl"><span class="toc-text">一. windows 安装 wsl</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-conda-%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE"><span class="toc-text">二. conda 环境设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-pycharm-%E8%AE%BE%E7%BD%AE"><span class="toc-text">三. pycharm 设置</span></a></li></ol></div></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr> by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas></body></html>

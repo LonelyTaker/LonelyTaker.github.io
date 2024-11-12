@@ -1,0 +1,88 @@
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>同时配置github和gitlab | LonelyTaker's Blog</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="preload" as="font" crossorigin="anonymous" href="/font/Bender.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/BenderLight.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/JetBrainsMono-Regular.woff2"><link rel="stylesheet" href="/css/arknights.css"><style>@font-face {
+  font-family: Bender;
+  src: local('Bender'), url("/font/Bender.ttf"), url("/font/Bender.otf");
+}
+@font-face {
+  font-family: BenderLight;
+  src: local('BenderLight'), url("/font/BenderLight.ttf");
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}
+</style><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"Enter here","blurHolder":"Search","noResult":"Data \"$0\" not found"},"code":{"codeInfo":"$0 - $1 lines","copy":"copy"}}</script><link type="text/css" rel="stylesheet" href="/lib/encrypt/hbe.style.css"><script src="//unpkg.com/mermaid@10.5.0/dist/mermaid.min.js"></script><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lightgallery.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-zoom.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-thumbnail.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/css/all.min.css"><script>if (window.localStorage.getItem('theme-mode') === 'light')
+ document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark')
+ document.documentElement.setAttribute('theme-mode', 'dark')</script><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.woff2") format('woff2');
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><style>:root {
+ --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
+ --light-background: url('/img/bk.jpg');
+ --theme-encrypt-confirm: 'confirm'
+}</style><script defer src="/js/arknights.js"></script><script defer src="/js/search.js"></script><script defer type="module">import mermaid from '//unpkg.com/mermaid@10.5.0/dist/mermaid.esm.mjs';
+window.mermaid = mermaid;
+code.paintMermaid();
+</script><script async src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script async src="/lib/encrypt/hbe.js"></script><script async src="/js/pjax.js"></script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js','data-pjax','.busuanzi'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="loading" style="opacity: 0;"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><nav><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup" tabindex="0"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>同时配置github和gitlab</h1></div><hr><div id="post-content"><h1 id="1-前置条件"><a href="#1-前置条件" class="headerlink" title="1. 前置条件"></a>1. 前置条件</h1><ul>
+<li>安装git</li>
+<li>拥有github和gitlab账号</li>
+</ul>
+<br />
+
+<h1 id="2-步骤"><a href="#2-步骤" class="headerlink" title="2. 步骤"></a>2. 步骤</h1><p>整体思路：针对不同<code>HOST</code>，使用不同公钥</p>
+<h2 id="2-1-生成不同秘钥"><a href="#2-1-生成不同秘钥" class="headerlink" title="2.1 生成不同秘钥"></a>2.1 生成不同秘钥</h2><p><code>git bash</code>打开命令行窗口，执行以下命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">生成github账号的秘钥</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash">ssh-keygen -t rsa -f ~/.ssh/id_rsa_github -C <span class="hljs-string">&quot;GithubAccount&quot;</span></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">生产gitlab账号的秘钥</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash">ssh-keygen -t rsa -f ~/.ssh/id_rsa_gitlab -C <span class="hljs-string">&quot;GitlabAccount&quot;</span></span><br></code></pre></td></tr></table></figure>
+
+<h2 id="2-2-修改config配置文件"><a href="#2-2-修改config配置文件" class="headerlink" title="2.2 修改config配置文件"></a>2.2 修改config配置文件</h2><h3 id="2-2-1-切换至-ssh目录"><a href="#2-2-1-切换至-ssh目录" class="headerlink" title="2.2.1 切换至~&#x2F;.ssh目录"></a>2.2.1 切换至~&#x2F;.ssh目录</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash"><span class="hljs-built_in">cd</span> ~/.ssh</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-2-2-修改配置文件"><a href="#2-2-2-修改配置文件" class="headerlink" title="2.2.2 修改配置文件"></a>2.2.2 修改配置文件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">vim config</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs plaintext"># gitlab<br>    # Host 与 HostName 需要相同<br>    Host gitlab.com<br>    HostName gitlab.com<br>    # 指定rsa秘钥文件<br>    IdentityFile ~/.ssh/id_rsa_gitlab<br><br># github<br>    Host github.com<br>    HostName github.com<br>    IdentityFile ~/.ssh/id_rsa_github<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong><code>Host</code>取代码托管平台的地址，如果是局域网的gitlab地址，请使用局域网地址，下文中测试的指令也需要同步修改</p>
+<h2 id="2-3-在github和gitlab上添加个人公钥"><a href="#2-3-在github和gitlab上添加个人公钥" class="headerlink" title="2.3 在github和gitlab上添加个人公钥"></a>2.3 在github和gitlab上添加个人公钥</h2><p>以github为例</p>
+<h3 id="2-3-1-登录github账号，并进入设置"><a href="#2-3-1-登录github账号，并进入设置" class="headerlink" title="2.3.1 登录github账号，并进入设置"></a>2.3.1 登录github账号，并进入设置</h3><p class='item-img' data-src='/2022/11/22/%E5%90%8C%E6%97%B6%E9%85%8D%E7%BD%AEgithub%E5%92%8Cgitlab/GitHub-%E8%AE%BE%E7%BD%AE.png'><img src="/2022/11/22/%E5%90%8C%E6%97%B6%E9%85%8D%E7%BD%AEgithub%E5%92%8Cgitlab/GitHub-%E8%AE%BE%E7%BD%AE.png" alt="设置"></p>
+<h3 id="2-3-2-进入公钥配置"><a href="#2-3-2-进入公钥配置" class="headerlink" title="2.3.2 进入公钥配置"></a>2.3.2 进入公钥配置</h3><p class='item-img' data-src='/2022/11/22/%E5%90%8C%E6%97%B6%E9%85%8D%E7%BD%AEgithub%E5%92%8Cgitlab/GitHub-%E5%85%AC%E9%92%A5%E9%85%8D%E7%BD%AE.png'><img src="/2022/11/22/%E5%90%8C%E6%97%B6%E9%85%8D%E7%BD%AEgithub%E5%92%8Cgitlab/GitHub-%E5%85%AC%E9%92%A5%E9%85%8D%E7%BD%AE.png" alt="公钥配置"></p>
+<h3 id="2-3-3-添加公钥"><a href="#2-3-3-添加公钥" class="headerlink" title="2.3.3 添加公钥"></a>2.3.3 添加公钥</h3><p class='item-img' data-src='/2022/11/22/%E5%90%8C%E6%97%B6%E9%85%8D%E7%BD%AEgithub%E5%92%8Cgitlab/GitHub-%E6%B7%BB%E5%8A%A0%E5%85%AC%E9%92%A5-1.png'><img src="/2022/11/22/%E5%90%8C%E6%97%B6%E9%85%8D%E7%BD%AEgithub%E5%92%8Cgitlab/GitHub-%E6%B7%BB%E5%8A%A0%E5%85%AC%E9%92%A5-1.png" alt="添加公钥-1"></p>
+<p class='item-img' data-src='/2022/11/22/%E5%90%8C%E6%97%B6%E9%85%8D%E7%BD%AEgithub%E5%92%8Cgitlab/GitHub-%E6%B7%BB%E5%8A%A0%E5%85%AC%E9%92%A5-2.png'><img src="/2022/11/22/%E5%90%8C%E6%97%B6%E9%85%8D%E7%BD%AEgithub%E5%92%8Cgitlab/GitHub-%E6%B7%BB%E5%8A%A0%E5%85%AC%E9%92%A5-2.png" alt="添加公钥-2"></p>
+<p>因为配置的是github账号，所以复制<code>~/.ssh/id_rsa_github.pub</code>中的内容到上图的<code>Key</code>中</p>
+<p class='item-img' data-src='/2022/11/22/%E5%90%8C%E6%97%B6%E9%85%8D%E7%BD%AEgithub%E5%92%8Cgitlab/GitHub-%E6%B7%BB%E5%8A%A0%E5%85%AC%E9%92%A5-3.png'><img src="/2022/11/22/%E5%90%8C%E6%97%B6%E9%85%8D%E7%BD%AEgithub%E5%92%8Cgitlab/GitHub-%E6%B7%BB%E5%8A%A0%E5%85%AC%E9%92%A5-3.png" alt="添加公钥-3"></p>
+<h2 id="2-4-测试"><a href="#2-4-测试" class="headerlink" title="2.4 测试"></a>2.4 测试</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">github测试</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash">ssh -T git@github.com</span><br>Hi GithubAccount! You&#x27;ve successfully authenticated, but GitHub does not provide shell access.<br><span class="hljs-meta prompt_"># </span><span class="language-bash">gitlab测试</span><br><span class="hljs-meta prompt_">$ </span><span class="language-bash">ssh -T git@gitlab.com</span><br>Hi GitlabAccount! <br></code></pre></td></tr></table></figure>
+
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/2023/12/30/windows%E5%AE%89%E8%A3%85wsl-conda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE-pycharm%E8%AE%BE%E7%BD%AE/">← Next windows安装wsl+conda环境配置+pycharm设置</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/2022/03/11/this/">this Prev →</a></div></div></div></div><div class="bottom-btn"><div><a class="i-top" id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧ </a><a class="i-index" id="to-index" href="#toc-div" title="To Catalog">≡</a><a class="i-color" id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">LonelyTaker</a></h1><div id="description"><p></p></div><div id="social-links"><a class="social" target="_blank" rel="noopener" href="https://github.com/LonelyTaker"><i class="fab fa-github" alt="GitHub"></i></a></div></div><div id="aside-block"><div id="toc-div"><h1>Catalog</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6"><span class="toc-text">1. 前置条件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E6%AD%A5%E9%AA%A4"><span class="toc-text">2. 步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E7%94%9F%E6%88%90%E4%B8%8D%E5%90%8C%E7%A7%98%E9%92%A5"><span class="toc-text">2.1 生成不同秘钥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E4%BF%AE%E6%94%B9config%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">2.2 修改config配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-%E5%88%87%E6%8D%A2%E8%87%B3-ssh%E7%9B%AE%E5%BD%95"><span class="toc-text">2.2.1 切换至~&#x2F;.ssh目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2-%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">2.2.2 修改配置文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-%E5%9C%A8github%E5%92%8Cgitlab%E4%B8%8A%E6%B7%BB%E5%8A%A0%E4%B8%AA%E4%BA%BA%E5%85%AC%E9%92%A5"><span class="toc-text">2.3 在github和gitlab上添加个人公钥</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-1-%E7%99%BB%E5%BD%95github%E8%B4%A6%E5%8F%B7%EF%BC%8C%E5%B9%B6%E8%BF%9B%E5%85%A5%E8%AE%BE%E7%BD%AE"><span class="toc-text">2.3.1 登录github账号，并进入设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-2-%E8%BF%9B%E5%85%A5%E5%85%AC%E9%92%A5%E9%85%8D%E7%BD%AE"><span class="toc-text">2.3.2 进入公钥配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-3-%E6%B7%BB%E5%8A%A0%E5%85%AC%E9%92%A5"><span class="toc-text">2.3.3 添加公钥</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-%E6%B5%8B%E8%AF%95"><span class="toc-text">2.4 测试</span></a></li></ol></li></ol></div></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr> by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas></body></html>

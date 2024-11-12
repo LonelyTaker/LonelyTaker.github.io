@@ -1,0 +1,239 @@
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>RabbitMQ | LonelyTaker's Blog</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="preload" as="font" crossorigin="anonymous" href="/font/Bender.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/BenderLight.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/JetBrainsMono-Regular.woff2"><link rel="stylesheet" href="/css/arknights.css"><style>@font-face {
+  font-family: Bender;
+  src: local('Bender'), url("/font/Bender.ttf"), url("/font/Bender.otf");
+}
+@font-face {
+  font-family: BenderLight;
+  src: local('BenderLight'), url("/font/BenderLight.ttf");
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}
+</style><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"Enter here","blurHolder":"Search","noResult":"Data \"$0\" not found"},"code":{"codeInfo":"$0 - $1 lines","copy":"copy"}}</script><link type="text/css" rel="stylesheet" href="/lib/encrypt/hbe.style.css"><script src="//unpkg.com/mermaid@10.5.0/dist/mermaid.min.js"></script><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lightgallery.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-zoom.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-thumbnail.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/css/all.min.css"><script>if (window.localStorage.getItem('theme-mode') === 'light')
+ document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark')
+ document.documentElement.setAttribute('theme-mode', 'dark')</script><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.woff2") format('woff2');
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><style>:root {
+ --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
+ --light-background: url('/img/bk.jpg');
+ --theme-encrypt-confirm: 'confirm'
+}</style><script defer src="/js/arknights.js"></script><script defer src="/js/search.js"></script><script defer type="module">import mermaid from '//unpkg.com/mermaid@10.5.0/dist/mermaid.esm.mjs';
+window.mermaid = mermaid;
+code.paintMermaid();
+</script><script async src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script async src="/lib/encrypt/hbe.js"></script><script async src="/js/pjax.js"></script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js','data-pjax','.busuanzi'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="loading" style="opacity: 0;"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><nav><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup" tabindex="0"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>RabbitMQ</h1></div><hr><div id="post-content"><h1 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h1><h2 id="不同消息队列选择"><a href="#不同消息队列选择" class="headerlink" title="不同消息队列选择"></a>不同消息队列选择</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>RabbitMQ</th>
+<th>ActiveMQ</th>
+<th>RocketMQ</th>
+<th>Kafka</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>公司&#x2F;社区</td>
+<td>Rabbit</td>
+<td>Apache</td>
+<td>阿里</td>
+<td>Apache</td>
+</tr>
+<tr>
+<td>开发语言</td>
+<td>Erlang</td>
+<td>Java</td>
+<td>Java</td>
+<td>Scala &amp; Java</td>
+</tr>
+<tr>
+<td>协议支持</td>
+<td>AMQP<br />XMPP<br />STOMP<br />SMTP</td>
+<td>AMQP<br />XMPP<br />STOMP<br />OpenWire<br />REST</td>
+<td>自定义协议</td>
+<td>自定义协议</td>
+</tr>
+<tr>
+<td>支持语言</td>
+<td>几乎支持所有</td>
+<td>Java<br />C&#x2F;C++<br />Python<br />PHP<br />Perl<br />.NET等</td>
+<td>Java</td>
+<td>官方支持Java<br />社区产出多种API，如PHP、Python等</td>
+</tr>
+<tr>
+<td>单机吞吐量</td>
+<td>每秒十万左右级别</td>
+<td>每秒数万级</td>
+<td>每秒十万+级</td>
+<td>每秒百万级</td>
+</tr>
+<tr>
+<td>消息延迟</td>
+<td>微秒级</td>
+<td>毫秒级</td>
+<td>毫秒级</td>
+<td>毫秒以内</td>
+</tr>
+<tr>
+<td>消息可靠性</td>
+<td>高<br />完整的消息确认机制</td>
+<td>一般</td>
+<td>高<br />内置消息表，消息保存到数据库实现持久化</td>
+<td>一般</td>
+</tr>
+</tbody></table>
+<h2 id="RabbitMQ核心概念"><a href="#RabbitMQ核心概念" class="headerlink" title="RabbitMQ核心概念"></a>RabbitMQ核心概念</h2><ul>
+<li>publisher：消息发送者</li>
+<li>consumer：消息消费者</li>
+<li>queue：队列，存储消息</li>
+<li>exchange：交换机，负责路由消息</li>
+<li>virtual-host：虚拟主机，起到数据隔离作用</li>
+<li>Broker：接收和分发消息的应用，RabbitMQ Server就是Message Broker</li>
+<li>Channel：如果每一次访问RabbitMQ都建立一个Connection，在消息量大的时候建立Connection的开销是巨大的，效率也较低。Channel是Connection内部建立的逻辑连接，如果应用程序支持多线程，通常每个线程创建单独的Channel进行通讯，AMQP method 包含了 Channel ID 帮助客户端和 Message Broker 识别Channel，所以Channel之间完全隔离。Channel作为轻量级的Connection极大减少了建立TCP连接的开销</li>
+</ul>
+<h2 id="Work-Queues"><a href="#Work-Queues" class="headerlink" title="Work Queues"></a>Work Queues</h2><ul>
+<li>多个消费者绑定到一个队列，可以加快消息处理速度</li>
+<li>同一条消息只会被一个消费者处理</li>
+</ul>
+<p>默认情况下，RabbitMQ会将消息依次轮询投递给绑定在队列上的每个消费者。但这并未考虑到消费者是否已经处理完消息，可能出现消息堆积。</p>
+<p>解决方案：设置不公平分发</p>
+<ol>
+<li>设置预取值</li>
+<li>开启手动应答</li>
+</ol>
+<blockquote>
+<p>预取值：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43856972/article/details/130835883">https://blog.csdn.net/qq_43856972/article/details/130835883</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/582836002">https://zhuanlan.zhihu.com/p/582836002</a></p>
+</blockquote>
+<h2 id="Fanout交换机"><a href="#Fanout交换机" class="headerlink" title="Fanout交换机"></a>Fanout交换机</h2><p>Fanout交换机会将接收到的消息广播到每一个绑定的Queue，所以也叫广播模式</p>
+<h2 id="Direct交换机"><a href="#Direct交换机" class="headerlink" title="Direct交换机"></a>Direct交换机</h2><p>Direct交换机会将接收到的消息根据规则路由到指定的Queue，因此称为定向路由</p>
+<ul>
+<li>每一个Queue都与交换机设置一个<code>BindingKey</code></li>
+<li>发布者发送消息时，指定消息的<code>RoutingKey</code></li>
+<li>交换机将消息路由到<code>BindingKey</code>与消息<code>RoutingKey</code>一致的Queue</li>
+</ul>
+<h2 id="Topic交换机"><a href="#Topic交换机" class="headerlink" title="Topic交换机"></a>Topic交换机</h2><p>Topic交换机与Direct交换机类似，区别在于<code>RoutingKey</code>可以是多个单词的列表，并以<code>.</code>分割</p>
+<p>Queue与Exchange指定<code>BindingKey</code>时可以使用通配符：</p>
+<ul>
+<li>#：代指0个或多个单词</li>
+<li>*：代指一个单词</li>
+</ul>
+<p>例如：<code>china.#</code>、<code>#.news</code></p>
+<h1 id="可靠性"><a href="#可靠性" class="headerlink" title="可靠性"></a>可靠性</h1><h2 id="生产者可靠性"><a href="#生产者可靠性" class="headerlink" title="生产者可靠性"></a>生产者可靠性</h2><h3 id="生产者重连"><a href="#生产者重连" class="headerlink" title="生产者重连"></a>生产者重连</h3><p>配置重连相关设置，包括连接超时时长、重连间隔、最大重连次数等</p>
+<h3 id="生产者确认"><a href="#生产者确认" class="headerlink" title="生产者确认"></a>生产者确认</h3><p>RabbitMQ有Publisher Confirm和Publisher Return两种确认机制。开启确认机制后，在MQ成功收到消息后会返回确认消息给生产者。返回结果有以下情况：</p>
+<ul>
+<li>消息投递到了MQ，但是路由失败。此时会通过Publisher Return返回路由异常原因，然后返回<code>ACK</code>，告知消息投递成功</li>
+<li>临时消息投递到了MQ，并且入队成功，返回<code>ACK</code>，告知投递成功</li>
+<li>持久消息投递到了MQ，并且入队完成持久化，返回<code>ACK</code>，告知投递成功</li>
+<li>其他情况都会返回<code>NACK</code>，告知投递失败</li>
+</ul>
+<p>消息从 producer 到 exchange 则会返回一个 confirmCallback</p>
+<p>消息从 exchange 到 queue 投递失败则会返回一个 returnCallback</p>
+<blockquote>
+<p>如何处理生产者的确认消息？</p>
+<ul>
+<li>生产者确认需要额外的网络和系统资源开销，尽量不要使用</li>
+<li>如果一定要使用，无需开启Publisher Return机制，因为一般路由失败是自己业务问题</li>
+<li>对于nack消息可以有限次数重试，依旧失败则记录异常消息</li>
+</ul>
+</blockquote>
+<h2 id="MQ可靠性"><a href="#MQ可靠性" class="headerlink" title="MQ可靠性"></a>MQ可靠性</h2><p>在默认情况下，RabbitMQ会将接收到的信息保存在内存中以降低消息收发的延迟。这样会导致两个问题：</p>
+<ul>
+<li>一旦MQ宕机，内存中的消息会丢失</li>
+<li>内存空间有限，当消费者故障或处理过慢时，会导致消息积压，引发MQ阻塞</li>
+</ul>
+<h3 id="数据持久化"><a href="#数据持久化" class="headerlink" title="数据持久化"></a>数据持久化</h3><p>RabbitMQ实现数据持久化包括三个方面：</p>
+<ul>
+<li><p>交换机持久化</p>
+<p>创建时配置<code>Durability</code>为<code>Durable</code>，<code>Transient</code>为临时的</p>
+</li>
+<li><p>队列持久化</p>
+<p>同上</p>
+</li>
+<li><p>消息持久化</p>
+<p>配置<code>delivery mode</code>，<code>1</code>为临时的，<code>2</code>为持久化的</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>补充：</strong></p>
+<p><strong>即使队列和消息都是持久化的，也不能完全保证消息的 100% 不丢失</strong>。例如：在消息尚未被刷写到磁盘时，RabbitMQ 服务器突然崩溃，这种情况下的消息仍然可能会丢失。此外，<strong>RabbitMQ 不保证消息的立即持久化，而是尽可能快地将消息保存到磁盘</strong>。</p>
+<p>如果需要强有力的持久化策略，需要结合生产者的确认模式。</p>
+</blockquote>
+<h3 id="Lazy-Queue"><a href="#Lazy-Queue" class="headerlink" title="Lazy Queue"></a>Lazy Queue</h3><p>惰性队列，它有以下特征：</p>
+<ul>
+<li>接收到消息后直接存入磁盘而非内存（内存中只保留最近的消息，默认2048条）</li>
+<li>消费者要消费消息时才会从磁盘中读取并加载到内存</li>
+<li>支持数百万条的消息存储</li>
+</ul>
+<p>在3.12版本后，所有队列都是Lazy Queue模式，无法更改</p>
+<h2 id="消费者可靠性"><a href="#消费者可靠性" class="headerlink" title="消费者可靠性"></a>消费者可靠性</h2><h3 id="自动应答"><a href="#自动应答" class="headerlink" title="自动应答"></a>自动应答</h3><p>消息发送成功后立刻被认为已经传送成功，这种模式需要在高吞吐量和数据传输安全性方面做权衡。</p>
+<p>这种模式仅适用在消费者可以高效并以某种速率能够处理这些消息的情况下使用。</p>
+<h3 id="手动应答"><a href="#手动应答" class="headerlink" title="手动应答"></a>手动应答</h3><p>为了确认消费者是否成功处理消息，RabbitMQ提供了消费者确认机制（Consumer Acknowledgement）。当消费者处理消息结束后，应该向RabbitMQ发送一个回执，告知RabbitMQ自己消息处理状态。回执有三种可选值：</p>
+<ul>
+<li>ack：成功处理消息，RabbitMQ从队列中删除该消息</li>
+<li>nack：消息处理失败，RabbitMQ需要再次投递消息</li>
+<li>reject：消息处理失败并拒绝该消息，RabbitMQ从队列中删除该消息</li>
+</ul>
+<h3 id="消费失败处理"><a href="#消费失败处理" class="headerlink" title="消费失败处理"></a>消费失败处理</h3><p>当消费者出现异常时，消息会不断重新入队（requeue）到队列，再重新发送给消费者，如果一直异常，就会无限循环导致MQ的消息处理飙升，带来不必要的压力。</p>
+<p>当出现异常时，客户端尽量本地重试，而不是无限制重新入队。业务控制失败的处理情况，最终返回ack或者reject。</p>
+<h1 id="延迟消息"><a href="#延迟消息" class="headerlink" title="延迟消息"></a>延迟消息</h1><h2 id="什么是延迟消息？"><a href="#什么是延迟消息？" class="headerlink" title="什么是延迟消息？"></a>什么是延迟消息？</h2><p>延迟消息：生产者发送消息时指定一个时间，消费者不会立刻收到消息，而是在指定时间之后才收到消息。</p>
+<p>延迟任务：设置在一定时间之后才执行的任务</p>
+<h2 id="死信交换机"><a href="#死信交换机" class="headerlink" title="死信交换机"></a>死信交换机</h2><p>当一个队列中的消息满足下列情况之一时，将会称为死信（dead letter）：</p>
+<ul>
+<li><p>消费者reject或nack声明消费失败，并且消息的requeue参数设置为false</p>
+</li>
+<li><p>消息是一个过期消息（达到了队列或消息本身设置的过期时间），超时无人消费</p>
+<blockquote>
+<p>队列设置<code>x-message-ttl</code>（简称TTL）属性，即可设置该队列中消息的过期时间，单位ms</p>
+</blockquote>
+</li>
+<li><p>要投递的队列消息堆积满了，最早的消息可能成为死信</p>
+</li>
+</ul>
+<p>如果队列通过<code>x-dead-letter-exchange</code>属性指定了一个交换机，那么该队列中的死信就会投递到这个交换机中。该交换机被称为死信交换机（Dead Letter Exchange，简称DLX），<code>x-dead-letter-routing-key</code>属性（简称DLK）可以将死信消息投递到指定交换机指定路由键的队列中去</p>
+<h2 id="延迟队列"><a href="#延迟队列" class="headerlink" title="延迟队列"></a>延迟队列</h2><p>延迟队列最重要的特性体现在延迟属性上，延迟队列中的元素是希望在指定时间到了以后取出和处理，简单来说，延迟队列就是用来存放需要指定时间被处理的消息的队列，即存放延迟消息的队列。</p>
+<p>RabbitMQ中的延迟队列可以看做死信队列的一种，即消息过期的情况，利用DLX+TTL实现。</p>
+<h2 id="延迟队列优化"><a href="#延迟队列优化" class="headerlink" title="延迟队列优化"></a>延迟队列优化</h2><p>单纯依靠DLX+TTL实现延迟队列会引发一个问题，队列中所有消息的过期时间是固定的，如果需求不同消息有不同的过期时间，这种方式就无法实现。</p>
+<p>优化方式：为每一条消息设置过期时间</p>
+<p>引发问题：有些情况下，即使消息过期，也无法立刻从队列中删除，这是因为每条消息是否过期是在即将投递到消费者之前判定的，如果第一条消息过期时间很长，即使后面的消息过期时间很短，也需要等到第一条消息执行完再处理后面的消息</p>
+<p>解决方案：延迟队列插件<code>rabbitmq_delayed_message_exchange</code></p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="优先级队列"><a href="#优先级队列" class="headerlink" title="优先级队列"></a>优先级队列</h2><p>队列设置参数<code>x-max-priority</code>可设置为优先级队列，参数值表示消息可以选取的优先级范围，如<code>10</code>代表消息可以选择<code>0-10</code>之间的优先级</p>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/2024/10/06/Redis/">← Next Redis</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/2024/09/29/MySQL%E8%BF%9B%E9%98%B6/">MySQL进阶 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a class="i-top" id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧ </a><a class="i-index" id="to-index" href="#toc-div" title="To Catalog">≡</a><a class="i-color" id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">LonelyTaker</a></h1><div id="description"><p></p></div><div id="social-links"><a class="social" target="_blank" rel="noopener" href="https://github.com/LonelyTaker"><i class="fab fa-github" alt="GitHub"></i></a></div></div><div id="aside-block"><div id="toc-div"><h1>Catalog</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D"><span class="toc-text">基本介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E5%90%8C%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%80%89%E6%8B%A9"><span class="toc-text">不同消息队列选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RabbitMQ%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-text">RabbitMQ核心概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Work-Queues"><span class="toc-text">Work Queues</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fanout%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-text">Fanout交换机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Direct%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-text">Direct交换机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Topic%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-text">Topic交换机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="toc-text">可靠性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="toc-text">生产者可靠性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E9%87%8D%E8%BF%9E"><span class="toc-text">生产者重连</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E7%A1%AE%E8%AE%A4"><span class="toc-text">生产者确认</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MQ%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="toc-text">MQ可靠性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-text">数据持久化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lazy-Queue"><span class="toc-text">Lazy Queue</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="toc-text">消费者可靠性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%BA%94%E7%AD%94"><span class="toc-text">自动应答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E5%BA%94%E7%AD%94"><span class="toc-text">手动应答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E5%A4%B1%E8%B4%A5%E5%A4%84%E7%90%86"><span class="toc-text">消费失败处理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BB%B6%E8%BF%9F%E6%B6%88%E6%81%AF"><span class="toc-text">延迟消息</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%BB%B6%E8%BF%9F%E6%B6%88%E6%81%AF%EF%BC%9F"><span class="toc-text">什么是延迟消息？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%BB%E4%BF%A1%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-text">死信交换机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97"><span class="toc-text">延迟队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97%E4%BC%98%E5%8C%96"><span class="toc-text">延迟队列优化</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97"><span class="toc-text">优先级队列</span></a></li></ol></li></ol></div></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr> by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas></body></html>

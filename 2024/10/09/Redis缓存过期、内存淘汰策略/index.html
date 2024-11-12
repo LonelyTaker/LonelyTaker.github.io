@@ -1,0 +1,132 @@
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Redis缓存过期、内存淘汰策略 | LonelyTaker's Blog</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="preload" as="font" crossorigin="anonymous" href="/font/Bender.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/BenderLight.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/JetBrainsMono-Regular.woff2"><link rel="stylesheet" href="/css/arknights.css"><style>@font-face {
+  font-family: Bender;
+  src: local('Bender'), url("/font/Bender.ttf"), url("/font/Bender.otf");
+}
+@font-face {
+  font-family: BenderLight;
+  src: local('BenderLight'), url("/font/BenderLight.ttf");
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}
+</style><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"Enter here","blurHolder":"Search","noResult":"Data \"$0\" not found"},"code":{"codeInfo":"$0 - $1 lines","copy":"copy"}}</script><link type="text/css" rel="stylesheet" href="/lib/encrypt/hbe.style.css"><script src="//unpkg.com/mermaid@10.5.0/dist/mermaid.min.js"></script><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lightgallery.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-zoom.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-thumbnail.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/css/all.min.css"><script>if (window.localStorage.getItem('theme-mode') === 'light')
+ document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark')
+ document.documentElement.setAttribute('theme-mode', 'dark')</script><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.woff2") format('woff2');
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><style>:root {
+ --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
+ --light-background: url('/img/bk.jpg');
+ --theme-encrypt-confirm: 'confirm'
+}</style><script defer src="/js/arknights.js"></script><script defer src="/js/search.js"></script><script defer type="module">import mermaid from '//unpkg.com/mermaid@10.5.0/dist/mermaid.esm.mjs';
+window.mermaid = mermaid;
+code.paintMermaid();
+</script><script async src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script async src="/lib/encrypt/hbe.js"></script><script async src="/js/pjax.js"></script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js','data-pjax','.busuanzi'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="loading" style="opacity: 0;"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><nav><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup" tabindex="0"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>Redis缓存过期、内存淘汰策略</h1></div><hr><div id="post-content"><h1 id="过期键的删除策略"><a href="#过期键的删除策略" class="headerlink" title="过期键的删除策略"></a>过期键的删除策略</h1><ul>
+<li><p>立刻删除</p>
+<p>立刻删除能保证内存中数据的最大新鲜度，因为它保证过期键会在过期后马上被删除，其所占用的内存也会随之释放。但是对CPU不友好，因为删除会占用CPU时间，这会产生大量的性能消耗，同时也会影响数据的读取操作。</p>
+</li>
+<li><p>惰性删除</p>
+<p>数据达到过期时间，不立刻删除，等下次访问时判断是否过期，过期则删除。该方式的缺点是对内存不友好，如果这个过期键一直不被访问，其所占用的内存就不会释放。我们甚至可以将这种情况看作是一种内存泄漏，无用的数据占用了大量内存，而服务器却不会主动去释放。</p>
+</li>
+<li><p>定期删除</p>
+<p>这种方式是上面两种策略的折中，每隔一段时间执行一次删除过期键操作，并通过限制删除操作执行时长和频率来减少对CPU时间的影响。</p>
+<p>周期性轮询Redis库中的时效性数据，采用<code>随机抽查</code>的策略，利用过期数据占比的方式控制删除额度。</p>
+<blockquote>
+<p>该方式的难点在确定删除操作执行的时长和频率：</p>
+<p>如果删除操作太频繁或执行时间太长，定期删除策略就会退化为立刻删除策略，以至于将CPU时间过多消耗在删除过期键上；</p>
+<p>如果删除操作太少或执行时间太短，定期删除策略又会和惰性删除策略一样，出现浪费内存的情况。</p>
+</blockquote>
+</li>
+</ul>
+<br/>
+
+<h1 id="Redis内存设置"><a href="#Redis内存设置" class="headerlink" title="Redis内存设置"></a>Redis内存设置</h1><p>如果不设置Redis的最大内存大小或者设置最大内存大小为0，在64位操作系统下不限制内存大小（默认）</p>
+<p>修改配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">maxmemory</span> <span class="hljs-string">&lt;bytes&gt;</span><br><span class="hljs-string">maxmemory</span> <span class="hljs-number">1048576</span> <span class="hljs-comment"># 1MB</span><br></code></pre></td></tr></table></figure>
+
+<p>一般推荐Redis设置内存为最大物理内存的四分之三</p>
+<p>如果Redis内存达到了使用上限，无法再设置新key，会抛出<code>OOM</code>异常</p>
+<br/>
+
+<h1 id="内存淘汰策略"><a href="#内存淘汰策略" class="headerlink" title="内存淘汰策略"></a>内存淘汰策略</h1><p>如果我们希望Redis内存达到上限后，仍能正常提供服务，那么它就需要使用对应的一些淘汰策略。</p>
+<p>Redis支持的内存淘汰策略如下：</p>
+<ul>
+<li><p><strong>noeviction（默认）</strong></p>
+<p>该策略对于写请求不再提供服务，会直接返回错误，当然排除del等特殊操作</p>
+</li>
+<li><p><strong>allkeys-random</strong></p>
+<p>从Redis中随机选取key进行淘汰</p>
+</li>
+<li><p><strong>allkeys-lru</strong></p>
+<p>使用LRU算法，从Redis中选取使用最少的key进行淘汰</p>
+</li>
+<li><p><strong>allkeys-lfu</strong></p>
+<p>使用LFU，从Redis中选取某段时间之内使用频次最少的key进行淘汰</p>
+</li>
+<li><p><strong>volatile-random</strong></p>
+<p>从Redis中设置了过期时间的key，进行随机淘汰</p>
+</li>
+<li><p><strong>volatile-ttl</strong></p>
+<p>从Redis中选取即将过期的key，进行淘汰</p>
+</li>
+<li><p><strong>volatile-lru</strong></p>
+<p>使用LRU算法，从Redis设置了过期时间的key中，选取最少使用的key进行淘汰</p>
+</li>
+<li><p><strong>volatile-lfu</strong></p>
+<p>使用LFU算法，从Redis设置了过期时间的key中，选取某段时间之内使用频次最小的key进行淘汰</p>
+</li>
+</ul>
+<blockquote>
+<p>LRU：Least Recently Used，最近最少使用</p>
+<p>淘汰最长时间未被使用的key，看key被使用到发生调度的时间长度</p>
+<p>LFU：Least Frequently Used，最不经常使用</p>
+<p>淘汰一定时期内被访问次数最少的key，看一段时间内key被使用的频率</p>
+</blockquote>
+<br/>
+
+<p>性能优化建议：</p>
+<ul>
+<li><p>避免存储bigkey</p>
+</li>
+<li><p>开启惰性淘汰</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">lazyfree-lazy-eviction</span> <span class="hljs-literal">yes</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/2024/10/09/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/">← Next IO多路复用</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/2024/10/09/Redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">Redis分布式锁 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a class="i-top" id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧ </a><a class="i-index" id="to-index" href="#toc-div" title="To Catalog">≡</a><a class="i-color" id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">LonelyTaker</a></h1><div id="description"><p></p></div><div id="social-links"><a class="social" target="_blank" rel="noopener" href="https://github.com/LonelyTaker"><i class="fab fa-github" alt="GitHub"></i></a></div></div><div id="aside-block"><div id="toc-div"><h1>Catalog</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%87%E6%9C%9F%E9%94%AE%E7%9A%84%E5%88%A0%E9%99%A4%E7%AD%96%E7%95%A5"><span class="toc-text">过期键的删除策略</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis%E5%86%85%E5%AD%98%E8%AE%BE%E7%BD%AE"><span class="toc-text">Redis内存设置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5"><span class="toc-text">内存淘汰策略</span></a></li></ol></div></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr> by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas></body></html>

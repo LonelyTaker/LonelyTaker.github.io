@@ -1,0 +1,552 @@
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Redis | LonelyTaker's Blog</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="preload" as="font" crossorigin="anonymous" href="/font/Bender.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/BenderLight.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/JetBrainsMono-Regular.woff2"><link rel="stylesheet" href="/css/arknights.css"><style>@font-face {
+  font-family: Bender;
+  src: local('Bender'), url("/font/Bender.ttf"), url("/font/Bender.otf");
+}
+@font-face {
+  font-family: BenderLight;
+  src: local('BenderLight'), url("/font/BenderLight.ttf");
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}
+</style><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"Enter here","blurHolder":"Search","noResult":"Data \"$0\" not found"},"code":{"codeInfo":"$0 - $1 lines","copy":"copy"}}</script><link type="text/css" rel="stylesheet" href="/lib/encrypt/hbe.style.css"><script src="//unpkg.com/mermaid@10.5.0/dist/mermaid.min.js"></script><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lightgallery.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-zoom.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-thumbnail.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/css/all.min.css"><script>if (window.localStorage.getItem('theme-mode') === 'light')
+ document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark')
+ document.documentElement.setAttribute('theme-mode', 'dark')</script><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.woff2") format('woff2');
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><style>:root {
+ --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
+ --light-background: url('/img/bk.jpg');
+ --theme-encrypt-confirm: 'confirm'
+}</style><script defer src="/js/arknights.js"></script><script defer src="/js/search.js"></script><script defer type="module">import mermaid from '//unpkg.com/mermaid@10.5.0/dist/mermaid.esm.mjs';
+window.mermaid = mermaid;
+code.paintMermaid();
+</script><script async src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script async src="/lib/encrypt/hbe.js"></script><script async src="/js/pjax.js"></script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js','data-pjax','.busuanzi'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="loading" style="opacity: 0;"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><nav><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup" tabindex="0"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>Redis</h1></div><hr><div id="post-content"><h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="字符串（String）"><a href="#字符串（String）" class="headerlink" title="字符串（String）"></a>字符串（String）</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">set key value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time-seconds|PXAT unix-time-milliseconds|KEEPTTL]<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>NX：键不存在的时候设置键值</li>
+<li>XX：键存在的时候设置键值</li>
+<li>GET：返回指定键原本的值，若键不存在时返回<code>nil</code></li>
+<li>EX seconds：以秒为单位的过期时间</li>
+<li>PX milliseconds：以毫秒为单位的过期时间</li>
+<li>EXAT unix-time-seconds：设置以秒为单位的UNIX时间戳对应的时间为过期时间</li>
+<li>PXAT unix-time-milliseconds：设置以毫秒为单位的UNIX时间戳对应的时间为过期时间</li>
+<li>KEEPTTL：保留设置前指定键的生存时间</li>
+</ul>
+<br/>
+
+<p>同时设置&#x2F;获取多个键值：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">mset k1 v1 k2 v2 k3 v3<br>mget k1 k2 k3<br>msetnx k1 v1 k4 v4 # 如果其中一项失败，整体失败，k1已存在，所以都不会设置成功<br></code></pre></td></tr></table></figure>
+
+<p>获取指定区间范围内的值：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">set k1 abcd1234<br>getrange k1 0 3 # abcd，类似切片<br>setrange k1 0 xxxx # xxxx1234，从第0位开始，使用后面的字符串覆盖<br></code></pre></td></tr></table></figure>
+
+<p>数值增减（一定要是数字才能进行加减）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">set k1 100<br>INCR k1 # 递增<br>INCRBY k1 2 # 增加指定整数<br>DECR k1 # 递减<br>DECRBY k1 2 # 减少指定整数<br></code></pre></td></tr></table></figure>
+
+<p>获取字符串长度和内容追加：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">STRLEN k1 # 获取字符串长度1<br>APPEND k1 xxxx # 追加<br></code></pre></td></tr></table></figure>
+
+<p>其他：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">setnx k1 v1 # 只有key不存在时设置key的值<br>setex k1 10 v1 # 设置key的同时设置过期时间<br>getset k1 v1 # 先get再set<br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="列表（List）"><a href="#列表（List）" class="headerlink" title="列表（List）"></a>列表（List）</h2><p>一个双端链表结构，主要功能有push、pop等，一般用在栈、队列、消息队列等场景</p>
+<ul>
+<li>left、right都可插入添加</li>
+<li>如果键不存在，创建新的链表</li>
+<li>如果键已存在，新增内容</li>
+<li>若果值全移除，对应的键也就消失了</li>
+</ul>
+<p>由于底层是个双向链表，对两端的操作性能很高，通过索引下标操作中间节点的性能会较差。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell">lpush/rpush<br>lpop/rpop<br>lrange k1 0 -1 # 遍历列表<br>lindex # 按照索引获取元素<br>llen # 获取列表中元素个数<br>lrem key 数字N 给定值v1 # 删除N个值等于v1的元素<br>ltrim key 开始index 结束index # 截取指定范围的值后再赋值给key<br>rpoplpush 源列表 目标列表<br>lset key index value<br>linsert key before/after 已有值 插入的新值<br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="哈希表（Hash）"><a href="#哈希表（Hash）" class="headerlink" title="哈希表（Hash）"></a>哈希表（Hash）</h2><p>key-value键值对模式不变，但是value是一个键值对</p>
+<p><code>Map&lt;String,Map&lt;Object,Object&gt;&gt;</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">hset/hget/hmset/hmget/hgetall/hdel<br><span class="hljs-meta prompt_"># </span><span class="language-bash">hset user <span class="hljs-built_in">id</span> 11 age25</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">hset之前只能设置一个值，现在可以设置多个，代替了hmset的功能，hmset已被弃用</span><br>hlen # 获取某个key内所有字段数量<br>hexists key 具体字段<br>hkeys/hvals key # 罗列key内所有字段/字段值<br>hincrby/hincrbyfloat<br>hsetnx<br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="集合（Set）"><a href="#集合（Set）" class="headerlink" title="集合（Set）"></a>集合（Set）</h2><p>单值多value，且无重复</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs shell">sadd key member [member...] # 添加元素<br>smembers key # 遍历所有元素<br>sismember key member # 判断元素是否在集合中<br>srem key member [member...] # 删除軅<br>scard # 获取集合内元素个数<br>srandmember key [数字N] # 从集合中随机展现N个元素，元素不删除<br>spop key [数字N] # 从集合中随机弹出N个元素，元素删除<br>smove key1 key2 key1中存在的值 # 将key1中某个值赋予key2<br><span class="hljs-meta prompt_"># </span><span class="language-bash">集合运算</span><br>A:&#123;a,b,c,1,2&#125; B:&#123;1,2,3,a,x&#125;<br>sdiff A B # 差集<br>sunion A B # 并集<br>sinter A B # 交集<br>sintercard numkeys key [key ...] [LIMIT limit] # redis7新命令<br>sintercard 2 A B # 返回给定集合的交集产生的集合的基数<br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="有序集合（ZSet）"><a href="#有序集合（ZSet）" class="headerlink" title="有序集合（ZSet）"></a>有序集合（ZSet）</h2><p>在set的基础上，每个val值前加一个score分数值</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs shell">zadd key score member [score member...] # 添加元素<br>zrange key start stop [WITHSCORES] # 按照分数从小到大的顺序返回索引从start到stop之间的所有元素<br>zrevrange key start stop [WITHSCORES] # 按照分数从大到小的顺序返回索引从start到stop之间的所有元素<br>zrangebyscore key min max [WITHSCORES] [LIMIT offset count] # 获取指定分数范围的元素，等价于 zrange key min max byscore<br><span class="hljs-meta prompt_"># </span><span class="language-bash">zrangebyscore key (min (max</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">小括号表示不包含（开区间）</span><br>zscore key member # 获取元素的分数<br>zcard key # 获取集合中元素数量<br>zrem key member # 删除元素<br>zincrby key increment member # 增加某个元素的分数<br>zcount key min max # 获取指定分数范围内的元素个数<br>zmpop numkeys key [key ...] &lt;MIN | MAX&gt; [COUNT count] # redis7新命令，从键名列表中的第一个非空排序机制弹出一个或多个元素<br>zrank key values # 获取下标值<br>zrevrank key values # 逆序获取下标值<br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<blockquote>
+<p>以上为五种基本类型，以下为特殊类型</p>
+</blockquote>
+<br/>
+
+<h2 id="地理空间（GEO）"><a href="#地理空间（GEO）" class="headerlink" title="地理空间（GEO）"></a>地理空间（GEO）</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">geoadd # 将指定的地理空间位置（纬度、经度、名称）添加到指定的key中<br>geopos # 从key里返回所有给定位置元素的位置（经度和纬度）<br>geodist # 返回两个给定位置之间的距离<br>georadius # 以给定的经纬度为中心， 找出某一半径内的元素<br>georadiusbymember # 找出位于指定范围内的元素，中心点是由给定的位置元素决定<br>geohash # 返回一个或多个位置元素的 Geohash 表示<br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="基数统计（HyperLogLog）"><a href="#基数统计（HyperLogLog）" class="headerlink" title="基数统计（HyperLogLog）"></a>基数统计（HyperLogLog）</h2><p>主要用来做基数统计的算法，其优点是在输入元素的数量或者体积非常大时，计算基数所需的空间总是固定的，并且是很小的。</p>
+<p>在Redis中，每个HyperLogLog键只需要花费12kb内存，就可以计算接近2^64个不同元素的基数。这和计算基数时，元素越多耗费内存越多的集合形成鲜明对比。</p>
+<p>但是，因为HyperLogLog只会根据输入元素来计算基数，不会存储输入元素本身，所以HyperLogLog不能像集合那样，返回输入的各个元素。</p>
+<p>基数统计：用于统计一个集合中不重复的元素个数，就是对集合去重复后剩余元素的计算</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">pfadd key element [element...] # 添加指定元素到HyperLogLog中<br>pfcount key [key...] # 返回给定HyperLogLog的基数估算值<br>pfmerge destkey sourcekey [sourcekey...] # 将多个HyperLogLog合并为一个HyperLogLog<br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="位图（bitmap）"><a href="#位图（bitmap）" class="headerlink" title="位图（bitmap）"></a>位图（bitmap）</h2><p>用String类型作为底层数据结构实现的一种统计二值状态（0和1）的数据类型，位图本质是数组，它是基于 String数据类型的按位的操作。该数据由多个二进制位组成，每个二进制位都对应一个偏移量（我们称之为一个索引）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">setbit key offset val # 给指定key的第offset位赋值val<br>getbit key offset # 获取指定key的第offset位<br>strlen key # 获取指定key占用的字节长度，不满8位按1字节补全<br>bitcount key start end # 返回指定key中[start, end]中为1的数量<br>bitop operation destkey key [key...] # 对不同的二进制存储数据进行位运算（AND、OR、NOT、XOR）<br></code></pre></td></tr></table></figure>
+
+<br/>
+
+<h2 id="位域（bitfield）"><a href="#位域（bitfield）" class="headerlink" title="位域（bitfield）"></a>位域（bitfield）</h2><p>Redis 位域允许您设置、递增和获取任意位长度的整数值。例如，您可以对从无符号 1 位整数到有符号 63 位整数的任何值进行操作。bitfield支持原子读取、写入和增量操作，使其成为管理计数器和类似数值的理想选择。</p>
+<p>总结：将一个Redis字符串看作是一个由二进制位组成的数组，并能对变长位宽和任意没有字节对齐的指定整型位进行寻址和修改</p>
+<br/>
+
+<h2 id="流（Stream）"><a href="#流（Stream）" class="headerlink" title="流（Stream）"></a>流（Stream）</h2><p>Redis版的MQ消息中间件+阻塞队列</p>
+<br/>
+
+<h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>将内存中的数据写入磁盘</p>
+<h2 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h2><p>全称<code>Redis Database</code>，以指定的时间间隔执行数据集的时间点快照。</p>
+<p>把某一时刻的数据和状态以文件的形式写到磁盘上，也就是快照。这样依赖即使故障宕机，快照文件也不会丢失，数据的可靠性也就得到了保证。这个快照文件就称为RDB文件（dump.rdb）</p>
+<ul>
+<li><p>自动触发</p>
+<p>6.0.16以下版本配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment">################## SNAPSHOTTING ################</span><br><span class="hljs-string">save</span> <span class="hljs-number">900</span> <span class="hljs-number">1</span> <span class="hljs-comment"># 每隔15min，如果超过1个key发生变化，就写一份新的RDB文件</span><br><span class="hljs-string">save</span> <span class="hljs-number">300</span> <span class="hljs-number">10</span> <span class="hljs-comment"># 每隔5min，如果超过10个key发生变化，就写一份新的RDB文件</span><br><span class="hljs-string">save</span> <span class="hljs-number">60</span> <span class="hljs-number">10000</span> <span class="hljs-comment"># 每隔1min，如果超过10000个key发生变化，就写一份新的RDB文件</span><br></code></pre></td></tr></table></figure>
+
+<p>公式<code>save m n</code>表示m秒内数据集存在n次修改时，自动触发保存</p>
+<p>7版本配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">save</span> <span class="hljs-number">3600 </span><span class="hljs-number">1</span> <span class="hljs-number">300</span> <span class="hljs-number">100</span> <span class="hljs-number">60</span> <span class="hljs-number">10000</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>手动触发</p>
+<p>可以使用<code>SAVE</code>或<code>BGSAVE</code>命令</p>
+<p>save不会fork子进程，而是直接阻塞主线程来备份数据，直接持久化工作完成，执行期间Redis不能处理其他命令，线上禁止使用</p>
+<p>bgsave会fork一个子进程进行保存，这个操作是后台完成的，这就允许主进程还可以响应客户端请求</p>
+</li>
+</ul>
+<br />
+
+<p><strong>优点：</strong></p>
+<ul>
+<li>RDB适合大规模的数据恢复。</li>
+<li>可以按照业务定时备份。</li>
+<li>RDB文件在内存中的加载速度要比AOF快得多。</li>
+<li>RDB最大限度地提高了Redis性能，因为Redis父进程为了持久化而需要做的唯一工作就是派生一个将完成所有其余工作的子进程。父进程永远不会执行磁盘IO或类似操作。</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>由于RDB保存有一定时间间隔，如果Redis由于任何原因在没有正确关闭的情况下停止工作，可能存在数据丢失。</li>
+<li>内存数据的全量同步，如果数据类太大会导致IO严重影响服务性能。</li>
+</ul>
+<br />
+
+<p><strong>触发RDBd的情况：</strong></p>
+<ul>
+<li>配置中默认的快照配置（自动触发）</li>
+<li>手动save&#x2F;bgsave命令（手动触发）</li>
+<li>执行flushall&#x2F;flushdb命令（产生的是个空内容文件）</li>
+<li>执行shutdown且没有设置开启AOF持久化</li>
+<li>主从复制时，主节点自动触发</li>
+</ul>
+<br />
+
+<p>检查RDB文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">redis-check-rdb xxx.rdb<br></code></pre></td></tr></table></figure>
+
+<p>禁用快照：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">sava</span> <span class="hljs-string">&quot;&quot;</span> <span class="hljs-comment"># 配置文件内填写空字符串</span><br></code></pre></td></tr></table></figure>
+
+<p>配置文件中相关的配置信息：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">save</span> <span class="hljs-string">&lt;seconds&gt;</span> <span class="hljs-string">&lt;changes&gt;</span> <span class="hljs-comment"># 自动触发配置</span><br><span class="hljs-string">dbfilename</span> <span class="hljs-comment"># RDB文件名</span><br><span class="hljs-string">dir</span> <span class="hljs-comment"># 存放路径</span><br><span class="hljs-string">stop-writes-on-bgsave-error</span> <span class="hljs-literal">yes</span> <span class="hljs-comment"># 默认yes，持久化保存出错时是否停止写请求</span><br><span class="hljs-string">rdbcompression</span> <span class="hljs-literal">yes</span> <span class="hljs-comment"># 默认yes，是否压缩存储。redis会采用LZF算法进行压缩，如果不想消耗CPU进行压缩的话，可以关闭此功能</span><br><span class="hljs-string">rdbchunsum</span> <span class="hljs-literal">yes</span> <span class="hljs-comment"># 默认yes，在存储快照后还可以让redis用CRC64算法来进行数据校验，但这样做会增加大约10%的性能消耗，如果希望获取到最大的性能提升，可以关闭此功能</span><br><span class="hljs-string">rdb-del-syns-files</span> <span class="hljs-literal">no</span> <span class="hljs-comment"># 默认no，在没有持久化的情况下删除复制中使用的RDB文件</span><br></code></pre></td></tr></table></figure>
+
+<br />
+
+<h2 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h2><p>全称<code>Append Only File</code>，以日志的形式来记录每个写操作，将Redis执行过的所有写指令记录下来（读操作不记录），只许追加文件但不可以改写文件，redis启动之初会读取该文件重新构建数据。</p>
+<p>默认情况下Redis是没有开启AOF的，开启配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">appendonly</span> <span class="hljs-literal">yes</span><br></code></pre></td></tr></table></figure>
+
+<ol>
+<li><p>写操作命令到达Redis Server后并不是直接写入AOF文件，会将这些命令先放入<code>AOF缓存</code>中进行保存。这里的AOF缓存区实际上是内存中的一片区域，存在的目的是当这些命令达到一定量以后再写入磁盘，避免频繁的磁盘IO操作</p>
+</li>
+<li><p>AOF缓存会根据AOF缓存区<code>同步文件的三种写回策略</code>将命令写入磁盘的AOF文件</p>
+<p>写回策略：</p>
+<ul>
+<li>always：每个写命令执行完立刻同步地将日志写回磁盘</li>
+<li>everysec（默认）：每秒写回，每个写命令执行完，把日志放入缓冲区，间隔1s写回磁盘</li>
+<li>no：操作系统控制的写回，每个写命令执行完，只是把日志放入缓冲区，由操作系统决定何时将缓冲区内容写回磁盘</li>
+</ul>
+</li>
+<li><p>随着写入AOF内容的增加为避免文件膨胀，会根据规则进行命令的合并（又称<code>AOF重写</code>），从而起到AOF文件压缩的目的</p>
+</li>
+</ol>
+<br/>
+
+<p><strong>优点：</strong></p>
+<ul>
+<li>更好保护数据不丢失、性能高、可做紧急恢复</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>AOF文件通常比相同数据集的等效RDB文件大</li>
+<li>AOF运行效率要慢于RDB</li>
+</ul>
+<br/>
+
+<p><strong>AOFRW</strong></p>
+<ul>
+<li><p>自动触发</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">auto-aof-rewrite-percentage</span> <span class="hljs-number">100</span><br><span class="hljs-string">auto-aof-rewrite-min-size</span> <span class="hljs-string">64mb</span><br></code></pre></td></tr></table></figure>
+
+<p>同时满足上面两个条件才会触发：</p>
+<ul>
+<li>根据上次重写后的AOF大小，判断当前AOF大小是否增长了1倍（百分百）</li>
+<li>重写时满足的文件大小（64MB）</li>
+</ul>
+</li>
+<li><p>手动触发</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">bgrewriteaof<br></code></pre></td></tr></table></figure></li>
+</ul>
+<blockquote>
+<p>AOFRW流程以及MP-AOF的优化可参考：</p>
+<p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/866957#">https://developer.aliyun.com/article/866957#</a></p>
+</blockquote>
+<br/>
+
+<p>相关配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">appendfsync</span> <span class="hljs-string">everysec</span> <span class="hljs-comment"># 写回策略</span><br><span class="hljs-string">appenddirname</span> <span class="hljs-string">&quot;appendonlydir&quot;</span> <span class="hljs-comment"># 日志存放路径</span><br><span class="hljs-string">appendfilename</span> <span class="hljs-string">&quot;appendonly.aof&quot;</span> <span class="hljs-comment"># 日志文件名</span><br></code></pre></td></tr></table></figure>
+
+<p>redis7.0后采取MP-AOF的方式存储文件，顾名思义，MP-AOF就是将原本的单个AOF文件拆分为多个AOF文件。在MP-AOF中，我们将AOF分为三类，分别是：</p>
+<ul>
+<li>BASE：表示基础AOF，一般由子进程通过重写产生，该文件最多只有一个</li>
+<li>INCR：表示增量AOF，一般会在AOFRW开始执行时被创建，该文件可能存在多个</li>
+<li>HISTORY：表示历史AOF，它是由BASE和INCR AOF变化而来，每次AOFRW成功完成时，本次AOFRW之前对应的BASE和INCR AOF都将变为HISTORY，HISTORY类型的AOF会被Redis自动删除</li>
+</ul>
+<p>为了管理这些文件，我们引入了一个manifest（清单）文件来跟踪、管理这些AOF。同时，为了便于AOF备份和拷贝，我们将所有的AOF文件和manifest文件放入一个单独的文件目录中，由appenddirname配置决定。</p>
+<br/>
+
+<h2 id="RDB-AOF混合持久化"><a href="#RDB-AOF混合持久化" class="headerlink" title="RDB+AOF混合持久化"></a>RDB+AOF混合持久化</h2><ul>
+<li>默认情况下Redis仅开启了RDB，AOF未开启</li>
+<li>两者可以同时开启</li>
+<li>同时开启时，服务重启只会加载AOF，不会加载RDB文件</li>
+</ul>
+<p>这是一种推荐的持久化方式，因为：</p>
+<ul>
+<li>通常情况下AOF文件保存的数据集要比RDB文件保存的数据集完整（RDB间隔较长，服务宕机损失的数据较大）</li>
+<li>RDB适合用于备份数据库（AOF在不断变化不好备份）</li>
+</ul>
+<p>开启混合方式：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">aof-use-rdb-preamble</span> <span class="hljs-literal">yes</span><br></code></pre></td></tr></table></figure>
+
+<p>RDB镜像做全量持久化，AOF做增量持久化。</p>
+<p>先使用RDB进行快照存储，然后使用AOF持久化记录所有的写操作，当重写策略满足或手动触发重写的时候，<strong>将最新的数据存储为新的RDB记录</strong>。这样的话，重启服务会从RDB和AOF两部分恢复数据，既保证了数据完整性，又提高了恢复数据的性能。简单来说：混合持久化方式产生的文件一部分是RDB格式，一部分是AOF格式（AOF包括了RDB头部和AOF混写）</p>
+<br/>
+
+<h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><p>可以一次执行多个命令，本质是一组命令的集合。一个事务中的所有命令都会序列化，按顺序串行化执行而不会被其他命令插入。</p>
+<p>特点：</p>
+<ul>
+<li><p>单独的隔离操作</p>
+<p>Redis的事务仅仅保证事务里的操作会被连续独占的执行，Redis命令执行是单线程架构，在执行完事务内所有指令前是不可能再去同时执行其他客户端的请求的。</p>
+</li>
+<li><p>没有隔离级别的概念</p>
+<p>因为事务提交前任何指令都不会被实际执行，也就不存在“事务内的查询要看事务内的更新，在事务外查询不能看到”这种问题了。</p>
+</li>
+<li><p>不保证原子性</p>
+<p>Redis的事务不保证原子性，也就是不保证所有指令同时成功或同时失败，只有决定是否开始执行全部指令的能力，没有执行到一半回滚的能力。</p>
+</li>
+<li><p>排他性</p>
+<p>Redis会保证一个事务内的命令依次执行，而不会被其他命令插入。</p>
+</li>
+</ul>
+<br />
+
+<h2 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">开启事务</span><br>MULTI<br>...<br>EXEC<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">放弃事务</span><br>MULTI<br>...<br>DISCARD<br></code></pre></td></tr></table></figure>
+
+<p>两种错误情况：</p>
+<ul>
+<li>在<code>EXEC</code>之前，任何一个命令语法有错，Redis会直接返回错误，所有的命令都不会执行。</li>
+<li>在<code>EXEC</code>之后，当一个命令执行失败，不会影响到其他命令，其他正确的命令仍然会执行。</li>
+</ul>
+<br />
+
+<h2 id="watch监控"><a href="#watch监控" class="headerlink" title="watch监控"></a>watch监控</h2><p>Redis使用Watch来提供乐观锁定</p>
+<ul>
+<li>悲观锁：每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁，这样别人想拿这个数据就会block直到它拿到锁</li>
+<li>乐观锁：每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据</li>
+</ul>
+<p>乐观锁策略：提交版本必须大于记录当前版本，才能执行更新</p>
+<p>客户端1：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">set balance 100<br>set k1 v1<br><br>WATCH balance # 1<br>MULTI<br>set balance 150 # 3<br>set k1 xxx<br>EXEC # nil<br></code></pre></td></tr></table></figure>
+
+<p>客户端2：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">set balance 120 # 2<br></code></pre></td></tr></table></figure>
+
+<p>客户端1被客户端2加塞，客户端1的<strong>整个事务</strong>都会中断\</p>
+<p>可以使用unwatch取消监控</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">WATCH balance<br>UNWATCH<br></code></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ul>
+<li>一旦执行EXEC，之前加的监控锁都会被取消</li>
+<li>当客户端连接丢失的时候（断连），所有监控都会被取消</li>
+</ul>
+<br />
+
+<h1 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h1><p>问题由来：</p>
+<ol>
+<li>客户端向服务端发送命令（发送命令 -&gt; 命令排队 -&gt; 命令执行 -&gt; 命令返回），并监听Socket返回，通常以阻塞模式等待服务端响应</li>
+<li>服务端处理命令，并将结果返回客户端</li>
+</ol>
+<p>上述两步称为：<code>Round Trip Time</code>（简称RTT，数据包往返于两端的时间）</p>
+<p class='item-img' data-src='/2024/10/06/Redis/redis%E7%AE%A1%E9%81%93-1.png'><img src="/2024/10/06/Redis/redis%E7%AE%A1%E9%81%93-1.png" alt="redis管道-1"></p>
+<p>如果同时执行大量的命令，那么就要等待上一条命令应答后再执行，这中间不仅多了RTT，而且还频繁调用系统IO，发送网络请求，同时需要Redis调用多次read()和write()系统方法，系统方法会将数据从用户态转移到内核态，这样就会对进程上下文有较大影响，性能不好。</p>
+<p>解决方案：</p>
+<p>管道可以一次性发送多条命令给服务端，服务端依次处理完毕后，通过一条响应一次性将结果返回，通过减少客户端与redis的通信次数来实现降低往返延时时间。pipeline实现的原理是队列，先进先出特性就保证数据的顺序性。</p>
+<p class='item-img' data-src='/2024/10/06/Redis/redis%E7%AE%A1%E9%81%93-2.png'><img src="/2024/10/06/Redis/redis%E7%AE%A1%E9%81%93-2.png" alt="redis管道-2"></p>
+<br />
+
+<h2 id="管道和原生批量命令对比"><a href="#管道和原生批量命令对比" class="headerlink" title="管道和原生批量命令对比"></a>管道和原生批量命令对比</h2><p>原生批量命令：<code>mset</code>等</p>
+<ul>
+<li>原生批量命令是原子性的，pipeline是非原子性的</li>
+<li>原生批量命令依次只能执行一种命令，pipeline支持批量执行不同命令</li>
+<li>原生批量命令是服务端实现，而pipeline需要服务端与客户端共同完成</li>
+</ul>
+<br />
+
+<h2 id="管道和事务对比"><a href="#管道和事务对比" class="headerlink" title="管道和事务对比"></a>管道和事务对比</h2><ul>
+<li><p>事务具有原子性，管道不具有原子性</p>
+</li>
+<li><p>执行事务时会阻塞其他命令的执行，而执行管道中的命令不会</p>
+<blockquote>
+<p>上面两点个人觉得表述有误，个人理解是事务保证了原子操作，不能加塞，而管道无法保证</p>
+</blockquote>
+</li>
+<li><p>管道一次性将多条命令发送到服务器，事务是一条一条的发，事务只有在接收到EXEC命令后才会执行，管道不会</p>
+</li>
+</ul>
+<br />
+
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
+<li>管道缓冲的指令只是会依次执行，不保证原子性，如果执行中指令发生异常，将会继续执行后续的指令</li>
+<li>使用管道组装的命令不能太多，不然数据量过大客户端阻塞的时间可能过久，同时服务端此时也被迫回复一个队列答复，占用很多内存</li>
+</ul>
+<br />
+
+<h1 id="发布订阅"><a href="#发布订阅" class="headerlink" title="发布订阅"></a>发布订阅</h1><blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_50012581/article/details/132348982">https://blog.csdn.net/weixin_50012581/article/details/132348982</a></p>
+</blockquote>
+<br />
+
+<h1 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h1><ul>
+<li>读写分离</li>
+<li>容灾恢复</li>
+<li>数据备份</li>
+<li>水平扩容支撑高并发</li>
+</ul>
+<br />
+
+<h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p>配从（库）不配主（库）</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">replicaof</span> <span class="hljs-string">主库IP</span> <span class="hljs-string">主库端口</span> <span class="hljs-comment"># 配置文件中配置主数据库</span><br><span class="hljs-string">masterauth</span> <span class="hljs-comment"># 从机访问主机的通行密码，从机必须配置，主机不用</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">info replication # 可以查看复制节点的主从关系和配置信息<br>slaveof 主库IP 主库端口 # 命令配置主数据库。如果该数据库已经是某个主数据库的从数据库，那么会停止和原主数据库的同步关系，转而和新的主数据库同步<br>slaveof no one # 使当前数据库停止与其他数据库的同步，转为主数据库<br></code></pre></td></tr></table></figure>
+
+<br />
+
+<h2 id="注意事项-1"><a href="#注意事项-1" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
+<li><p>从机不可以执行写命令</p>
+</li>
+<li><p>从机意外宕机后，重启后仍有最新数据</p>
+</li>
+<li><p>主机意外宕机后，从机不动，原地待命，等待主机重启。期间从机数据可以正常使用</p>
+</li>
+<li><p>主机恢复后，主从关系不变，从机仍能正常复制</p>
+</li>
+<li><p>从机变更主机，会清除之前数据，重新拷贝最新的主机数据</p>
+</li>
+<li><p>从机变为主机，数据依旧存在，但不再同步</p>
+</li>
+<li><p>上一个slave可以是下一个slave的master，slave同样可以接收其他slaves的连接和同步请求，那么该slave作为了链条中下一个的master，可以有效的分载master的同步压力。</p>
+<p>但是，中间环节的slave仍然不支持写操作。</p>
+</li>
+</ul>
+<br />
+
+<h2 id="复制原理和工作流程"><a href="#复制原理和工作流程" class="headerlink" title="复制原理和工作流程"></a>复制原理和工作流程</h2><ol>
+<li><p>slave启动，同步初请</p>
+<p>slave启动成功连接到master后会发送一个sync命令。</p>
+<p>slave首次全新连接master，一次完成同步（全量同步）将被自动执行，slave自身原有数据会被master数据清除覆盖。</p>
+</li>
+<li><p>首次连接，全量复制</p>
+<p>master节点收到sync命令后开始在后台保存快照（即RDB持久化，主从复制会触发RDB），同时收集所有接收到的用于修改数据集命令缓存起来，master节点执行RDB持久化后，将RDB快照文件和所有缓存的命令发送到所有slave，以完成一次完全同步。</p>
+<p>而slave在接收到数据库文件数据后，将其存盘并加载到内存中，从而完成复制初始化。</p>
+</li>
+<li><p>心跳持续，保持通信</p>
+<p>master会持续发送ping包，保持通信。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">repl-ping-replica-period</span> <span class="hljs-number">10</span><br></code></pre></td></tr></table></figure>
+
+<p>默认是10s</p>
+</li>
+<li><p>进入平稳，增量复制</p>
+<p>master继续将新的所有收集到的修改命令自动依次传给slave，完成同步。</p>
+</li>
+<li><p>从机下线，重连续传</p>
+<p>master会检查backlog里面的offset（master和slave都会保存一个复制的offset还有一个masterId，offset是保存在backlog中的），master只会把已经复制的offset后面的数据复制给slave，类似断点续传。</p>
+</li>
+</ol>
+<br />
+
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li>由于所有的写操作都是在master上操作，然后同步更新到slave上，所以从master同步到slave有一定的延迟，当系统很繁忙的时候，延迟问题会更加严重，slave机器数量的增加也会使这个问题更加严重。</li>
+<li>由于写操作只有在master机器上执行，如果master机器宕机，默认情况下，不会在slave节点中自动重选一个master，所有的写操作都没法完成。</li>
+</ul>
+<br />
+
+<h1 id="哨兵监控"><a href="#哨兵监控" class="headerlink" title="哨兵监控"></a>哨兵监控</h1><p>哨兵巡查监控后台master主机是否故障，如果故障了，根据<code>投票数</code>自动将某一个从库转换为新主库，继续对外服务。</p>
+<p>哨兵的作用：</p>
+<ul>
+<li><p>主从监控</p>
+<p>监控主从redis库运行是否正常</p>
+</li>
+<li><p>消息通知</p>
+<p>哨兵可以将故障转移的结果发送给客户端</p>
+</li>
+<li><p>故障转移</p>
+<p>如果master异常，则会进行主从切换，将其中一个slave作为新master</p>
+</li>
+<li><p>配置中心</p>
+<p>客户端通过连接哨兵来获得当前redis服务的主节点地址</p>
+</li>
+</ul>
+<br />
+
+<h2 id="sentinel-conf"><a href="#sentinel-conf" class="headerlink" title="sentinel.conf"></a>sentinel.conf</h2><p>设置监控的master服务器</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">sentinel</span> <span class="hljs-string">monitor</span> <span class="hljs-string">&lt;master-name&gt;</span> <span class="hljs-string">&lt;ip&gt;</span> <span class="hljs-string">&lt;redis-port&gt;</span> <span class="hljs-string">&lt;quorum&gt;</span><br><span class="hljs-string">sentinel</span> <span class="hljs-string">auth-pass</span> <span class="hljs-string">&lt;master-name&gt;</span> <span class="hljs-string">&lt;password&gt;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>quorum</code>表示最少有多少个哨兵认可客观下线，同意故障迁移的法定票数（确认客观下线的最少的哨兵数量）</p>
+<blockquote>
+<p>我们知道网络是不可靠的，有时候一个sentinel会因为网络堵塞而误以为一个master redis已经宕机了，在sentinel集群环境下需要多个sentinel互相沟通来确认某个master是否真的死了，quorum这个参数是进行客观下线的一个依据，意思是至少quorum个sentinel认为这个master有故障，才会对这个master进行下线以及故障转移。这就保证了公平性和高可用。</p>
+</blockquote>
+</li>
+</ul>
+<p>其他配置</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># 指定多少毫秒后，主节点没有应答哨兵，此时哨兵主观认为主节点下线</span><br><span class="hljs-string">sentinel</span> <span class="hljs-string">down-after-milliseconds</span> <span class="hljs-string">&lt;master-name&gt;</span> <span class="hljs-string">&lt;milliseconds&gt;</span><br><br><span class="hljs-comment"># 表示允许并行同步的slave个数，当master挂了后，哨兵会选出新的master，此时剩余的slave会向新的master发起同步数据</span><br><span class="hljs-string">sentinel</span> <span class="hljs-string">parallel-syncs</span> <span class="hljs-string">&lt;master-name&gt;</span> <span class="hljs-string">&lt;nums&gt;</span><br><br><span class="hljs-comment"># 故障转移的超时时间，如果故障转移超过设置的毫秒，表示故障转移失败</span><br><span class="hljs-string">sentinel</span> <span class="hljs-string">fallover-timeout</span> <span class="hljs-string">&lt;master-name&gt;</span> <span class="hljs-string">&lt;milliseconds&gt;</span><br><br><span class="hljs-comment"># 配置当某一事件发生时所需要执行的脚本</span><br><span class="hljs-string">sentinel</span> <span class="hljs-string">notification-script</span> <span class="hljs-string">&lt;master-name&gt;</span> <span class="hljs-string">&lt;script-path&gt;</span><br><br><span class="hljs-comment"># 客户端重新配置主节点参数脚本</span><br><span class="hljs-string">sentinel</span> <span class="hljs-string">client-reconfig-script</span> <span class="hljs-string">&lt;master-name&gt;</span> <span class="hljs-string">&lt;script-path&gt;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_63947499/article/details/142059274">https://blog.csdn.net/m0_63947499/article/details/142059274</a></p>
+</blockquote>
+<br />
+
+<h2 id="注意事项-2"><a href="#注意事项-2" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
+<li>主从关系发生变化后（主机宕机，从机上位），宕机的主机重连后不会变回主机，而是保持从机身份。</li>
+<li>主从关系发生变化后，<code>sentinel.conf</code>、<code>redis.conf</code>配置文件都会重写。</li>
+</ul>
+<br />
+
+<h2 id="运行流程和选举流程"><a href="#运行流程和选举流程" class="headerlink" title="运行流程和选举流程"></a>运行流程和选举流程</h2><ul>
+<li><p>主观下线：SDOWN（主观不可用）是单个sentinel自己主观上检测到的关于master的状态，从sentinel的角度来看，如果发送了PING心跳后，在一定时间内没有收到合法回复，就打到了SDOWN的条件。</p>
+<p><code>down-after-milliseconds</code>配置可以设置主观下线的时间长度。</p>
+</li>
+<li><p>客观下线：ODOWN（客观不可用）需要一定数量的sentinel，多个哨兵达成一致意见才能认为一个master客观上不可用。</p>
+</li>
+<li><p>哨兵领导者选举：为了避免多个哨兵节点同时执行故障转移，造成混乱，哨兵集群需要从自己中选举一个哨兵领导者（leader），由它来负责故障转移（failover）的流程。哨兵领导者的选举是基于Raft算法或Paxos算法的。</p>
+</li>
+<li><p>新主节点选举：当哨兵领导者选举出来后，它会从所有的从节点中选择一个最合适的从节点，作为新的主节点。新主节点的选举标准是：优先级最高，复制偏移量最大，运行ID最小。</p>
+<ul>
+<li><p>优先级是通过配置文件指定的，越小表示优先级越高；</p>
+</li>
+<li><p>复制偏移量表示从节点复制主节点数据的字节数，越大表示数据越完整；</p>
+</li>
+<li><p>运行ID是Redis每次启动时生成的随机字符串，用于标识不同的Redis实例，按字典序比较大小。</p>
+</li>
+</ul>
+</li>
+<li><p>重新配置从节点：当新主节点选举出来后，哨兵领导者会向所有的从节点发送命令，让它们与新主节点建立复制关系，更新自己的主节点信息。同时，哨兵领导者也会向所有的哨兵节点发送命令，让它们更新自己的主节点信息，并通知客户端使用新的主节点地址。</p>
+</li>
+</ul>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/TaloyerG/article/details/134958242">https://blog.csdn.net/TaloyerG/article/details/134958242</a></p>
+</blockquote>
+<br />
+
+<h1 id="集群分片"><a href="#集群分片" class="headerlink" title="集群分片"></a>集群分片</h1><p>Redis 集群是一个可以在多个 Redis 节点之间进行数据共享的程序集。</p>
+<ul>
+<li>Redis集群支持多个Master，每个Master又可以挂载多个Slave<ul>
+<li>读写分离</li>
+<li>数据高可用</li>
+<li>海量数据的读写存储操作</li>
+</ul>
+</li>
+<li>由于Cluster自带Sentinel的故障转移机制，内置了高可用的支持，无需再去使用哨兵功能</li>
+<li>客户端与Redis的节点连接，不再需要连接集群中的所有节点，只需要任意连接集群中的一个可用节点即可</li>
+<li>槽位slot负责分配到各个物理服务节点，由对应的集群来负责维护节点、插槽和数据之间的关系</li>
+</ul>
+<br />
+
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ul>
+<li><p>槽位</p>
+<p>Redis 集群没有使用一致性hash，而是引入了哈希槽的概念。</p>
+<p>Redis 集群由16384个哈希槽，每个key通过CRC16校验后对16384取模来决定放置哪个槽。集群的每个节点负责一部分哈希槽。</p>
+</li>
+<li><p>分片</p>
+<p>使用Redis集群时我们会将 存储的数据分散到多台Redis机器上，这称为分片。简言之，集群中的每个Redis实例都被认为是整个数据的一个分片。</p>
+</li>
+</ul>
+<p>优势：方便扩容&#x2F;缩容和数据分片查找</p>
+<br />
+
+<h2 id="映射算法"><a href="#映射算法" class="headerlink" title="映射算法"></a>映射算法</h2><ul>
+<li>哈希取余算法</li>
+<li>一致性哈希算法</li>
+<li>哈希槽分区算法</li>
+</ul>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV13R4y1v7sP?p=79">https://www.bilibili.com/video/BV13R4y1v7sP?p=79</a></p>
+</blockquote>
+<br />
+
+<h2 id="为什么最大槽数是16384个？"><a href="#为什么最大槽数是16384个？" class="headerlink" title="为什么最大槽数是16384个？"></a>为什么最大槽数是16384个？</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/rjzheng/p/11430592.html">https://www.cnblogs.com/rjzheng/p/11430592.html</a></p>
+</blockquote>
+<br />
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/2024/10/08/Redis%E7%9A%84%E5%8D%95%E7%BA%BF%E7%A8%8B/">← Next Redis的单线程</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/2024/09/30/RabbitMQ/">RabbitMQ Prev →</a></div></div></div></div><div class="bottom-btn"><div><a class="i-top" id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧ </a><a class="i-index" id="to-index" href="#toc-div" title="To Catalog">≡</a><a class="i-color" id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">LonelyTaker</a></h1><div id="description"><p></p></div><div id="social-links"><a class="social" target="_blank" rel="noopener" href="https://github.com/LonelyTaker"><i class="fab fa-github" alt="GitHub"></i></a></div></div><div id="aside-block"><div id="toc-div"><h1>Catalog</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%88String%EF%BC%89"><span class="toc-text">字符串（String）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%97%E8%A1%A8%EF%BC%88List%EF%BC%89"><span class="toc-text">列表（List）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8%EF%BC%88Hash%EF%BC%89"><span class="toc-text">哈希表（Hash）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E5%90%88%EF%BC%88Set%EF%BC%89"><span class="toc-text">集合（Set）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88%EF%BC%88ZSet%EF%BC%89"><span class="toc-text">有序集合（ZSet）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%B0%E7%90%86%E7%A9%BA%E9%97%B4%EF%BC%88GEO%EF%BC%89"><span class="toc-text">地理空间（GEO）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%95%B0%E7%BB%9F%E8%AE%A1%EF%BC%88HyperLogLog%EF%BC%89"><span class="toc-text">基数统计（HyperLogLog）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%8D%E5%9B%BE%EF%BC%88bitmap%EF%BC%89"><span class="toc-text">位图（bitmap）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%8D%E5%9F%9F%EF%BC%88bitfield%EF%BC%89"><span class="toc-text">位域（bitfield）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%EF%BC%88Stream%EF%BC%89"><span class="toc-text">流（Stream）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-text">持久化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#RDB"><span class="toc-text">RDB</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOF"><span class="toc-text">AOF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RDB-AOF%E6%B7%B7%E5%90%88%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-text">RDB+AOF混合持久化</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="toc-text">事务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-text">使用方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#watch%E7%9B%91%E6%8E%A7"><span class="toc-text">watch监控</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%A1%E9%81%93"><span class="toc-text">管道</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%A1%E9%81%93%E5%92%8C%E5%8E%9F%E7%94%9F%E6%89%B9%E9%87%8F%E5%91%BD%E4%BB%A4%E5%AF%B9%E6%AF%94"><span class="toc-text">管道和原生批量命令对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%A1%E9%81%93%E5%92%8C%E4%BA%8B%E5%8A%A1%E5%AF%B9%E6%AF%94"><span class="toc-text">管道和事务对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-text">注意事项</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85"><span class="toc-text">发布订阅</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="toc-text">主从复制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-text">基本操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-1"><span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6%E5%8E%9F%E7%90%86%E5%92%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-text">复制原理和工作流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9"><span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%93%A8%E5%85%B5%E7%9B%91%E6%8E%A7"><span class="toc-text">哨兵监控</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#sentinel-conf"><span class="toc-text">sentinel.conf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-2"><span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B%E5%92%8C%E9%80%89%E4%B8%BE%E6%B5%81%E7%A8%8B"><span class="toc-text">运行流程和选举流程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E5%88%86%E7%89%87"><span class="toc-text">集群分片</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%A0%E5%B0%84%E7%AE%97%E6%B3%95"><span class="toc-text">映射算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%80%E5%A4%A7%E6%A7%BD%E6%95%B0%E6%98%AF16384%E4%B8%AA%EF%BC%9F"><span class="toc-text">为什么最大槽数是16384个？</span></a></li></ol></li></ol></div></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr> by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas></body></html>

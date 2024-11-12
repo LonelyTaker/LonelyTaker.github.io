@@ -1,0 +1,143 @@
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>this | LonelyTaker's Blog</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="preload" as="font" crossorigin="anonymous" href="/font/Bender.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/BenderLight.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/JetBrainsMono-Regular.woff2"><link rel="stylesheet" href="/css/arknights.css"><style>@font-face {
+  font-family: Bender;
+  src: local('Bender'), url("/font/Bender.ttf"), url("/font/Bender.otf");
+}
+@font-face {
+  font-family: BenderLight;
+  src: local('BenderLight'), url("/font/BenderLight.ttf");
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}
+</style><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"Enter here","blurHolder":"Search","noResult":"Data \"$0\" not found"},"code":{"codeInfo":"$0 - $1 lines","copy":"copy"}}</script><link type="text/css" rel="stylesheet" href="/lib/encrypt/hbe.style.css"><script src="//unpkg.com/mermaid@10.5.0/dist/mermaid.min.js"></script><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lightgallery.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-zoom.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-thumbnail.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/css/all.min.css"><script>if (window.localStorage.getItem('theme-mode') === 'light')
+ document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark')
+ document.documentElement.setAttribute('theme-mode', 'dark')</script><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.woff2") format('woff2');
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><style>:root {
+ --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
+ --light-background: url('/img/bk.jpg');
+ --theme-encrypt-confirm: 'confirm'
+}</style><script defer src="/js/arknights.js"></script><script defer src="/js/search.js"></script><script defer type="module">import mermaid from '//unpkg.com/mermaid@10.5.0/dist/mermaid.esm.mjs';
+window.mermaid = mermaid;
+code.paintMermaid();
+</script><script async src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script async src="/lib/encrypt/hbe.js"></script><script async src="/js/pjax.js"></script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js','data-pjax','.busuanzi'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="loading" style="opacity: 0;"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><nav><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup" tabindex="0"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>this</h1></div><hr><div id="post-content"><h1 id="1-this指向"><a href="#1-this指向" class="headerlink" title="1.this指向"></a>1.this指向</h1><ul>
+<li>全局环境中的this -&gt; 指向<code>window</code>对象</li>
+<li>普通函数中的this -&gt; 严格模式下指向<code>undefined</code>，非严格模式下指向<code>window</code>对象</li>
+<li>构造函数中的this -&gt; 指向<code>new</code>出来的对象</li>
+<li><code>call、apply、bind</code>调用 -&gt; 指向这三个方法的第一个参数，如果参数为<code>null</code>或者<code>undefined</code>，在非严格模式下指向<code>window</code>对象</li>
+<li>箭头函数中的this -&gt; 取决于箭头函数外的this指向</li>
+</ul>
+<blockquote>
+<p>在<strong>非严格模式</strong>下，this指向不能是<code>undefined</code>或<code>null</code>，如果得出this将指向<code>undefined</code>或者<code>null</code>，那么this会指向<code>window</code>对象。</p>
+<p>在浏览器环境下是<code>window</code>对象，在Node环境下是<code>global</code>。</p>
+</blockquote>
+<p>简单一句话概括就是：谁调用，this就指向谁。</p>
+<br />
+
+<h1 id="2-优先级"><a href="#2-优先级" class="headerlink" title="2.优先级"></a>2.优先级</h1><p>当有多种情况决定this指向时，优先级依次为：</p>
+<ol>
+<li>箭头函数</li>
+<li>new</li>
+<li>bind</li>
+<li>apply和call</li>
+<li>对象调用方法</li>
+<li>直接调用函数</li>
+<li>全局环境</li>
+</ol>
+<p>例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> <span class="hljs-title function_">func</span> = (<span class="hljs-params"></span>) =&gt; &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>);<br>&#125;<br>func.<span class="hljs-title function_">bind</span>(&#123;&#125;)(); <span class="hljs-comment">// 输出window，而不是空对象</span><br></code></pre></td></tr></table></figure>
+
+<br />
+
+<h1 id="3-apply、call和bind"><a href="#3-apply、call和bind" class="headerlink" title="3.apply、call和bind"></a>3.apply、call和bind</h1><p>这三个方法都会改变函数中的this指向，那他们有什么区别呢？以下方代码为例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">test</span>(<span class="hljs-params">x, y</span>)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>, x, y);<br>&#125;<br><span class="hljs-title function_">test</span>();    <span class="hljs-comment">// window undefined undefined</span><br></code></pre></td></tr></table></figure>
+
+<br />
+
+<h2 id="1-call"><a href="#1-call" class="headerlink" title="(1) call"></a>(1) call</h2><p><code>call</code>方法接收多个参数，第一个参数为要改变的this指向，后边参数为函数自身的参数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> temp = &#123; <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;小明&quot;</span> &#125;;<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">test</span>(<span class="hljs-params">x, y</span>)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>, x, y);<br>&#125;<br>test.<span class="hljs-title function_">call</span>(temp,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>);    <span class="hljs-comment">// temp对象 1 2</span><br></code></pre></td></tr></table></figure>
+
+<p>接下来我们尝试自己去实现一下<code>call</code>方法。</p>
+<p>我们思考一下，怎么做才能让函数中的this指向一个对象？如果这个函数是对象体内的方法，那通过对象调用这个方法，函数中的this是不是就指向调用的对象。然后在调用完函数后，将这个方法删除掉，对象内容不变：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> temp = &#123; <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;小明&quot;</span> &#125;;<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">test</span>(<span class="hljs-params">x, y</span>)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>, x, y);<br>&#125;<br>temp.<span class="hljs-property">fn</span> = test;<br>temp.<span class="hljs-title function_">fn</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>);    <span class="hljs-comment">// temp对象 1 2</span><br><span class="hljs-keyword">delete</span> temp.<span class="hljs-property">fn</span>;<br></code></pre></td></tr></table></figure>
+
+<p>按照这个思路，我们试着自己去写一个<code>call</code>方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-title class_">Function</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">_call</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">context</span>) &#123;<br>    <span class="hljs-comment">// 如果没有传入指定对象，默认为window</span><br>    context = context || <span class="hljs-variable language_">window</span>;<br>    <span class="hljs-comment">// 将函数作为对象的方法，为了保证方法名唯一，使用Symbol</span><br>    <span class="hljs-comment">// this指向函数</span><br>    <span class="hljs-keyword">const</span> fn = <span class="hljs-title class_">Symbol</span>();<br>    context[fn] = <span class="hljs-variable language_">this</span>;<br>    <span class="hljs-comment">// 执行方法</span><br>    <span class="hljs-keyword">const</span> res = context[fn](...[...<span class="hljs-variable language_">arguments</span>].<span class="hljs-title function_">slice</span>(<span class="hljs-number">1</span>));<br>    <span class="hljs-comment">// 删除方法</span><br>    <span class="hljs-keyword">delete</span> context[fn];<br>    <span class="hljs-comment">// 返回结果</span><br>    <span class="hljs-keyword">return</span> res;<br>&#125;;<br><span class="hljs-keyword">let</span> temp = &#123; <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;小明&quot;</span> &#125;;<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">test</span>(<span class="hljs-params">x, y</span>)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>, x, y);<br>&#125;<br>test.<span class="hljs-title function_">_call</span>(temp, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>);    <span class="hljs-comment">// temp对象 1 2</span><br></code></pre></td></tr></table></figure>
+
+<br />
+
+<h2 id="2-apply"><a href="#2-apply" class="headerlink" title="(2) apply"></a>(2) apply</h2><p><code>apply</code>方法接收两个参数，第一个参数为要改变的this指向，第二个参数为函数自身的参数，以数组的形式传入。<code>apply</code>与<code>call</code>方法不同的地方就是传参的形式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> temp = &#123; <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;小明&quot;</span> &#125;;<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">test</span>(<span class="hljs-params">x, y</span>)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>, x, y);<br>&#125;<br>test.<span class="hljs-title function_">apply</span>(temp,[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>]);    <span class="hljs-comment">// temp对象 1 2</span><br></code></pre></td></tr></table></figure>
+
+<p>接下来我们尝试自己去实现一下<code>apply</code>方法。</p>
+<p><code>apply</code>方法和<code>call</code>方法一样，只不过是传入参数的方式不同而已：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-title class_">Function</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">_apply</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">context</span>) &#123;<br>    context = context || <span class="hljs-variable language_">window</span>;<br>    <span class="hljs-keyword">const</span> fn = <span class="hljs-title class_">Symbol</span>();<br>    context[fn] = <span class="hljs-variable language_">this</span>;<br>    <span class="hljs-keyword">let</span> res = <span class="hljs-literal">null</span>;<br>    <span class="hljs-comment">// 如果存在第二个参数</span><br>    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">arguments</span>[<span class="hljs-number">1</span>]) &#123;<br>        res = context[fn](...<span class="hljs-variable language_">arguments</span>[<span class="hljs-number">1</span>]);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        res = context[fn]();<br>    &#125;<br>    <span class="hljs-keyword">delete</span> context[fn];<br>    <span class="hljs-keyword">return</span> res;<br>&#125;;<br><span class="hljs-keyword">let</span> temp = &#123; <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;小明&quot;</span> &#125;;<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">test</span>(<span class="hljs-params">x, y</span>)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>, x, y);<br>&#125;<br>test.<span class="hljs-title function_">_apply</span>(temp, [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>]);    <span class="hljs-comment">// temp对象 1 2</span><br></code></pre></td></tr></table></figure>
+
+<br />
+
+<h2 id="3-bind"><a href="#3-bind" class="headerlink" title="(3) bind"></a>(3) bind</h2><p><code>bind</code>方法接收多个参数，第一个参数是要改变的this指向，后边参数为函数自身的参数。它与上边两个方法不同的是，它不会立刻执行函数，而是返回一个新函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> temp = &#123; <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;小明&quot;</span> &#125;;<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">test</span>(<span class="hljs-params">x, y</span>)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>, x, y);<br>&#125;<br><span class="hljs-comment">// 下面这样是不会执行的</span><br><span class="hljs-comment">// test.bind(temp, 1, 2);</span><br><span class="hljs-keyword">let</span> fn = test.<span class="hljs-title function_">bind</span>(temp, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>);<br><span class="hljs-title function_">fn</span>();  <span class="hljs-comment">// temp对象 1 2</span><br><span class="hljs-comment">// 或者</span><br>test.<span class="hljs-title function_">bind</span>(temp, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>)();    <span class="hljs-comment">// temp对象 1 2</span><br><span class="hljs-comment">// 另外可以将函数的参数进行拆分</span><br>test.<span class="hljs-title function_">bind</span>(temp)(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>);    <span class="hljs-comment">// temp对象 1 2</span><br>test.<span class="hljs-title function_">bind</span>(temp, <span class="hljs-number">1</span>)(<span class="hljs-number">2</span>);    <span class="hljs-comment">// temp对象 1 2</span><br></code></pre></td></tr></table></figure>
+
+<p>接下来我们尝试自己去实现一下<code>bind</code>方法。</p>
+<p><code>bind</code>返回的是一个新函数，所以实现起来和上面两个有所不同：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-title class_">Function</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">_bind</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">context</span>) &#123;<br>    <span class="hljs-keyword">const</span> args = [...<span class="hljs-variable language_">arguments</span>].<span class="hljs-title function_">slice</span>(<span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">const</span> fn = <span class="hljs-variable language_">this</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">return</span> fn.<span class="hljs-title function_">apply</span>(<br>            context,<br>            <span class="hljs-comment">// 这个arguments是指返回的函数的参数</span><br>            <span class="hljs-comment">// 这部分涉及函数柯里化</span><br>            args.<span class="hljs-title function_">concat</span>(...<span class="hljs-variable language_">arguments</span>)<br>        );<br>    &#125;;<br>&#125;;<br><span class="hljs-keyword">let</span> temp = &#123; <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;小明&quot;</span> &#125;;<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">test</span>(<span class="hljs-params">x, y</span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>, x, y);<br>&#125;<br>test.<span class="hljs-title function_">_bind</span>(temp, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>)(); <span class="hljs-comment">// temp对象 1 2</span><br>test.<span class="hljs-title function_">_bind</span>(temp, <span class="hljs-number">1</span>)(<span class="hljs-number">2</span>); <span class="hljs-comment">// temp对象 1 2</span><br></code></pre></td></tr></table></figure>
+
+<p>但是这样还有个瑕疵，在MDN中有这么一句话：</p>
+<blockquote>
+<p>bind()中的第一个参数：调用绑定函数时作为this参数传递给目标函数的值。 如果使用new运算符构造绑定函数，则忽略该值。</p>
+</blockquote>
+<p>这句话中的绑定函数指<code>bind</code>返回的函数，那这句话是什么意思呢？由于<code>bind</code>方法返回的是一个函数，那么这个函数可以作为构造函数使用，当这个函数作为构造函数使用时，原来函数中的this指向的应该是这个构造函数创建的实例对象，而不是<code>bind</code>绑定的对象。</p>
+<p>我们还是看回这个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">let</span> temp = &#123; <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;小明&quot;</span> &#125;;<br><span class="hljs-keyword">function</span> <span class="hljs-title function_">test</span>(<span class="hljs-params">x, y</span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>, x, y);<br>&#125;<br><span class="hljs-comment">// 这里输出的不再是temp对象，而是新创建的obj对象</span><br><span class="hljs-keyword">let</span> obj = <span class="hljs-keyword">new</span> (test.<span class="hljs-title function_">bind</span>(temp, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>))();<br></code></pre></td></tr></table></figure>
+
+<p>如果用我们上面自己的写的<code>bind</code>方法，当返回函数作为构造函数时，this指向还是temp对象，所以要进一步修改：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-title class_">Function</span>.<span class="hljs-property"><span class="hljs-keyword">prototype</span></span>.<span class="hljs-property">_bind</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">context</span>) &#123;<br>    <span class="hljs-keyword">const</span> args = [...<span class="hljs-variable language_">arguments</span>].<span class="hljs-title function_">slice</span>(<span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">const</span> fn = <span class="hljs-variable language_">this</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">Fn</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">return</span> fn.<span class="hljs-title function_">apply</span>(<br>            <span class="hljs-variable language_">this</span> <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Fn</span> ? <span class="hljs-variable language_">this</span> : context,<br>            args.<span class="hljs-title function_">concat</span>(...<span class="hljs-variable language_">arguments</span>)<br>        );<br>    &#125;;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<br />
+
+<blockquote>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903746984476686">https://juejin.cn/post/6844903746984476686</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6946021671656488991">https://juejin.cn/post/6946021671656488991</a></p>
+</blockquote>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="/2022/11/22/%E5%90%8C%E6%97%B6%E9%85%8D%E7%BD%AEgithub%E5%92%8Cgitlab/">← Next 同时配置github和gitlab</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/2022/03/11/%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/">一些常见函数 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a class="i-top" id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧ </a><a class="i-index" id="to-index" href="#toc-div" title="To Catalog">≡</a><a class="i-color" id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">LonelyTaker</a></h1><div id="description"><p></p></div><div id="social-links"><a class="social" target="_blank" rel="noopener" href="https://github.com/LonelyTaker"><i class="fab fa-github" alt="GitHub"></i></a></div></div><div id="aside-block"><div id="toc-div"><h1>Catalog</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-this%E6%8C%87%E5%90%91"><span class="toc-text">1.this指向</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-text">2.优先级</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-apply%E3%80%81call%E5%92%8Cbind"><span class="toc-text">3.apply、call和bind</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-call"><span class="toc-text">(1) call</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-apply"><span class="toc-text">(2) apply</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-bind"><span class="toc-text">(3) bind</span></a></li></ol></li></ol></div></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr> by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas></body></html>
