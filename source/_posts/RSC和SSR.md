@@ -1,5 +1,5 @@
 ---
-title: RSC和SSR
+title: SSR和RSC
 date: 2026-10-22 14:00:17
 categories: 前端
 tags: 
@@ -7,7 +7,7 @@ tags:
  - React
 ---
 
-# RSC和SSR
+# SSR和RSC
 
 ## 概述
 
