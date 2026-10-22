@@ -1,0 +1,346 @@
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>SSR与CSR对比-Hydration开销分析 | LonelyTaker's Blog</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="preload" as="font" crossorigin="anonymous" href="/font/Bender.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/BenderLight.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/JetBrainsMono-Regular.woff2"><link rel="stylesheet" href="/css/arknights.css"><style>@font-face {
+  font-family: Bender;
+  src: local('Bender'), url("/font/Bender.ttf"), url("/font/Bender.otf");
+}
+@font-face {
+  font-family: BenderLight;
+  src: local('BenderLight'), url("/font/BenderLight.ttf");
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}
+</style><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"Enter here","blurHolder":"Search","noResult":"Data \"$0\" not found"},"code":{"codeInfo":"$0 - $1 lines","copy":"copy"}}</script><link type="text/css" rel="stylesheet" href="/lib/encrypt/hbe.style.css"><script src="//unpkg.com/mermaid@10.5.0/dist/mermaid.min.js"></script><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lightgallery.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-zoom.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-thumbnail.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/css/all.min.css"><script>if (window.localStorage.getItem('theme-mode') === 'light')
+ document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark')
+ document.documentElement.setAttribute('theme-mode', 'dark')</script><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.woff2") format('woff2');
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><style>:root {
+ --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
+ --light-background: url('/img/bk.jpg');
+ --theme-encrypt-confirm: 'confirm'
+}</style><script defer src="/js/arknights.js"></script><script defer src="/js/search.js"></script><script defer type="module">import mermaid from '//unpkg.com/mermaid@10.5.0/dist/mermaid.esm.mjs';
+window.mermaid = mermaid;
+code.paintMermaid();
+</script><script async src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script async src="/lib/encrypt/hbe.js"></script><script async src="/js/pjax.js"></script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js','data-pjax','.busuanzi'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="loading" style="opacity: 0;"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><nav><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Search" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup" tabindex="0"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>SSR与CSR对比-Hydration开销分析</h1></div><hr><div id="post-content"><h1 id="SSR与CSR对比：Hydration开销分析"><a href="#SSR与CSR对比：Hydration开销分析" class="headerlink" title="SSR与CSR对比：Hydration开销分析"></a>SSR与CSR对比：Hydration开销分析</h1><h2 id="核心问题"><a href="#核心问题" class="headerlink" title="核心问题"></a>核心问题</h2><p><strong>如果 SSR 最终都要进行一次 Hydration，和直接客户端渲染 CSR 相比，难道不是一个额外的开销吗？</strong></p>
+<p><strong>答案：是的，Hydration 确实是额外开销。但 SSR 的价值不在于”省掉 Hydration”，而在于”用额外的计算换更好的用户体验”。</strong></p>
+<hr>
+<h2 id="一、直观对比"><a href="#一、直观对比" class="headerlink" title="一、直观对比"></a>一、直观对比</h2><h3 id="CSR-流程"><a href="#CSR-流程" class="headerlink" title="CSR 流程"></a>CSR 流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">用户请求 → 空白页面 → 下载 JS → 执行 JS → 渲染页面 → 可交互<br>           |←—————— 白屏时间 ——————→|<br></code></pre></td></tr></table></figure>
+
+<h3 id="SSR-流程"><a href="#SSR-流程" class="headerlink" title="SSR 流程"></a>SSR 流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">用户请求 → 服务端渲染 HTML → 显示内容 → 下载 JS → Hydration → 可交互<br>           |← 有内容可看 →|            |← Hydration 开销 →|<br></code></pre></td></tr></table></figure>
+
+<p><strong>关键差异</strong>：SSR 用”服务端计算 + 客户端 Hydration”换取”更早看到内容”。</p>
+<hr>
+<h2 id="二、性能指标对比"><a href="#二、性能指标对比" class="headerlink" title="二、性能指标对比"></a>二、性能指标对比</h2><h3 id="核心指标"><a href="#核心指标" class="headerlink" title="核心指标"></a>核心指标</h3><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>CSR</th>
+<th>SSR</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>FCP（首次内容绘制）</strong></td>
+<td>慢</td>
+<td>快</td>
+<td>SSR 更早显示内容</td>
+</tr>
+<tr>
+<td><strong>LCP（最大内容绘制）</strong></td>
+<td>慢</td>
+<td>快</td>
+<td>用户更快看到主要内容</td>
+</tr>
+<tr>
+<td><strong>TTI（可交互时间）</strong></td>
+<td>中</td>
+<td>中&#x2F;慢</td>
+<td>Hydration 需要时间</td>
+</tr>
+<tr>
+<td><strong>TBT（总阻塞时间）</strong></td>
+<td>低</td>
+<td>高</td>
+<td>Hydration 会阻塞主线程</td>
+</tr>
+</tbody></table>
+<h3 id="实际数据示例"><a href="#实际数据示例" class="headerlink" title="实际数据示例"></a>实际数据示例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># CSR</span><br>FCP: 2.5s  ← 白屏 2.5 秒<br>TTI: 3.0s<br><br><span class="hljs-comment"># SSR</span><br>FCP: 0.8s  ← 0.8 秒就看到内容<br>TTI: 2.8s  ← Hydration 耗时，但总体 TTI 不一定更慢<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="三、为什么-SSR-仍然有价值？"><a href="#三、为什么-SSR-仍然有价值？" class="headerlink" title="三、为什么 SSR 仍然有价值？"></a>三、为什么 SSR 仍然有价值？</h2><h3 id="1-首屏体验：用户更快看到内容"><a href="#1-首屏体验：用户更快看到内容" class="headerlink" title="1. 首屏体验：用户更快看到内容"></a>1. 首屏体验：用户更快看到内容</h3><h4 id="CSR：白屏等待"><a href="#CSR：白屏等待" class="headerlink" title="CSR：白屏等待"></a>CSR：白屏等待</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;root&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;bundle.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-comment">&lt;!-- 用户看到空白，等待 JS 加载执行 --&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="SSR：立即显示"><a href="#SSR：立即显示" class="headerlink" title="SSR：立即显示"></a>SSR：立即显示</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;root&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span>导航栏<span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">article</span>&gt;</span>文章内容...<span class="hljs-tag">&lt;/<span class="hljs-name">article</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-comment">&lt;!-- 用户立即看到完整布局 --&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="人类感知时间"><a href="#人类感知时间" class="headerlink" title="人类感知时间"></a>人类感知时间</h4><table>
+<thead>
+<tr>
+<th>时间范围</th>
+<th>用户感知</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0-100ms</td>
+<td>即时响应</td>
+</tr>
+<tr>
+<td>100-300ms</td>
+<td>轻微延迟</td>
+</tr>
+<tr>
+<td>300-1000ms</td>
+<td>机器在工作</td>
+</tr>
+<tr>
+<td><strong>1000ms+</strong></td>
+<td><strong>失去注意力</strong></td>
+</tr>
+</tbody></table>
+<p><strong>SSR 的目标</strong>：让 FCP 控制在 1s 内，用户感觉”页面很快”。</p>
+<hr>
+<h3 id="2-SEO：搜索引擎可见"><a href="#2-SEO：搜索引擎可见" class="headerlink" title="2. SEO：搜索引擎可见"></a>2. SEO：搜索引擎可见</h3><h4 id="CSR：爬虫看到空白"><a href="#CSR：爬虫看到空白" class="headerlink" title="CSR：爬虫看到空白"></a>CSR：爬虫看到空白</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;root&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-comment">&lt;!-- Google 能执行 JS，但需要时间 --&gt;</span><br><span class="hljs-comment">&lt;!-- 其他爬虫可能完全无法渲染 --&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="SSR：爬虫直接看到内容"><a href="#SSR：爬虫直接看到内容" class="headerlink" title="SSR：爬虫直接看到内容"></a>SSR：爬虫直接看到内容</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;root&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>文章标题<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>文章内容...<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-comment">&lt;!-- 所有搜索引擎都能立即理解页面 --&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>SEO 影响</strong>：</p>
+<ul>
+<li>CSR：搜索引擎需要额外时间执行 JS，可能无法完整索引</li>
+<li>SSR：立即可见，搜索引擎友好，提升排名</li>
+</ul>
+<hr>
+<h3 id="3-社交分享：预览卡片"><a href="#3-社交分享：预览卡片" class="headerlink" title="3. 社交分享：预览卡片"></a>3. 社交分享：预览卡片</h3><p>SSR 可以生成完整的 meta 标签，确保社交分享时显示正确的预览卡片：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-comment">&lt;!-- SSR 可以生成 meta 标签 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;og:title&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;文章标题&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;og:description&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;文章描述&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;og:image&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;/cover.jpg&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;og:url&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;https://example.com/article&quot;</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>CSR 方案</strong>：需要额外服务（如 Prerender.io）来生成这些标签，增加复杂度和成本。</p>
+<hr>
+<h2 id="四、Hydration-开销分析"><a href="#四、Hydration-开销分析" class="headerlink" title="四、Hydration 开销分析"></a>四、Hydration 开销分析</h2><h3 id="开销来源"><a href="#开销来源" class="headerlink" title="开销来源"></a>开销来源</h3><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-comment">// 假设页面有 1000 个 DOM 节点</span><br><span class="hljs-comment">// Hydration 做的事：</span><br><span class="hljs-comment">// 1. 遍历 DOM 树：O(n)</span><br><span class="hljs-comment">// 2. 对比虚拟 DOM：O(n)</span><br><span class="hljs-comment">// 3. 绑定事件：O(事件数量)</span><br><br><span class="hljs-comment">// 实际耗时（典型场景）</span><br><span class="hljs-comment">// - 简单页面：&lt; 50ms</span><br><span class="hljs-comment">// - 复杂页面：100-300ms</span><br><span class="hljs-comment">// - 极端情况：500ms+（滥用 SSR）</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="问题不在-Hydration-本身"><a href="#问题不在-Hydration-本身" class="headerlink" title="问题不在 Hydration 本身"></a>问题不在 Hydration 本身</h3><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-comment">// ❌ 真正的问题：不必要的 Hydration</span><br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">Page</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">return</span> (<br>    <span class="language-xml"><span class="hljs-tag">&lt;&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">StaticHeader</span> /&gt;</span>        &#123;/* 纯静态，不需要交互 */&#125;</span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">StaticContent</span> /&gt;</span>       &#123;/* 纯静态，不需要交互 */&#125;</span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">InteractiveButton</span> /&gt;</span>   &#123;/* 只有这里需要交互 */&#125;</span><br><span class="language-xml">    <span class="hljs-tag">&lt;/&gt;</span></span><br>  )<br>&#125;<br><br><span class="hljs-comment">// 传统 SSR：三个组件都要 Hydration</span><br><span class="hljs-comment">// RSC：只有 InteractiveButton 需要 Hydration</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Hydration-成本-vs-收益"><a href="#Hydration-成本-vs-收益" class="headerlink" title="Hydration 成本 vs 收益"></a>Hydration 成本 vs 收益</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">成本：额外的客户端计算（100-300ms 典型场景）<br>收益：FCP 提前 1-2s，用户更早看到内容<br><br>权衡：<br>- 对于内容网站：收益 &gt;&gt; 成本<br>- 对于交互应用：成本可能 &gt; 收益<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="五、什么时候-SSR-亏本？"><a href="#五、什么时候-SSR-亏本？" class="headerlink" title="五、什么时候 SSR 亏本？"></a>五、什么时候 SSR 亏本？</h2><h3 id="场景对比"><a href="#场景对比" class="headerlink" title="场景对比"></a>场景对比</h3><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>CSR 更好</th>
+<th>SSR 更好</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>登录后仪表盘</strong></td>
+<td>✅</td>
+<td>❌</td>
+<td>不需要 SEO，数据实时变化</td>
+</tr>
+<tr>
+<td><strong>实时数据面板</strong></td>
+<td>✅</td>
+<td>❌</td>
+<td>数据总在变，SSR 内容很快过期</td>
+</tr>
+<tr>
+<td><strong>高度交互应用</strong></td>
+<td>✅</td>
+<td>❌</td>
+<td>游戏或编辑器，Hydration 开销大</td>
+</tr>
+<tr>
+<td><strong>内容网站</strong></td>
+<td>❌</td>
+<td>✅</td>
+<td>需要 SEO，FCP 优先</td>
+</tr>
+<tr>
+<td><strong>电商首页</strong></td>
+<td>❌</td>
+<td>✅</td>
+<td>营销需要 SEO，转化率优先</td>
+</tr>
+<tr>
+<td><strong>博客&#x2F;文档</strong></td>
+<td>❌</td>
+<td>✅</td>
+<td>SEO 关键，性能重要</td>
+</tr>
+</tbody></table>
+<h3 id="判断公式"><a href="#判断公式" class="headerlink" title="判断公式"></a>判断公式</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">SSR 价值 = FCP 提升 + SEO 收益 - Hydration 开销<br><br>CSR 适合：SSR 价值 &lt; 0<br>SSR 适合：SSR 价值 &gt; 0<br></code></pre></td></tr></table></figure>
+
+<h3 id="详细场景分析"><a href="#详细场景分析" class="headerlink" title="详细场景分析"></a>详细场景分析</h3><h4 id="不需要-SSR-应该用-CSR"><a href="#不需要-SSR-应该用-CSR" class="headerlink" title="不需要 SSR &#x2F; 应该用 CSR"></a>不需要 SSR &#x2F; 应该用 CSR</h4><ol>
+<li><p><strong>登录后的管理后台</strong></p>
+<ul>
+<li>不需要 SEO</li>
+<li>用户已登录，首屏快速显示不如功能完善重要</li>
+<li>数据频繁更新</li>
+</ul>
+</li>
+<li><p><strong>实时数据看板</strong></p>
+<ul>
+<li>股票行情、监控面板</li>
+<li>SSR 的数据立即过期</li>
+<li>需要 WebSocket 或轮询</li>
+</ul>
+</li>
+<li><p><strong>高度交互应用</strong></p>
+<ul>
+<li>在线编辑器、游戏</li>
+<li>大量客户端状态</li>
+<li>Hydration 开销大</li>
+</ul>
+</li>
+<li><p><strong>纯 SPA 应用</strong></p>
+<ul>
+<li>不需要 SEO</li>
+<li>用户已经进入应用</li>
+</ul>
+</li>
+</ol>
+<h4 id="应该用-SSR"><a href="#应该用-SSR" class="headerlink" title="应该用 SSR"></a>应该用 SSR</h4><ol>
+<li><p><strong>内容网站</strong></p>
+<ul>
+<li>博客、文档、新闻</li>
+<li>SEO 是核心需求</li>
+<li>内容相对固定</li>
+</ul>
+</li>
+<li><p><strong>电商网站</strong></p>
+<ul>
+<li>商品页面需要 SEO</li>
+<li>首屏转化率直接影响收入</li>
+<li>营销落地页</li>
+</ul>
+</li>
+<li><p><strong>营销落地页</strong></p>
+<ul>
+<li>需要社交分享预览</li>
+<li>首屏速度影响转化率</li>
+<li>SEO 带来自然流量</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="六、现代框架的改进：选择性-Hydration"><a href="#六、现代框架的改进：选择性-Hydration" class="headerlink" title="六、现代框架的改进：选择性 Hydration"></a>六、现代框架的改进：选择性 Hydration</h2><h3 id="React-18-的改进"><a href="#React-18-的改进" class="headerlink" title="React 18 的改进"></a>React 18 的改进</h3><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-comment">// React 18 之前：全量 Hydration</span><br><span class="hljs-comment">// 页面必须完全加载才能交互</span><br><br><span class="hljs-comment">// React 18：选择性 Hydration</span><br>&lt;<span class="hljs-title class_">Suspense</span> fallback=&#123;<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Loading</span> /&gt;</span></span>&#125;&gt;<br>  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">SlowComponent</span> /&gt;</span></span>  &#123;<span class="hljs-comment">/* 可以稍后 Hydration */</span>&#125;<br>&lt;/<span class="hljs-title class_">Suspense</span>&gt;<br><br><span class="hljs-comment">// 用户可以先与已 Hydration 的部分交互</span><br><span class="hljs-comment">// 不需要等待整个页面完成</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>优势</strong>：</p>
+<ul>
+<li>用户可以更快与部分内容交互</li>
+<li>不需要等待所有组件 Hydration 完成</li>
+<li>渐进式的交互体验</li>
+</ul>
+<hr>
+<h3 id="RSC-的改进"><a href="#RSC-的改进" class="headerlink" title="RSC 的改进"></a>RSC 的改进</h3><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-comment">// 只有客户端组件需要 Hydration</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">Page</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">return</span> (<br>    <span class="language-xml"><span class="hljs-tag">&lt;&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">ServerHeader</span> /&gt;</span>        &#123;/* 不 Hydration */&#125;</span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">ServerContent</span> /&gt;</span>       &#123;/* 不 Hydration */&#125;</span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">ClientButton</span> /&gt;</span>        &#123;/* 只 Hydration 这个 */&#125;</span><br><span class="language-xml">    <span class="hljs-tag">&lt;/&gt;</span></span><br>  )<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>革命性变化</strong>：</p>
+<ul>
+<li>服务端组件不发送 JS，不参与 Hydration</li>
+<li>只对真正需要交互的部分进行 Hydration</li>
+<li>从根本上减少 Hydration 的代码量</li>
+</ul>
+<p><strong>对比</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">传统 SSR：<br>  所有组件 → Hydration<br><br>RSC：<br>  服务端组件 → 不 Hydration<br>  客户端组件 → Hydration<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="七、混合策略（推荐）"><a href="#七、混合策略（推荐）" class="headerlink" title="七、混合策略（推荐）"></a>七、混合策略（推荐）</h2><h3 id="按页面选择渲染策略"><a href="#按页面选择渲染策略" class="headerlink" title="按页面选择渲染策略"></a>按页面选择渲染策略</h3><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-comment">// 首屏 SSR，后续 CSR</span><br><span class="hljs-comment">// 例如：电商首页 SSR，商品详情页 CSR</span><br><br><span class="hljs-comment">// Next.js 的混合渲染</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> dynamic = <span class="hljs-string">&#x27;force-dynamic&#x27;</span>  <span class="hljs-comment">// 需要 SEO 的页面</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> dynamic = <span class="hljs-string">&#x27;force-static&#x27;</span>   <span class="hljs-comment">// 不需要 SEO 的页面</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="实际架构示例"><a href="#实际架构示例" class="headerlink" title="实际架构示例"></a>实际架构示例</h3><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-comment">// 电商网站架构</span><br><br><span class="hljs-comment">// 首页：SSR（营销 + SEO）</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> dynamic = <span class="hljs-string">&#x27;force-static&#x27;</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">HomePage</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">HomePage</span> /&gt;</span></span><br>&#125;<br><br><span class="hljs-comment">// 商品详情：SSR（SEO 重要）</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> dynamic = <span class="hljs-string">&#x27;force-static&#x27;</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">generateStaticParams</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">return</span> products.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">p</span> =&gt;</span> (&#123; <span class="hljs-attr">id</span>: p.<span class="hljs-property">id</span> &#125;))<br>&#125;<br><br><span class="hljs-comment">// 用户中心：CSR（不需要 SEO）</span><br><span class="hljs-string">&#x27;use client&#x27;</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">Dashboard</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Dashboard</span> /&gt;</span></span><br>&#125;<br><br><span class="hljs-comment">// 结账页面：CSR（已登录用户）</span><br><span class="hljs-string">&#x27;use client&#x27;</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">Checkout</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Checkout</span> /&gt;</span></span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="八、总结"><a href="#八、总结" class="headerlink" title="八、总结"></a>八、总结</h2><h3 id="核心观点"><a href="#核心观点" class="headerlink" title="核心观点"></a>核心观点</h3><ol>
+<li><p><strong>Hydration 确实是额外开销</strong>，但换来的是更好的首屏体验和 SEO</p>
+</li>
+<li><p><strong>SSR 的价值公式</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">SSR 价值 = FCP 提升 + SEO 收益 - Hydration 开销<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>不是所有页面都需要 SSR</strong>，根据场景选择：</p>
+<ul>
+<li>需要快速首屏 + SEO → SSR</li>
+<li>登录后应用、实时数据 → CSR</li>
+</ul>
+</li>
+<li><p><strong>RSC 的革命性</strong>：减少不必要的 Hydration，让 SSR 更高效</p>
+</li>
+<li><p><strong>React 18 的改进</strong>：选择性 Hydration，可以”边交互边 Hydration”</p>
+</li>
+</ol>
+<h3 id="最终建议"><a href="#最终建议" class="headerlink" title="最终建议"></a>最终建议</h3><table>
+<thead>
+<tr>
+<th>项目类型</th>
+<th>推荐策略</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>内容网站、博客、文档</td>
+<td>✅ SSR + RSC</td>
+</tr>
+<tr>
+<td>电商网站</td>
+<td>✅ 首页&#x2F;商品页 SSR，用户中心 CSR</td>
+</tr>
+<tr>
+<td>企业官网、营销页</td>
+<td>✅ SSR（SEO + 社交分享）</td>
+</tr>
+<tr>
+<td>管理后台、仪表盘</td>
+<td>❌ CSR（不需要 SEO）</td>
+</tr>
+<tr>
+<td>实时数据应用</td>
+<td>❌ CSR（数据实时变化）</td>
+</tr>
+<tr>
+<td>在线编辑器、游戏</td>
+<td>❌ CSR（高度交互）</td>
+</tr>
+</tbody></table>
+<h3 id="核心洞察"><a href="#核心洞察" class="headerlink" title="核心洞察"></a>核心洞察</h3><blockquote>
+<p><strong>SSR 不是免费午餐，但很多时候这笔”开销”是值得的</strong> —— 用 CPU 时间换用户注意力和搜索引擎可见性。</p>
+</blockquote>
+<p><strong>权衡的关键</strong>：</p>
+<ul>
+<li>用户体验：FCP、LCP 更快，首屏体验更好</li>
+<li>SEO：搜索引擎友好，自然流量</li>
+<li>性能成本：Hydration 开销，需要在合适的场景使用</li>
+<li>混合策略：现代框架支持按页面选择渲染策略</li>
+</ul>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages" style="justify-content: flex-end"><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/2026/10/22/RSC%E5%92%8CSSR/">RSC和SSR Prev →</a></div></div></div></div><div class="bottom-btn"><div><a class="i-top" id="to-top" onClick="scrolls.scrolltop();" title="To Top" style="opacity: 0; display: none;">∧ </a><a class="i-index" id="to-index" href="#toc-div" title="To Catalog">≡</a><a class="i-color" id="color-mode" onClick="colorMode.change()" title="Change Theme"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">LonelyTaker</a></h1><div id="description"><p></p></div><div id="social-links"><a class="social" target="_blank" rel="noopener" href="https://github.com/LonelyTaker"><i class="fab fa-github" alt="GitHub"></i></a></div></div><div id="aside-block"><div id="toc-div"><h1>Catalog</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SSR%E4%B8%8ECSR%E5%AF%B9%E6%AF%94%EF%BC%9AHydration%E5%BC%80%E9%94%80%E5%88%86%E6%9E%90"><span class="toc-text">SSR与CSR对比：Hydration开销分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E9%97%AE%E9%A2%98"><span class="toc-text">核心问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%9B%B4%E8%A7%82%E5%AF%B9%E6%AF%94"><span class="toc-text">一、直观对比</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSR-%E6%B5%81%E7%A8%8B"><span class="toc-text">CSR 流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSR-%E6%B5%81%E7%A8%8B"><span class="toc-text">SSR 流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E5%AF%B9%E6%AF%94"><span class="toc-text">二、性能指标对比</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%8C%87%E6%A0%87"><span class="toc-text">核心指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E6%95%B0%E6%8D%AE%E7%A4%BA%E4%BE%8B"><span class="toc-text">实际数据示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88-SSR-%E4%BB%8D%E7%84%B6%E6%9C%89%E4%BB%B7%E5%80%BC%EF%BC%9F"><span class="toc-text">三、为什么 SSR 仍然有价值？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%A6%96%E5%B1%8F%E4%BD%93%E9%AA%8C%EF%BC%9A%E7%94%A8%E6%88%B7%E6%9B%B4%E5%BF%AB%E7%9C%8B%E5%88%B0%E5%86%85%E5%AE%B9"><span class="toc-text">1. 首屏体验：用户更快看到内容</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CSR%EF%BC%9A%E7%99%BD%E5%B1%8F%E7%AD%89%E5%BE%85"><span class="toc-text">CSR：白屏等待</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SSR%EF%BC%9A%E7%AB%8B%E5%8D%B3%E6%98%BE%E7%A4%BA"><span class="toc-text">SSR：立即显示</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%BA%E7%B1%BB%E6%84%9F%E7%9F%A5%E6%97%B6%E9%97%B4"><span class="toc-text">人类感知时间</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-SEO%EF%BC%9A%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E5%8F%AF%E8%A7%81"><span class="toc-text">2. SEO：搜索引擎可见</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CSR%EF%BC%9A%E7%88%AC%E8%99%AB%E7%9C%8B%E5%88%B0%E7%A9%BA%E7%99%BD"><span class="toc-text">CSR：爬虫看到空白</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SSR%EF%BC%9A%E7%88%AC%E8%99%AB%E7%9B%B4%E6%8E%A5%E7%9C%8B%E5%88%B0%E5%86%85%E5%AE%B9"><span class="toc-text">SSR：爬虫直接看到内容</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%A4%BE%E4%BA%A4%E5%88%86%E4%BA%AB%EF%BC%9A%E9%A2%84%E8%A7%88%E5%8D%A1%E7%89%87"><span class="toc-text">3. 社交分享：预览卡片</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Hydration-%E5%BC%80%E9%94%80%E5%88%86%E6%9E%90"><span class="toc-text">四、Hydration 开销分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E9%94%80%E6%9D%A5%E6%BA%90"><span class="toc-text">开销来源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E4%B8%8D%E5%9C%A8-Hydration-%E6%9C%AC%E8%BA%AB"><span class="toc-text">问题不在 Hydration 本身</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hydration-%E6%88%90%E6%9C%AC-vs-%E6%94%B6%E7%9B%8A"><span class="toc-text">Hydration 成本 vs 收益</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99-SSR-%E4%BA%8F%E6%9C%AC%EF%BC%9F"><span class="toc-text">五、什么时候 SSR 亏本？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF%E5%AF%B9%E6%AF%94"><span class="toc-text">场景对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E5%85%AC%E5%BC%8F"><span class="toc-text">判断公式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E5%9C%BA%E6%99%AF%E5%88%86%E6%9E%90"><span class="toc-text">详细场景分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8D%E9%9C%80%E8%A6%81-SSR-%E5%BA%94%E8%AF%A5%E7%94%A8-CSR"><span class="toc-text">不需要 SSR &#x2F; 应该用 CSR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%94%E8%AF%A5%E7%94%A8-SSR"><span class="toc-text">应该用 SSR</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E7%8E%B0%E4%BB%A3%E6%A1%86%E6%9E%B6%E7%9A%84%E6%94%B9%E8%BF%9B%EF%BC%9A%E9%80%89%E6%8B%A9%E6%80%A7-Hydration"><span class="toc-text">六、现代框架的改进：选择性 Hydration</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#React-18-%E7%9A%84%E6%94%B9%E8%BF%9B"><span class="toc-text">React 18 的改进</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RSC-%E7%9A%84%E6%94%B9%E8%BF%9B"><span class="toc-text">RSC 的改进</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E6%B7%B7%E5%90%88%E7%AD%96%E7%95%A5%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="toc-text">七、混合策略（推荐）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89%E9%A1%B5%E9%9D%A2%E9%80%89%E6%8B%A9%E6%B8%B2%E6%9F%93%E7%AD%96%E7%95%A5"><span class="toc-text">按页面选择渲染策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E6%9E%B6%E6%9E%84%E7%A4%BA%E4%BE%8B"><span class="toc-text">实际架构示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-text">八、总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E8%A7%82%E7%82%B9"><span class="toc-text">核心观点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E5%BB%BA%E8%AE%AE"><span class="toc-text">最终建议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%B4%9E%E5%AF%9F"><span class="toc-text">核心洞察</span></a></li></ol></li></ol></li></ol></div></div><footer><nobr>Published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr> by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas></body></html>
