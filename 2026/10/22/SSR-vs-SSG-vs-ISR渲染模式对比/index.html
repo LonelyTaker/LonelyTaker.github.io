@@ -1,0 +1,401 @@
+<!DOCTYPE html><html lang="zh-CN" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>SSR_vs_SSG_vs_ISR渲染模式对比 | LonelyTaker's Blog</title><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="preload" as="font" crossorigin="anonymous" href="/font/Bender.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/BenderLight.ttf"><link rel="preload" as="font" crossorigin="anonymous" href="/font/JetBrainsMono-Regular.woff2"><link rel="stylesheet" href="/css/arknights.css"><style>@font-face {
+  font-family: Bender;
+  src: local('Bender'), url("/font/Bender.ttf"), url("/font/Bender.otf");
+}
+@font-face {
+  font-family: BenderLight;
+  src: local('BenderLight'), url("/font/BenderLight.ttf");
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}
+</style><script>var config = {"root":"/","search":{"preload":false,"activeHolder":"键入以继续","blurHolder":"数据检索","noResult":"无 $0 相关数据"},"code":{"codeInfo":"$0 - $1 行","copy":"复制"}}</script><link type="text/css" rel="stylesheet" href="/lib/encrypt/hbe.style.css"><script src="//unpkg.com/mermaid@10.5.0/dist/mermaid.min.js"></script><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lightgallery.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-zoom.css"><link type="text/css" rel="stylesheet" href="//unpkg.com/lightgallery@2.7.1/css/lg-thumbnail.css"><link type="text/css" rel="stylesheet" href="/lib/fontawesome/css/all.min.css"><script>if (window.localStorage.getItem('theme-mode') === 'light')
+ document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark')
+ document.documentElement.setAttribute('theme-mode', 'dark')</script><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.woff2") format('woff2');
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><style>:root {
+ --dark-background: url('https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg');
+ --light-background: url('/img/bk.jpg');
+ --theme-encrypt-confirm: '确认'
+}</style><script defer src="/js/arknights.js"></script><script defer src="/js/search.js"></script><script defer type="module">import mermaid from '//unpkg.com/mermaid@10.5.0/dist/mermaid.esm.mjs';
+window.mermaid = mermaid;
+code.paintMermaid();
+</script><script async src="//unpkg.com/lightgallery@2.7.1/lightgallery.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script><script async src="//unpkg.com/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script><script async src="/lib/encrypt/hbe.js"></script><script async src="/js/pjax.js"></script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js','data-pjax','.busuanzi'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><script class="pjax-js">reset= () => {document.querySelector('.lg-container')?.remove()
+lightGallery(document.getElementById('post-bg'), {
+  plugins: [lgZoom,lgThumbnail],
+  selector: '.item-img'})}</script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="loading" style="opacity: 0;"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><nav><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup" tabindex="0"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>SSR_vs_SSG_vs_ISR渲染模式对比</h1></div><hr><div id="post-content"><h1 id="SSR-vs-SSG-vs-ISR-渲染模式对比"><a href="#SSR-vs-SSG-vs-ISR-渲染模式对比" class="headerlink" title="SSR vs SSG vs ISR 渲染模式对比"></a>SSR vs SSG vs ISR 渲染模式对比</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Next.js 提供了三种主要的渲染模式，每种都有其特定的使用场景和优缺点。本文档详细对比 SSR、SSG 和 ISR 的区别和适用场景。</p>
+<hr>
+<h2 id="一、三种渲染模式概览"><a href="#一、三种渲染模式概览" class="headerlink" title="一、三种渲染模式概览"></a>一、三种渲染模式概览</h2><h3 id="核心定义"><a href="#核心定义" class="headerlink" title="核心定义"></a>核心定义</h3><table>
+<thead>
+<tr>
+<th>渲染模式</th>
+<th>全称</th>
+<th>渲染时机</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>SSG</strong></td>
+<td>Static Site Generation</td>
+<td>构建时预渲染所有页面</td>
+</tr>
+<tr>
+<td><strong>SSR</strong></td>
+<td>Server-Side Rendering</td>
+<td>每次请求时服务端渲染</td>
+</tr>
+<tr>
+<td><strong>ISR</strong></td>
+<td>Incremental Static Regeneration</td>
+<td>构建时预渲染 + 定期更新</td>
+</tr>
+</tbody></table>
+<h3 id="快速对比表"><a href="#快速对比表" class="headerlink" title="快速对比表"></a>快速对比表</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>SSG（静态生成）</th>
+<th>SSR（服务端渲染）</th>
+<th>ISR（增量静态再生成）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>渲染时机</strong></td>
+<td>构建时</td>
+<td>每次请求时</td>
+<td>构建时 + 定期更新</td>
+</tr>
+<tr>
+<td><strong>性能</strong></td>
+<td>最快</td>
+<td>中等</td>
+<td>快（缓存）+ 定期更新</td>
+</tr>
+<tr>
+<td><strong>数据新鲜度</strong></td>
+<td>过期</td>
+<td>实时</td>
+<td>定期更新（可配置）</td>
+</tr>
+<tr>
+<td><strong>服务器负载</strong></td>
+<td>无</td>
+<td>高</td>
+<td>低（缓存命中）</td>
+</tr>
+<tr>
+<td><strong>TTFB</strong></td>
+<td>最快</td>
+<td>慢</td>
+<td>快（缓存命中）</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>固定内容</td>
+<td>实时数据</td>
+<td>定期更新的内容</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="二、SSG（Static-Site-Generation）"><a href="#二、SSG（Static-Site-Generation）" class="headerlink" title="二、SSG（Static Site Generation）"></a>二、SSG（Static Site Generation）</h2><h3 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">构建阶段：<br>  所有页面预渲染 → 生成静态 HTML 文件<br><br>运行时：<br>  用户请求 → 直接返回静态文件<br>           ↓<br>      无需服务器渲染<br>           ↓<br>      响应速度最快<br></code></pre></td></tr></table></figure>
+
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-comment">// app/blog/page.tsx</span><br><br><span class="hljs-comment">// 构建时获取数据并生成静态页面</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">BlogPage</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;https://api.example.com/posts&#x27;</span>)<br>  <span class="hljs-keyword">const</span> posts = <span class="hljs-keyword">await</span> res.<span class="hljs-title function_">json</span>()<br>  <br>  <span class="hljs-keyword">return</span> (<br>    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">      &#123;posts.map(post =&gt; (</span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">article</span> <span class="hljs-attr">key</span>=<span class="hljs-string">&#123;post.id&#125;</span>&gt;</span></span><br><span class="language-xml">          <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>&#123;post.title&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span></span><br><span class="language-xml">          <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>&#123;post.excerpt&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;/<span class="hljs-name">article</span>&gt;</span></span><br><span class="language-xml">      ))&#125;</span><br><span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>  )<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><table>
+<thead>
+<tr>
+<th>优势</th>
+<th>劣势</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>✅ 响应速度最快</td>
+<td>❌ 数据可能过期</td>
+</tr>
+<tr>
+<td>✅ 无服务器压力</td>
+<td>❌ 构建时间长（页面多时）</td>
+</tr>
+<tr>
+<td>✅ 易于部署（CDN）</td>
+<td>❌ 无法动态更新内容</td>
+</tr>
+<tr>
+<td>✅ SEO 友好</td>
+<td>❌ 内容更新需重新构建</td>
+</tr>
+</tbody></table>
+<h3 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h3><ul>
+<li>✅ 博客文章</li>
+<li>✅ 文档网站</li>
+<li>✅ 营销落地页</li>
+<li>✅ 公司官网</li>
+<li>✅ 产品介绍页</li>
+<li>❌ 实时数据页面</li>
+<li>❌ 用户个性化内容</li>
+</ul>
+<hr>
+<h2 id="三、SSR（Server-Side-Rendering）"><a href="#三、SSR（Server-Side-Rendering）" class="headerlink" title="三、SSR（Server-Side Rendering）"></a>三、SSR（Server-Side Rendering）</h2><h3 id="工作流程-1"><a href="#工作流程-1" class="headerlink" title="工作流程"></a>工作流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">用户请求 → 服务端执行代码 → 实时获取数据 → 渲染 HTML → 返回给客户端<br>         ↓<br>    每次请求都重新渲染<br>         ↓<br>    数据总是最新的<br>         ↓<br>    服务器压力大<br>         ↓<br>    TTFB 较慢<br></code></pre></td></tr></table></figure>
+
+<h3 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-comment">// app/dashboard/page.tsx</span><br><br><span class="hljs-comment">// 强制每次请求都服务端渲染</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> dynamic = <span class="hljs-string">&#x27;force-dynamic&#x27;</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">DashboardPage</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;https://api.example.com/dashboard&#x27;</span>, &#123;<br>    <span class="hljs-attr">cache</span>: <span class="hljs-string">&#x27;no-store&#x27;</span>,  <span class="hljs-comment">// 不缓存，每次请求都重新获取</span><br>  &#125;)<br>  <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> res.<span class="hljs-title function_">json</span>()<br>  <br>  <span class="hljs-keyword">return</span> (<br>    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>实时数据看板<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>活跃用户: &#123;data.activeUsers&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>订单数量: &#123;data.orders&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>更新时间: &#123;new Date().toLocaleString()&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>  )<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h3><table>
+<thead>
+<tr>
+<th>优势</th>
+<th>劣势</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>✅ 数据实时更新</td>
+<td>❌ TTFB 慢（每次请求都渲染）</td>
+</tr>
+<tr>
+<td>✅ 内容个性化</td>
+<td>❌ 服务器压力大</td>
+</tr>
+<tr>
+<td>✅ 适合动态内容</td>
+<td>❌ 高并发性能差</td>
+</tr>
+<tr>
+<td>✅ SEO 友好</td>
+<td>❌ 服务器成本高</td>
+</tr>
+</tbody></table>
+<h3 id="适用场景-1"><a href="#适用场景-1" class="headerlink" title="适用场景"></a>适用场景</h3><ul>
+<li>✅ 实时数据看板</li>
+<li>✅ 股票行情</li>
+<li>✅ 社交媒体动态</li>
+<li>✅ 用户仪表盘</li>
+<li>✅ 个性化推荐页面</li>
+<li>❌ 固定内容页面</li>
+<li>❌ 高流量内容页面</li>
+</ul>
+<hr>
+<h2 id="四、ISR（Incremental-Static-Regeneration）"><a href="#四、ISR（Incremental-Static-Regeneration）" class="headerlink" title="四、ISR（Incremental Static Regeneration）"></a>四、ISR（Incremental Static Regeneration）</h2><h3 id="工作流程-2"><a href="#工作流程-2" class="headerlink" title="工作流程"></a>工作流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">构建阶段：<br>  预渲染部分或全部页面 → 生成静态文件 + 缓存<br><br>运行时：<br>  用户请求 → 返回缓存内容<br>           ↓<br>      检查缓存是否过期<br>           ↓<br>      未过期：直接返回缓存（快）<br>      已过期：返回旧缓存 + 后台重新渲染<br>           ↓<br>      下次请求获得新内容<br></code></pre></td></tr></table></figure>
+
+<h3 id="Revalidate（重新验证）机制"><a href="#Revalidate（重新验证）机制" class="headerlink" title="Revalidate（重新验证）机制"></a>Revalidate（重新验证）机制</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">时间轴示例（revalidate = 60 秒）：<br><br>T0 (构建时):<br>  生成页面，缓存到服务器<br><br>T1 (30s 后):<br>  用户请求 → 缓存未过期 → 返回 T0 的缓存（新鲜）<br><br>T2 (60s 后):<br>  用户请求 → 缓存过期 → 返回 T0 的缓存（旧但可用）<br>            同时后台触发重新渲染<br><br>T3 (61s 后):<br>  后台渲染完成 → 缓存更新为新内容<br><br>T4 (90s 后):<br>  用户请求 → 缓存未过期 → 返回 T3 的缓存（新鲜）<br></code></pre></td></tr></table></figure>
+
+<h3 id="Stale-While-Revalidate-策略"><a href="#Stale-While-Revalidate-策略" class="headerlink" title="Stale-While-Revalidate 策略"></a>Stale-While-Revalidate 策略</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">核心原则：<br>1. 永远不让用户等待<br>2. 立即返回旧缓存（即使过期）<br>3. 后台异步更新<br>4. 下次请求获得新内容<br></code></pre></td></tr></table></figure>
+
+<h3 id="代码实现-2"><a href="#代码实现-2" class="headerlink" title="代码实现"></a>代码实现</h3><h4 id="基础-ISR"><a href="#基础-ISR" class="headerlink" title="基础 ISR"></a>基础 ISR</h4><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-comment">// app/products/page.tsx</span><br><br><span class="hljs-comment">// 每 60 秒重新验证一次</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> revalidate = <span class="hljs-number">60</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">ProductsPage</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;https://api.example.com/products&#x27;</span>)<br>  <span class="hljs-keyword">const</span> products = <span class="hljs-keyword">await</span> res.<span class="hljs-title function_">json</span>()<br>  <br>  <span class="hljs-keyword">return</span> (<br>    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>商品列表<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span><br><span class="language-xml">      &#123;products.map(product =&gt; (</span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">key</span>=<span class="hljs-string">&#123;product.id&#125;</span>&gt;</span></span><br><span class="language-xml">          <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>&#123;product.name&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span></span><br><span class="language-xml">          <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>价格: ¥&#123;product.price&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">      ))&#125;</span><br><span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>  )<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="单个请求级别的-Revalidate"><a href="#单个请求级别的-Revalidate" class="headerlink" title="单个请求级别的 Revalidate"></a>单个请求级别的 Revalidate</h4><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-comment">// app/news/page.tsx</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">NewsPage</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-comment">// 新闻列表：5 分钟更新一次</span><br>  <span class="hljs-keyword">const</span> newsRes = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;https://api.example.com/news&#x27;</span>, &#123;<br>    <span class="hljs-attr">next</span>: &#123; <span class="hljs-attr">revalidate</span>: <span class="hljs-number">300</span> &#125;,  <span class="hljs-comment">// 5 分钟</span><br>  &#125;)<br>  <span class="hljs-keyword">const</span> news = <span class="hljs-keyword">await</span> newsRes.<span class="hljs-title function_">json</span>()<br>  <br>  <span class="hljs-comment">// 天气信息：10 分钟更新一次</span><br>  <span class="hljs-keyword">const</span> weatherRes = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;https://api.example.com/weather&#x27;</span>, &#123;<br>    <span class="hljs-attr">next</span>: &#123; <span class="hljs-attr">revalidate</span>: <span class="hljs-number">600</span> &#125;,  <span class="hljs-comment">// 10 分钟</span><br>  &#125;)<br>  <span class="hljs-keyword">const</span> weather = <span class="hljs-keyword">await</span> weatherRes.<span class="hljs-title function_">json</span>()<br>  <br>  <span class="hljs-keyword">return</span> (<br>    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">section</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>新闻<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span><br><span class="language-xml">        &#123;news.map(item =&gt; <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">key</span>=<span class="hljs-string">&#123;item.id&#125;</span>&gt;</span>&#123;item.title&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>)&#125;</span><br><span class="language-xml">      <span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">section</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>天气<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>温度: &#123;weather.temp&#125;°C<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span></span><br><span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>  )<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="ISR-动态路由"><a href="#ISR-动态路由" class="headerlink" title="ISR + 动态路由"></a>ISR + 动态路由</h4><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-comment">// app/products/[id]/page.tsx</span><br><br><span class="hljs-comment">// 每小时更新一次</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> revalidate = <span class="hljs-number">3600</span><br><br><span class="hljs-comment">// 预生成热门商品页面</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">generateStaticParams</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;https://api.example.com/products&#x27;</span>)<br>  <span class="hljs-keyword">const</span> products = <span class="hljs-keyword">await</span> res.<span class="hljs-title function_">json</span>()<br>  <br>  <span class="hljs-comment">// 只预生成前 100 个热门商品</span><br>  <span class="hljs-keyword">return</span> products.<span class="hljs-title function_">slice</span>(<span class="hljs-number">0</span>, <span class="hljs-number">100</span>).<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">product</span> =&gt;</span> (&#123;<br>    <span class="hljs-attr">id</span>: product.<span class="hljs-property">id</span>.<span class="hljs-title function_">toString</span>(),<br>  &#125;))<br>&#125;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">ProductPage</span>(<span class="hljs-params">&#123; params &#125;: &#123; params: &#123; id: <span class="hljs-built_in">string</span> &#125; &#125;</span>) &#123;<br>  <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">`https://api.example.com/products/<span class="hljs-subst">$&#123;params.id&#125;</span>`</span>)<br>  <span class="hljs-keyword">const</span> product = <span class="hljs-keyword">await</span> res.<span class="hljs-title function_">json</span>()<br>  <br>  <span class="hljs-keyword">return</span> (<br>    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>&#123;product.name&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>价格: ¥&#123;product.price&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>库存: &#123;product.stock&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br>  )<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>效果</strong>：</p>
+<ul>
+<li>前 100 个热门商品：构建时预生成</li>
+<li>其他商品：首次访问时按需生成 + 缓存</li>
+<li>所有商品页面：每小时自动更新一次</li>
+</ul>
+<h4 id="按需重新验证（On-Demand-Revalidation）"><a href="#按需重新验证（On-Demand-Revalidation）" class="headerlink" title="按需重新验证（On-Demand Revalidation）"></a>按需重新验证（On-Demand Revalidation）</h4><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-comment">// app/api/revalidate/route.ts</span><br><span class="hljs-keyword">import</span> &#123; revalidatePath, revalidateTag &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;next/cache&#x27;</span><br><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">NextRequest</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;next/server&#x27;</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">POST</span>(<span class="hljs-params">request: NextRequest</span>) &#123;<br>  <span class="hljs-keyword">const</span> path = request.<span class="hljs-property">nextUrl</span>.<span class="hljs-property">searchParams</span>.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;path&#x27;</span>)<br>  <span class="hljs-keyword">const</span> tag = request.<span class="hljs-property">nextUrl</span>.<span class="hljs-property">searchParams</span>.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;tag&#x27;</span>)<br>  <br>  <span class="hljs-keyword">if</span> (path) &#123;<br>    <span class="hljs-comment">// 重新验证指定路径</span><br>    <span class="hljs-title function_">revalidatePath</span>(path)<br>    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Response</span>.<span class="hljs-title function_">json</span>(&#123; <span class="hljs-attr">revalidated</span>: <span class="hljs-literal">true</span>, path, <span class="hljs-attr">now</span>: <span class="hljs-title class_">Date</span>.<span class="hljs-title function_">now</span>() &#125;)<br>  &#125;<br>  <br>  <span class="hljs-keyword">if</span> (tag) &#123;<br>    <span class="hljs-comment">// 重新验证指定标签</span><br>    <span class="hljs-title function_">revalidateTag</span>(tag)<br>    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Response</span>.<span class="hljs-title function_">json</span>(&#123; <span class="hljs-attr">revalidated</span>: <span class="hljs-literal">true</span>, tag, <span class="hljs-attr">now</span>: <span class="hljs-title class_">Date</span>.<span class="hljs-title function_">now</span>() &#125;)<br>  &#125;<br>  <br>  <span class="hljs-keyword">return</span> <span class="hljs-title class_">Response</span>.<span class="hljs-title function_">json</span>(&#123; <span class="hljs-attr">revalidated</span>: <span class="hljs-literal">false</span> &#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>使用场景</strong>：</p>
+<ul>
+<li>CMS 内容更新后立即刷新页面</li>
+<li>商品价格变动后立即更新商品页</li>
+<li>无需等待 revalidate 时间</li>
+</ul>
+<h3 id="特点-2"><a href="#特点-2" class="headerlink" title="特点"></a>特点</h3><table>
+<thead>
+<tr>
+<th>优势</th>
+<th>劣势</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>✅ 响应速度快（缓存命中）</td>
+<td>❌ 数据有延迟（最多 revalidate 秒）</td>
+</tr>
+<tr>
+<td>✅ 定期自动更新</td>
+<td>❌ 需要服务器运行时</td>
+</tr>
+<tr>
+<td>✅ 服务器压力小</td>
+<td>❌ 不支持静态导出</td>
+</tr>
+<tr>
+<td>✅ 按需手动更新</td>
+<td>❌ 首次访问非预生成页面可能慢</td>
+</tr>
+<tr>
+<td>✅ SEO 友好</td>
+<td>❌ 分布式环境需共享缓存</td>
+</tr>
+</tbody></table>
+<h3 id="适用场景-2"><a href="#适用场景-2" class="headerlink" title="适用场景"></a>适用场景</h3><ul>
+<li>✅ 博客文章</li>
+<li>✅ 新闻网站</li>
+<li>✅ 电商商品页</li>
+<li>✅ 文档网站（定期更新）</li>
+<li>✅ 分类信息网站</li>
+<li>❌ 实时数据（股票、社交）</li>
+<li>❌ 高度个性化内容</li>
+</ul>
+<hr>
+<h2 id="五、详细对比分析"><a href="#五、详细对比分析" class="headerlink" title="五、详细对比分析"></a>五、详细对比分析</h2><h3 id="1-性能对比"><a href="#1-性能对比" class="headerlink" title="1. 性能对比"></a>1. 性能对比</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">SSG:<br>  构建时: 渲染所有页面<br>  运行时: 直接返回静态文件（~5ms）<br>  TTFB: 最快<br><br>ISR:<br>  构建时: 预生成部分页面<br>  运行时: 返回缓存（~5ms）或按需生成（~200ms）<br>  TTFB: 快（缓存命中） / 中（缓存未命中）<br><br>SSR:<br>  构建时: 无渲染<br>  运行时: 每次请求都渲染（~200ms）<br>  TTFB: 慢<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-数据新鲜度对比"><a href="#2-数据新鲜度对比" class="headerlink" title="2. 数据新鲜度对比"></a>2. 数据新鲜度对比</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">SSG:<br>  数据新鲜度: 构建时的数据<br>  更新方式: 重新构建部署<br>  数据延迟: 数小时到数天<br><br>ISR:<br>  数据新鲜度: revalidate 秒前的数据<br>  更新方式: 自动更新 + 手动触发<br>  数据延迟: 最多 revalidate 秒<br><br>SSR:<br>  数据新鲜度: 实时<br>  更新方式: 每次请求都获取最新数据<br>  数据延迟: 0<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-服务器负载对比"><a href="#3-服务器负载对比" class="headerlink" title="3. 服务器负载对比"></a>3. 服务器负载对比</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">假设：每秒 1000 个请求，页面渲染耗时 200ms<br><br>SSG:<br>  服务器压力: 0（所有请求都返回静态文件）<br>  计算次数: 0 次/秒<br><br>ISR (revalidate = 60s):<br>  服务器压力: 极低<br>  计算次数: 最多 1 次/60 秒（后台渲染）<br>  999+ 请求都返回缓存<br><br>SSR:<br>  服务器压力: 高<br>  计算次数: 1000 次/秒<br>  需要强大的服务器支撑<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-适用场景决策表"><a href="#4-适用场景决策表" class="headerlink" title="4. 适用场景决策表"></a>4. 适用场景决策表</h3><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>SSG</th>
+<th>ISR</th>
+<th>SSR</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>博客文章</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>内容固定，SEO 重要</td>
+</tr>
+<tr>
+<td>新闻网站</td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+<td>内容定期更新，流量大</td>
+</tr>
+<tr>
+<td>电商商品页</td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+<td>商品信息定期更新</td>
+</tr>
+<tr>
+<td>文档网站</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>内容相对固定</td>
+</tr>
+<tr>
+<td>股票行情</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+<td>数据必须实时</td>
+</tr>
+<tr>
+<td>社交媒体</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+<td>动态实时更新</td>
+</tr>
+<tr>
+<td>用户仪表盘</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+<td>个性化实时数据</td>
+</tr>
+<tr>
+<td>营销落地页</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>固定内容，追求性能</td>
+</tr>
+<tr>
+<td>公司官网</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>内容固定</td>
+</tr>
+<tr>
+<td>实时监控</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+<td>数据实时变化</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="六、决策流程图"><a href="#六、决策流程图" class="headerlink" title="六、决策流程图"></a>六、决策流程图</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">开始<br>  ↓<br>是否需要 SEO？<br>├── 否 → CSR（客户端渲染）<br>│        例如：管理后台、登录后应用<br>│<br>└── 是<br>    ↓<br>    数据实时性要求？<br>    ├── 实时（秒级） → SSR<br>    │   例如：股票行情、社交媒体、实时监控<br>    │<br>    └── 可延迟（分钟/小时级）<br>        ↓<br>        流量大小？<br>        ├── 低流量 → SSR<br>        │   （简单，无需考虑缓存）<br>        │<br>        └── 高流量 → ISR<br>            ↓<br>            内容更新频率？<br>            ├── 几乎不变 → SSG<br>            │   例如：文档、营销页<br>            │<br>            └── 定期更新 → ISR<br>                例如：博客、新闻、电商<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="七、混合使用策略"><a href="#七、混合使用策略" class="headerlink" title="七、混合使用策略"></a>七、混合使用策略</h2><p>在实际项目中，不同页面可以使用不同的渲染策略：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-comment">// 项目结构示例</span><br><br><span class="hljs-comment">// app/</span><br><span class="hljs-comment">// ├── layout.tsx           (SSR - 布局)</span><br><span class="hljs-comment">// ├── page.tsx             (ISR - 首页，60s revalidate)</span><br><span class="hljs-comment">// ├── blog/</span><br><span class="hljs-comment">// │   ├── page.tsx         (ISR - 博客列表，300s revalidate)</span><br><span class="hljs-comment">// │   └── [slug]/</span><br><span class="hljs-comment">// │       └── page.tsx     (SSG - 博客文章，构建时生成)</span><br><span class="hljs-comment">// ├── products/</span><br><span class="hljs-comment">// │   ├── page.tsx         (ISR - 商品列表，60s revalidate)</span><br><span class="hljs-comment">// │   └── [id]/</span><br><span class="hljs-comment">// │       └── page.tsx     (ISR - 商品详情，3600s revalidate)</span><br><span class="hljs-comment">// ├── dashboard/</span><br><span class="hljs-comment">// │   └── page.tsx         (SSR - 用户仪表盘，实时数据)</span><br><span class="hljs-comment">// └── admin/</span><br><span class="hljs-comment">//     └── page.tsx         (CSR - 管理后台，无需 SEO)</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="示例配置"><a href="#示例配置" class="headerlink" title="示例配置"></a>示例配置</h3><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs tsx"><span class="hljs-comment">// 首页 - ISR（60 秒更新）</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> revalidate = <span class="hljs-number">60</span><br><br><span class="hljs-comment">// 博客列表 - ISR（5 分钟更新）</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> revalidate = <span class="hljs-number">300</span><br><br><span class="hljs-comment">// 博客文章 - SSG（构建时生成）</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">generateStaticParams</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">const</span> posts = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getAllPosts</span>()<br>  <span class="hljs-keyword">return</span> posts.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">post</span> =&gt;</span> (&#123; <span class="hljs-attr">slug</span>: post.<span class="hljs-property">slug</span> &#125;))<br>&#125;<br><br><span class="hljs-comment">// 商品详情 - ISR（1 小时更新）</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> revalidate = <span class="hljs-number">3600</span><br><br><span class="hljs-comment">// 用户仪表盘 - SSR（实时数据）</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> dynamic = <span class="hljs-string">&#x27;force-dynamic&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="八、最佳实践建议"><a href="#八、最佳实践建议" class="headerlink" title="八、最佳实践建议"></a>八、最佳实践建议</h2><h3 id="选择建议"><a href="#选择建议" class="headerlink" title="选择建议"></a>选择建议</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">1. 优先考虑 ISR<br>   - 兼顾性能和数据新鲜度<br>   - 适合大多数内容网站<br>   - 减轻服务器压力<br><br>2. 实时数据用 SSR<br>   - 数据必须实时更新<br>   - 个性化内容<br>   - 不怕服务器压力<br><br>3. 固定内容用 SSG<br>   - 内容几乎不变<br>   - 追求极致性能<br>   - 简单部署<br><br>4. 无 SEO 需求用 CSR<br>   - 管理后台<br>   - 登录后应用<br>   - 高度交互应用<br></code></pre></td></tr></table></figure>
+
+<h3 id="Revalidate-时间建议"><a href="#Revalidate-时间建议" class="headerlink" title="Revalidate 时间建议"></a>Revalidate 时间建议</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">根据内容更新频率选择：<br><br>- 新闻快讯: 60-300 秒（1-5 分钟）<br>- 博客文章: 3600-7200 秒（1-2 小时）<br>- 商品信息: 3600 秒（1 小时）<br>- 文档网站: 86400 秒（24 小时）<br>- 营销页面: 3600-86400 秒（1-24 小时）<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="九、总结"><a href="#九、总结" class="headerlink" title="九、总结"></a>九、总结</h2><h3 id="核心区别"><a href="#核心区别" class="headerlink" title="核心区别"></a>核心区别</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">SSG = 静态生成，最快，数据可能过期<br>SSR = 实时渲染，最新，性能差<br>ISR = 静态 + 定期更新，平衡性能和数据新鲜度<br></code></pre></td></tr></table></figure>
+
+<h3 id="核心价值"><a href="#核心价值" class="headerlink" title="核心价值"></a>核心价值</h3><table>
+<thead>
+<tr>
+<th>渲染模式</th>
+<th>核心价值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>SSG</strong></td>
+<td>极致性能 + 低成本</td>
+</tr>
+<tr>
+<td><strong>SSR</strong></td>
+<td>实时数据 + 个性化</td>
+</tr>
+<tr>
+<td><strong>ISR</strong></td>
+<td>性能 + 数据新鲜度的平衡</td>
+</tr>
+</tbody></table>
+<h3 id="最终建议"><a href="#最终建议" class="headerlink" title="最终建议"></a>最终建议</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">如果不确定用什么 → 先用 ISR<br><br>ISR 的灵活性：<br>- revalidate 小（如 60s）→ 接近 SSR 的实时性<br>- revalidate 大（如 86400s）→ 接近 SSG 的性能<br>- 根据实际需求调整即可<br></code></pre></td></tr></table></figure>
+
+<div id="paginator"></div></div><div id="post-footer"><div id="pages" style="justify-content: flex-end"><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="/2026/10/22/SSR%E4%B8%8ECSR%E5%AF%B9%E6%AF%94-Hydration%E5%BC%80%E9%94%80%E5%88%86%E6%9E%90/">SSR与CSR对比-Hydration开销分析 上一篇 →</a></div></div></div></div><div class="bottom-btn"><div><a class="i-top" id="to-top" onClick="scrolls.scrolltop();" title="回到顶部" style="opacity: 0; display: none;">∧ </a><a class="i-index" id="to-index" href="#toc-div" title="文章目录">≡</a><a class="i-color" id="color-mode" onClick="colorMode.change()" title="切换主题"></a></div></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">LonelyTaker</a></h1><div id="description"><p></p></div><div id="social-links"><a class="social" target="_blank" rel="noopener" href="https://github.com/LonelyTaker"><i class="fab fa-github" alt="GitHub"></i></a></div></div><div id="aside-block"><div id="toc-div"><h1>目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SSR-vs-SSG-vs-ISR-%E6%B8%B2%E6%9F%93%E6%A8%A1%E5%BC%8F%E5%AF%B9%E6%AF%94"><span class="toc-text">SSR vs SSG vs ISR 渲染模式对比</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%89%E7%A7%8D%E6%B8%B2%E6%9F%93%E6%A8%A1%E5%BC%8F%E6%A6%82%E8%A7%88"><span class="toc-text">一、三种渲染模式概览</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%AE%9A%E4%B9%89"><span class="toc-text">核心定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%AF%B9%E6%AF%94%E8%A1%A8"><span class="toc-text">快速对比表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81SSG%EF%BC%88Static-Site-Generation%EF%BC%89"><span class="toc-text">二、SSG（Static Site Generation）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-text">工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E7%82%B9"><span class="toc-text">特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81SSR%EF%BC%88Server-Side-Rendering%EF%BC%89"><span class="toc-text">三、SSR（Server-Side Rendering）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B-1"><span class="toc-text">工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-1"><span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E7%82%B9-1"><span class="toc-text">特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF-1"><span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81ISR%EF%BC%88Incremental-Static-Regeneration%EF%BC%89"><span class="toc-text">四、ISR（Incremental Static Regeneration）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B-2"><span class="toc-text">工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Revalidate%EF%BC%88%E9%87%8D%E6%96%B0%E9%AA%8C%E8%AF%81%EF%BC%89%E6%9C%BA%E5%88%B6"><span class="toc-text">Revalidate（重新验证）机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Stale-While-Revalidate-%E7%AD%96%E7%95%A5"><span class="toc-text">Stale-While-Revalidate 策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-2"><span class="toc-text">代码实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80-ISR"><span class="toc-text">基础 ISR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E4%B8%AA%E8%AF%B7%E6%B1%82%E7%BA%A7%E5%88%AB%E7%9A%84-Revalidate"><span class="toc-text">单个请求级别的 Revalidate</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ISR-%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1"><span class="toc-text">ISR + 动态路由</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%89%E9%9C%80%E9%87%8D%E6%96%B0%E9%AA%8C%E8%AF%81%EF%BC%88On-Demand-Revalidation%EF%BC%89"><span class="toc-text">按需重新验证（On-Demand Revalidation）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E7%82%B9-2"><span class="toc-text">特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF-2"><span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E8%AF%A6%E7%BB%86%E5%AF%B9%E6%AF%94%E5%88%86%E6%9E%90"><span class="toc-text">五、详细对比分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94"><span class="toc-text">1. 性能对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E6%96%B0%E9%B2%9C%E5%BA%A6%E5%AF%B9%E6%AF%94"><span class="toc-text">2. 数据新鲜度对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%B4%9F%E8%BD%BD%E5%AF%B9%E6%AF%94"><span class="toc-text">3. 服务器负载对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF%E5%86%B3%E7%AD%96%E8%A1%A8"><span class="toc-text">4. 适用场景决策表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E5%86%B3%E7%AD%96%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-text">六、决策流程图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E6%B7%B7%E5%90%88%E4%BD%BF%E7%94%A8%E7%AD%96%E7%95%A5"><span class="toc-text">七、混合使用策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E9%85%8D%E7%BD%AE"><span class="toc-text">示例配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E5%BB%BA%E8%AE%AE"><span class="toc-text">八、最佳实践建议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE"><span class="toc-text">选择建议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Revalidate-%E6%97%B6%E9%97%B4%E5%BB%BA%E8%AE%AE"><span class="toc-text">Revalidate 时间建议</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-text">九、总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%8C%BA%E5%88%AB"><span class="toc-text">核心区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E4%BB%B7%E5%80%BC"><span class="toc-text">核心价值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E5%BB%BA%E8%AE%AE"><span class="toc-text">最终建议</span></a></li></ol></li></ol></li></ol></div></div><footer><nobr>构建自 <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> 使用主题 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr> 主题作者 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas></body></html>
