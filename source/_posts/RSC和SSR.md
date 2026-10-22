@@ -370,6 +370,28 @@ function App() {
 // Client: "2024-01-01 10:00:01"
 ```
 
+**Hydration Mismatch 的常见原因**
+
+```tsx
+// 1. 时间相关
+<div>{new Date().toLocaleString()}</div>
+
+// 2. 随机数
+<div>{Math.random()}</div>
+
+// 3. 浏览器 API
+<div>{window.innerWidth}</div>
+
+// 4. 用户特定数据
+<div>{localStorage.getItem('user')}</div>
+
+// 5. 条件渲染不一致
+function App() {
+	const isServer = typeof window === 'undefined'
+	return <div>{isServer ? 'Server' : 'Client'}</div>  // 不一致！
+}
+```
+
 #### 4. 性能开销
 
 ```tsx
